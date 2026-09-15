@@ -3,6 +3,7 @@
 import React from "react";
 import { Plane, Building, Utensils, Car } from "lucide-react";
 import { formatRM } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface BreakdownBarProps {
   flight: number;
@@ -19,6 +20,8 @@ export default function BreakdownBar({
   transport,
   total,
 }: BreakdownBarProps) {
+  const { locale } = useLanguage();
+
   // Safe percentages
   const safeTotal = total > 0 ? total : 1;
   const pFlight = Math.round((flight / safeTotal) * 100);
@@ -27,10 +30,10 @@ export default function BreakdownBar({
   const pTransport = Math.max(2, 100 - pFlight - pHotel - pFood);
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full space-y-2.5">
       {/* Visual Multi-Segment Bar */}
       <div 
-        className="h-3 w-full rounded-full bg-stone-100 overflow-hidden flex border border-stone-300"
+        className="h-2.5 w-full rounded-full bg-stone-100 overflow-hidden flex border border-stone-200"
         role="progressbar"
         aria-label="Pecahan Agihan Bajet"
       >
@@ -56,41 +59,60 @@ export default function BreakdownBar({
         />
       </div>
 
-      {/* Metric Pills / Legend */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200">
-          <Plane className="w-3.5 h-3.5 text-sky-700 shrink-0" />
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium text-stone-700 leading-tight">Tiket Penerbangan</p>
-            <p className="font-bold text-stone-950 truncate">{formatRM(flight)}</p>
+      {/* Metric Pills in Clean 2x2 Grid with Zero Overflow */}
+      <div className="grid grid-cols-2 gap-1.5 text-xs">
+        {/* 1. Flight */}
+        <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200 shadow-2xs">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="w-5 h-5 rounded-md bg-sky-50 text-sky-700 flex items-center justify-center shrink-0">
+              <Plane className="w-3 h-3" />
+            </div>
+            <span className="text-[11px] font-medium text-stone-600 truncate">
+              {locale === "bm" ? "Tiket Terbang" : "Flight Fare"}
+            </span>
           </div>
+          <span className="font-bold text-xs text-stone-950 ml-1.5 shrink-0">{formatRM(flight)}</span>
         </div>
 
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200">
-          <Building className="w-3.5 h-3.5 text-amber-700 shrink-0" />
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium text-stone-700 leading-tight">Penginapan/Hotel</p>
-            <p className="font-bold text-stone-950 truncate">{formatRM(hotel)}</p>
+        {/* 2. Hotel */}
+        <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200 shadow-2xs">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="w-5 h-5 rounded-md bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
+              <Building className="w-3 h-3" />
+            </div>
+            <span className="text-[11px] font-medium text-stone-600 truncate">
+              {locale === "bm" ? "Bilik Hotel" : "Hotel Room"}
+            </span>
           </div>
+          <span className="font-bold text-xs text-stone-950 ml-1.5 shrink-0">{formatRM(hotel)}</span>
         </div>
 
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200">
-          <Utensils className="w-3.5 h-3.5 text-emerald-800 shrink-0" />
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium text-stone-700 leading-tight">Makan Minum</p>
-            <p className="font-bold text-stone-950 truncate">{formatRM(food)}</p>
+        {/* 3. Meals */}
+        <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200 shadow-2xs">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="w-5 h-5 rounded-md bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0">
+              <Utensils className="w-3 h-3" />
+            </div>
+            <span className="text-[11px] font-medium text-stone-600 truncate">
+              {locale === "bm" ? "Makan Halal" : "Halal Meals"}
+            </span>
           </div>
+          <span className="font-bold text-xs text-stone-950 ml-1.5 shrink-0">{formatRM(food)}</span>
         </div>
 
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-stone-50 border border-stone-200">
-          <Car className="w-3.5 h-3.5 text-stone-700 shrink-0" />
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium text-stone-700 leading-tight">Pengangkutan</p>
-            <p className="font-bold text-stone-950 truncate">{formatRM(transport)}</p>
+        {/* 4. Transport */}
+        <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200 shadow-2xs">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="w-5 h-5 rounded-md bg-stone-100 text-stone-700 flex items-center justify-center shrink-0">
+              <Car className="w-3 h-3" />
+            </div>
+            <span className="text-[11px] font-medium text-stone-600 truncate">
+              {locale === "bm" ? "Tambang Grab" : "Local Rides"}
+            </span>
           </div>
+          <span className="font-bold text-xs text-stone-950 ml-1.5 shrink-0">{formatRM(transport)}</span>
         </div>
       </div>
     </div>
   );
 }
-

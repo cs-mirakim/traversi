@@ -79,7 +79,7 @@ export default function BudgetForm({
   const totalEffectiveBudget = budgetMode === "per_pax" ? budget * pax : budget;
 
   return (
-    <div id="cari" className="w-full max-w-5xl mx-auto bg-white text-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-md">
+    <div id="cari" className="w-full bg-white text-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-md">
       <form onSubmit={onSubmit} className="space-y-6">
         {/* Form Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">

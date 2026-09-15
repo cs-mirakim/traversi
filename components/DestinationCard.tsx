@@ -31,29 +31,53 @@ export default function DestinationCard({
   const { destination, totalCost, costBreakdown, budgetUsagePercent, remainingBudget, halal, visa } = result;
   const isTopPick = rank === 1;
 
+  const rankHeaderConfig = {
+    1: {
+      bg: "bg-emerald-800 text-white",
+      badgeText: locale === "bm" ? "Pilihan #1 Paling Optimum" : "Top #1 Recommended Fit",
+      scoreText: locale === "bm" ? "Skor Tertinggi" : "Highest Score",
+      iconColor: "text-amber-300",
+    },
+    2: {
+      bg: "bg-stone-900 text-stone-200",
+      badgeText: locale === "bm" ? "Pilihan #2 Nilai Hebat" : "Top #2 Great Value Fit",
+      scoreText: locale === "bm" ? "Nilai Hebat" : "Great Value",
+      iconColor: "text-stone-400",
+    },
+    3: {
+      bg: "bg-stone-900 text-stone-200",
+      badgeText: locale === "bm" ? "Pilihan #3 Mesra Bajet" : "Top #3 Budget Fit",
+      scoreText: locale === "bm" ? "Mesra Bajet" : "Budget Pick",
+      iconColor: "text-stone-400",
+    },
+  }[rank] || {
+    bg: "bg-stone-900 text-stone-200",
+    badgeText: locale === "bm" ? `Pilihan #${rank}` : `Rank #${rank}`,
+    scoreText: locale === "bm" ? "Cadangan Enjin" : "Recommended",
+    iconColor: "text-stone-400",
+  };
+
   return (
     <div 
-      className={`bg-white text-stone-900 rounded-3xl transition-all duration-200 overflow-hidden flex flex-col group border ${
+      className={`bg-white text-stone-900 rounded-3xl transition-all duration-200 overflow-hidden flex flex-col justify-between h-full group border ${
         isTopPick 
           ? "border-emerald-700 shadow-lg ring-1 ring-emerald-700/30 relative" 
           : "border-stone-200 shadow-xs hover:shadow-md hover:border-stone-300"
       }`}
     >
-      {/* Top Pick Ribbon if Rank 1 */}
-      {isTopPick && (
-        <div className="bg-emerald-800 text-white text-xs font-bold py-1 px-3.5 flex items-center justify-between">
-          <span className="flex items-center gap-1.5">
-            <Award className="w-3.5 h-3.5 text-amber-300" />
-            <span>{locale === "bm" ? "Pilihan #1 Paling Optimum" : "Top #1 Recommended Fit"}</span>
-          </span>
-          <span className="text-emerald-100 text-[10px] font-semibold">
-            {locale === "bm" ? "Skor Nilai Tertinggi" : "Highest Value Score"}
-          </span>
-        </div>
-      )}
+      {/* Uniform Top Header Ribbon across all 3 ranks for pixel-perfect card height alignment */}
+      <div className={`${rankHeaderConfig.bg} text-xs font-bold py-1.5 px-3.5 flex items-center justify-between shrink-0`}>
+        <span className="flex items-center gap-1.5">
+          <Award className={`w-3.5 h-3.5 ${rankHeaderConfig.iconColor}`} />
+          <span>{rankHeaderConfig.badgeText}</span>
+        </span>
+        <span className="text-[10px] font-semibold opacity-90">
+          {rankHeaderConfig.scoreText}
+        </span>
+      </div>
 
       {/* Card Header Image */}
-      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-stone-100">
+      <div className="relative h-48 w-full overflow-hidden bg-stone-100 shrink-0">
         <img
           src={destination.image}
           alt={`Pemandangan menarik di ${destination.city}, ${destination.country}`}
@@ -162,9 +186,9 @@ export default function DestinationCard({
         </div>
 
         {/* Local Insight Quote */}
-        <div className="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-800 flex items-start gap-2">
+        <div className="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-800 flex items-start gap-2 h-14 overflow-hidden">
           <Quote className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />
-          <p className="line-clamp-2 leading-relaxed text-xs font-medium text-stone-700">
+          <p className="line-clamp-2 leading-snug text-xs font-medium text-stone-700">
             {destination.aiReason}
           </p>
         </div>
@@ -172,7 +196,7 @@ export default function DestinationCard({
         {/* Action Button */}
         <button
           onClick={() => onSelect(result)}
-          className={`w-full mt-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-[0.99] focus:outline-none ${
+          className={`w-full mt-auto py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-[0.99] focus:outline-none ${
             isTopPick
               ? "bg-emerald-800 hover:bg-emerald-900 text-white"
               : "bg-stone-900 hover:bg-stone-800 text-white"

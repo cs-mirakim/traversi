@@ -154,7 +154,7 @@ export default function CalculatorPage() {
               </div>
             </div>
           ) : recommendations.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {recommendations.map((rec, index) => (
                 <DestinationCard
                   key={rec.destination.id}

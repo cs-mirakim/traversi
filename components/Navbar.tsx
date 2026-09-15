@@ -42,17 +42,44 @@ export default function Navbar() {
   const { locale, toggleLocale } = useLanguage();
   const { user, isLoggedIn, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("overview");
 
-  // Close mobile drawer on Escape key
+  // Track active section on scroll for scrollspy highlighting
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileMenuOpen) {
-        setMobileMenuOpen(false);
+    const handleScroll = () => {
+      const sectionIds = [
+        "overview",
+        "problem-statement",
+        "core-pillars",
+        "market-benchmark",
+        "technical-architecture",
+        "tech-stack",
+        "implementation-details",
+        "challenges-faced",
+        "future-roadmap",
+        "team-governance",
+        "live-prototype",
+      ];
+
+      const scrollPosition = window.scrollY + 120;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const element = document.getElementById(id);
+        if (element) {
+          const top = element.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(id);
+            break;
+          }
+        }
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
 
   const handleLogout = () => {
     logout();
@@ -175,18 +202,43 @@ export default function Navbar() {
 
           <nav className="space-y-1">
             {averisSections.map((item) => {
+              const sectionId = item.href.replace("/#", "");
+              const isActive = pathname === "/" && activeSection === sectionId;
+
               return (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200/60 transition-all group"
+                  className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold transition-all group ${
+                    isActive
+                      ? "bg-emerald-50 text-emerald-950 border border-emerald-300 shadow-2xs font-extrabold"
+                      : "text-stone-700 hover:text-stone-950 hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200/60"
+                  }`}
                 >
-                  <span className="w-6 h-5 rounded-md bg-stone-100 text-stone-600 font-mono text-[10px] font-black flex items-center justify-center shrink-0 group-hover:bg-emerald-800 group-hover:text-white transition-colors">
+                  <span
+                    className={`w-6 h-5 rounded-md font-mono text-[10px] font-black flex items-center justify-center shrink-0 transition-colors ${
+                      isActive
+                        ? "bg-emerald-800 text-white shadow-2xs"
+                        : "bg-stone-100 text-stone-600 group-hover:bg-emerald-800 group-hover:text-white"
+                    }`}
+                  >
                     {item.num}
                   </span>
                   <div className="min-w-0 truncate">
-                    <p className="truncate leading-tight text-stone-900 group-hover:text-emerald-950">{item.label}</p>
-                    <p className="text-[10px] text-stone-500 font-medium truncate group-hover:text-emerald-800">{item.sub}</p>
+                    <p
+                      className={`truncate leading-tight ${
+                        isActive ? "text-emerald-950 font-black" : "text-stone-900 group-hover:text-emerald-950"
+                      }`}
+                    >
+                      {item.label}
+                    </p>
+                    <p
+                      className={`text-[10px] truncate font-medium ${
+                        isActive ? "text-emerald-800 font-bold" : "text-stone-500 group-hover:text-emerald-800"
+                      }`}
+                    >
+                      {item.sub}
+                    </p>
                   </div>
                 </a>
               );
@@ -394,14 +446,27 @@ export default function Navbar() {
 
             <nav className="space-y-1 text-xs font-bold text-stone-700">
               {averisSections.map((item) => {
+                const sectionId = item.href.replace("/#", "");
+                const isActive = pathname === "/" && activeSection === sectionId;
+
                 return (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-emerald-50/70 hover:text-emerald-900 border border-transparent hover:border-emerald-200/50 transition-colors"
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors ${
+                      isActive
+                        ? "bg-emerald-50 text-emerald-950 font-extrabold border border-emerald-300"
+                        : "hover:bg-emerald-50/70 hover:text-emerald-900 border border-transparent"
+                    }`}
                   >
-                    <span className="w-6 h-5 rounded-md bg-stone-100 text-stone-700 font-mono text-[10px] font-black flex items-center justify-center shrink-0">
+                    <span
+                      className={`w-6 h-5 rounded-md font-mono text-[10px] font-black flex items-center justify-center shrink-0 ${
+                        isActive
+                          ? "bg-emerald-800 text-white"
+                          : "bg-stone-100 text-stone-700"
+                      }`}
+                    >
                       {item.num}
                     </span>
                     <span className="truncate">{item.label}</span>
