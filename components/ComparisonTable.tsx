@@ -329,7 +329,7 @@ export default function ComparisonTable() {
   return (
     <div className="w-full space-y-2.5">
       {/* Comparison Table */}
-      <div className="w-full overflow-x-auto md:overflow-visible rounded-3xl border border-stone-200 bg-white shadow-sm">
+      <div className="w-full overflow-x-auto rounded-3xl border border-stone-200 bg-white shadow-sm overflow-hidden">
         <table className="w-full text-left border-collapse table-auto">
           <thead>
             <tr className="border-b border-stone-200 bg-stone-50/90 text-xs text-stone-700">
