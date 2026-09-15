@@ -329,38 +329,38 @@ export default function ComparisonTable() {
   return (
     <div className="w-full space-y-2.5">
       {/* Comparison Table */}
-      <div className="w-full overflow-x-auto rounded-3xl border border-stone-200 bg-white shadow-sm">
-        <table className="w-full text-left border-collapse min-w-[800px]">
+      <div className="w-full overflow-x-auto md:overflow-visible rounded-3xl border border-stone-200 bg-white shadow-sm">
+        <table className="w-full text-left border-collapse table-auto">
           <thead>
             <tr className="border-b border-stone-200 bg-stone-50/90 text-xs text-stone-700">
-              <th className="p-4 sm:px-6 font-bold w-[36%]">
-                <div className="flex items-center gap-1.5">
+              <th className="p-3.5 sm:p-4 md:px-5 font-bold w-[35%]">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <span>{locale === "bm" ? "Keupayaan & Ciri Sistem" : "System Capabilities"}</span>
                   <span className="text-[10px] font-medium text-stone-600 bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">
-                    {locale === "bm" ? "Hover ikon untuk penerangan" : "Hover icons for details"}
+                    {locale === "bm" ? "Hover ikon untuk perincian" : "Hover icons for details"}
                   </span>
                 </div>
               </th>
               {/* Highlighted Traversi Column */}
-              <th className="p-4 text-center bg-emerald-50 text-emerald-950 border-x border-emerald-200 w-[16%]">
-                <div className="tracking-tight text-sm font-black text-emerald-950">TRAVERSI</div>
-                <div className="text-[10px] text-emerald-800 font-bold uppercase tracking-wider">
-                  {locale === "bm" ? "Perancang Bajet MY" : "MY Budget Engine"}
+              <th className="p-3 text-center bg-emerald-50 text-emerald-950 border-x border-emerald-200 w-[15%]">
+                <div className="tracking-tight text-xs sm:text-sm font-black text-emerald-950">TRAVERSI</div>
+                <div className="text-[9px] sm:text-[10px] text-emerald-800 font-bold uppercase tracking-wider">
+                  {locale === "bm" ? "Perancang Bajet" : "MY Budget Engine"}
                 </div>
               </th>
-              <th className="p-3 text-center text-stone-700 font-bold w-[12%]">
+              <th className="p-2.5 text-center text-stone-700 font-bold w-[12.5%]">
                 <div className="text-xs font-bold text-stone-900">Skyscanner</div>
                 <div className="text-[10px] text-stone-500 font-medium">Metasearch</div>
               </th>
-              <th className="p-3 text-center text-stone-700 font-bold w-[12%]">
+              <th className="p-2.5 text-center text-stone-700 font-bold w-[12.5%]">
                 <div className="text-xs font-bold text-stone-900">Google Flights</div>
                 <div className="text-[10px] text-stone-500 font-medium">Airfare Matrix</div>
               </th>
-              <th className="p-3 text-center text-stone-700 font-bold w-[12%]">
+              <th className="p-2.5 text-center text-stone-700 font-bold w-[12.5%]">
                 <div className="text-xs font-bold text-stone-900">Traveloka</div>
                 <div className="text-[10px] text-stone-500 font-medium">{locale === "bm" ? "OTA Serantau" : "Regional OTA"}</div>
               </th>
-              <th className="p-3 text-center text-stone-700 font-bold w-[12%]">
+              <th className="p-2.5 text-center text-stone-700 font-bold w-[12.5%]">
                 <div className="text-xs font-bold text-stone-900">Klook</div>
                 <div className="text-[10px] text-stone-500 font-medium">Tours &amp; Passes</div>
               </th>
@@ -370,7 +370,7 @@ export default function ComparisonTable() {
             {COMPARISON_DATA.map((row, idx) => (
               <tr key={idx} className="hover:bg-stone-50/60 transition-colors">
                 {/* Feature Name & Description */}
-                <td className="p-4 sm:px-6">
+                <td className="p-3.5 sm:p-4 md:px-5">
                   <p className="font-bold text-stone-950 text-xs mb-1 leading-snug">
                     {locale === "bm" ? row.titleBm : row.titleEn}
                   </p>
