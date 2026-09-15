@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { 
@@ -18,7 +18,10 @@ import {
   Code2,
   AlertTriangle,
   Milestone,
-  Users
+  Users,
+  Calculator,
+  ChevronDown,
+  Sparkles
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
@@ -31,325 +34,301 @@ function GithubIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   );
 }
 
+// Exact format matching the landing page sections
+export const PITCH_DECK_SECTIONS = [
+  {
+    id: "masalah",
+    title: "Problem (Mengapa Tersangkut)",
+    icon: BookOpen,
+  },
+  {
+    id: "tonggak",
+    title: "3 Tonggak Utama (Kiraan 4 Dimensi, Visa MY, Halal Score)",
+    icon: ShieldCheck,
+  },
+  {
+    id: "perbandingan",
+    title: "Perbandingan vs Skyscanner/Google Flights",
+    icon: Layers,
+  },
+  {
+    id: "architecture",
+    title: "Architecture Diagram (Supabase + Vercel + Gemini)",
+    icon: Layers,
+  },
+  {
+    id: "tech-stack",
+    title: "Tech Stack (Cloud + AI)",
+    icon: Cpu,
+  },
+  {
+    id: "pelaksanaan",
+    title: "Implementation Details",
+    icon: Code2,
+  },
+  {
+    id: "cabaran",
+    title: "Challenges Faced",
+    icon: AlertTriangle,
+  },
+  {
+    id: "roadmap",
+    title: "Future Roadmap",
+    icon: Milestone,
+  },
+  {
+    id: "pasukan",
+    title: "Team 4 Orang",
+    icon: Users,
+  },
+  {
+    id: "cta",
+    title: "CTA ke Kalkulator + link GitHub & Live Demo",
+    icon: Calculator,
+  },
+];
+
 export default function Navbar() {
   const router = useRouter();
   const { locale, toggleLocale } = useLanguage();
   const { user, isLoggedIn, logout } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close sidebar on Escape key
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
+
+  // Close dropdown on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && sidebarOpen) {
-        setSidebarOpen(false);
+      if (e.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [sidebarOpen]);
-
-  // Lock body scroll when sidebar is open
-  useEffect(() => {
-    if (sidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [sidebarOpen]);
+  }, [menuOpen]);
 
   const handleLogout = () => {
     logout();
-    setSidebarOpen(false);
+    setMenuOpen(false);
     router.push("/");
   };
 
   return (
-    <>
-      {/* Full-width sticky header */}
-      <header className="sticky top-0 z-40 w-full border-b border-stone-200 bg-white/95 backdrop-blur-md">
-        <div className="w-full px-4 sm:px-8 h-16 flex items-center justify-between">
-          {/* Left: Menu Sidebar Trigger + Brand */}
-          <div className="flex items-center gap-3.5">
-            <button
-              type="button"
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Buka Menu Navigasi"
-              className="px-3 py-1.5 rounded-xl border border-stone-200 hover:bg-stone-100 text-stone-800 transition-colors cursor-pointer flex items-center gap-2"
-            >
-              <Menu className="w-4 h-4 text-emerald-800" />
-              <span className="text-xs font-bold text-stone-800">Menu</span>
-            </button>
-
-            {/* Brand Logo */}
-            <Link 
-              href="/"
-              className="flex items-center gap-2.5 group focus:outline-none"
-            >
-              <div className="w-9 h-9 rounded-xl bg-emerald-800 flex items-center justify-center text-white shadow-xs">
-                <Compass className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-black text-lg text-stone-950 tracking-tight">Traversi</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                  {locale === "bm" ? "Travel Versi Anda" : "Your Trip"}
-                </span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Right Action Controls */}
-          <div className="flex items-center gap-3">
-            {/* Language Switcher Button (BM / EN) */}
-            <button
-              type="button"
-              onClick={toggleLocale}
-              title={locale === "bm" ? "Switch to English" : "Tukar ke Bahasa Melayu"}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
-            >
-              <Globe className="w-3.5 h-3.5 text-emerald-700" />
-              <span>{locale === "bm" ? "BM" : "EN"}</span>
-            </button>
-
-            {/* When NOT logged in: Show Login & Register buttons */}
-            {!isLoggedIn ? (
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/login"
-                  className="text-xs font-bold px-3.5 py-1.5 rounded-xl text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors cursor-pointer"
-                >
-                  {locale === "bm" ? "Log Masuk" : "Login"}
-                </Link>
-
-                <Link
-                  href="/register"
-                  className="text-xs font-bold px-4 py-1.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white transition-all shadow-xs cursor-pointer"
-                >
-                  {locale === "bm" ? "Daftar" : "Register"}
-                </Link>
-              </div>
-            ) : (
-              /* When LOGGED IN: Show Profile badge only */
-              <Link
-                href="/profile"
-                className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-950 text-xs font-bold transition-all"
-                title={locale === "bm" ? "Lihat Profil & Destinasi Disimpan" : "View Profile & Saved Destinations"}
-              >
-                <div className="w-6 h-6 rounded-lg bg-emerald-800 text-white text-[11px] font-black flex items-center justify-center">
-                  {user?.avatar || user?.name?.[0] || "U"}
-                </div>
-                <span className="font-bold">{user?.name}</span>
-                {user?.starredDestinations && user.starredDestinations.length > 0 && (
-                  <span className="flex items-center gap-0.5 text-[10px] text-amber-700 bg-amber-100/80 px-1.5 py-0.2 rounded font-bold">
-                    <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
-                    <span>{user.starredDestinations.length}</span>
-                  </span>
-                )}
-              </Link>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* Slide-out Sidebar Drawer with Smooth CSS Transitions */}
-      <div 
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
-          sidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        role="dialog"
-        aria-modal="true"
-      >
-        {/* Backdrop */}
-        <div 
-          className="absolute inset-0 bg-stone-950/40 backdrop-blur-xs transition-opacity duration-300"
-          onClick={() => setSidebarOpen(false)} 
-        />
-
-        {/* Drawer Panel with hardware-accelerated slide transition */}
-        <div 
-          className={`relative w-84 max-w-[85vw] bg-white h-full shadow-2xl p-6 flex flex-col justify-between border-r border-stone-200 z-10 transform transition-transform duration-300 ease-out ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          {/* Drawer Top */}
-          <div className="space-y-5 overflow-y-auto pr-1">
-            <div className="flex items-center justify-between border-b border-stone-100 pb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-800 text-white flex items-center justify-center shadow-xs">
-                  <Compass className="w-4 h-4" />
-                </div>
-                <span className="font-black text-lg text-stone-950">Traversi</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSidebarOpen(false)}
-                className="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+    <header className="sticky top-0 z-40 w-full border-b border-stone-200 bg-white/95 backdrop-blur-md">
+      <div className="w-full px-4 sm:px-8 h-16 flex items-center justify-between gap-4">
+        {/* Left: Brand Logo + Compact Floating Dropdown Navigation */}
+        <div className="flex items-center gap-3">
+          {/* Brand Logo */}
+          <Link 
+            href="/"
+            className="flex items-center gap-2.5 group focus:outline-none shrink-0"
+          >
+            <div className="w-9 h-9 rounded-xl bg-emerald-800 flex items-center justify-center text-white shadow-xs">
+              <Compass className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
             </div>
-
-            {/* Navigation Links inside Sidebar */}
-            <nav className="space-y-1 text-xs font-bold text-stone-700">
-              <a
-                href="/#masalah"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <BookOpen className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "1. Masalah Nyata Belia" : "1. Real Problem Statement"}</span>
-              </a>
-
-              <a
-                href="/#tonggak"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "2. Tiga Tonggak Traversi" : "2. Three Core Pillars"}</span>
-              </a>
-
-              <a
-                href="/#perbandingan"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <Layers className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "3. Perbandingan Ekosistem" : "3. Ecosystem Comparison"}</span>
-              </a>
-
-              <a
-                href="/#architecture"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <Layers className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "4. Seni Bina Supabase & AI" : "4. Supabase & AI Architecture"}</span>
-              </a>
-
-              <a
-                href="/#tech-stack"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <Cpu className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "5. Tech Stack (Cloud + AI)" : "5. Tech Stack (Cloud + AI)"}</span>
-              </a>
-
-              <a
-                href="/#pelaksanaan"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <Code2 className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "6. Formula & Pelaksanaan" : "6. Math Formula & Logic"}</span>
-              </a>
-
-              <a
-                href="/#cabaran"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <AlertTriangle className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "7. Cabaran & Penyelesaian" : "7. Challenges & Solutions"}</span>
-              </a>
-
-              <a
-                href="/#roadmap"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <Milestone className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "8. Pelan Hala Tuju (Roadmap)" : "8. Product Roadmap"}</span>
-              </a>
-
-              <a
-                href="/#pasukan"
-                onClick={() => setSidebarOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
-              >
-                <Users className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "9. Pasukan 4 Orang" : "9. 4-Member Team"}</span>
-              </a>
-
-              {isLoggedIn && (
-                <Link
-                  href="/profile"
-                  onClick={() => setSidebarOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors border-t border-stone-100 mt-2 pt-2"
-                >
-                  <User className="w-4 h-4 text-emerald-700 shrink-0" />
-                  <span>{locale === "bm" ? "Profil & Destinasi Disimpan" : "Profile & Saved Items"}</span>
-                </Link>
-              )}
-            </nav>
-          </div>
-
-          {/* Drawer Bottom */}
-          <div className="pt-4 border-t border-stone-100 space-y-3">
-            <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-              <a
-                href="https://github.com/cs-mirakim/traversi"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 hover:text-stone-900 transition-colors"
-              >
-                <GithubIcon className="w-3.5 h-3.5" />
-                <span>GitHub Repo</span>
-              </a>
-              <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">
-                Hackathon 2026
+            <div className="flex items-center gap-1.5">
+              <span className="font-black text-lg text-stone-950 tracking-tight">Traversi</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 hidden sm:inline">
+                {locale === "bm" ? "Travel Versi Anda" : "Your Trip"}
               </span>
             </div>
+          </Link>
 
-            {isLoggedIn ? (
-              <div className="flex items-center justify-between pt-1">
-                <Link
-                  href="/profile"
-                  onClick={() => setSidebarOpen(false)}
-                  className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-emerald-800 text-white font-bold text-xs flex items-center justify-center shrink-0">
-                    {user?.avatar || "U"}
-                  </div>
-                  <div className="truncate">
-                    <p className="text-xs font-bold text-stone-900 truncate">{user?.name}</p>
-                    <p className="text-[11px] text-stone-500 truncate">{user?.email}</p>
-                  </div>
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  title="Log Keluar"
-                  className="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-2">
-                <Link
-                  href="/login"
-                  onClick={() => setSidebarOpen(false)}
-                  className="py-2.5 text-center rounded-xl border border-stone-200 hover:bg-stone-50 text-xs font-bold text-stone-800"
-                >
-                  {locale === "bm" ? "Log Masuk" : "Login"}
-                </Link>
-                <Link
-                  href="/register"
-                  onClick={() => setSidebarOpen(false)}
-                  className="py-2.5 text-center rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-xs"
-                >
-                  {locale === "bm" ? "Daftar" : "Register"}
-                </Link>
+          {/* Compact Dropdown Nav Button (Not a full-screen drawer!) */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Navigasi Pitch Deck"
+              aria-expanded={menuOpen}
+              className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                menuOpen 
+                  ? "bg-emerald-800 text-white border-emerald-800 shadow-xs" 
+                  : "border-stone-200 hover:bg-stone-100 text-stone-800 bg-white"
+              }`}
+            >
+              <Menu className="w-4 h-4 text-inherit" />
+              <span className="hidden sm:inline">Seksyen Pitch Deck</span>
+              <span className="sm:hidden">Menu</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* Floating Dropdown Card (Anchored cleanly below button) */}
+            {menuOpen && (
+              <div 
+                className="absolute top-full left-0 mt-2 w-[340px] sm:w-[420px] max-h-[80vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-stone-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150 divide-y divide-stone-100"
+              >
+                <div className="pb-2 px-2 flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                    Navigasi Kandungan Pitch Deck
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setMenuOpen(false)}
+                    className="p-1 rounded-md text-stone-400 hover:text-stone-700 hover:bg-stone-100"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* The 10 Pitch Deck Sections */}
+                <div className="py-2 space-y-1">
+                  {PITCH_DECK_SECTIONS.map((item, idx) => {
+                    const Icon = item.icon;
+                    return (
+                      <a
+                        key={item.id}
+                        href={`/#${item.id}`}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-stone-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors group"
+                      >
+                        <span className="w-5 h-5 rounded-md bg-stone-100 group-hover:bg-emerald-100 text-stone-600 group-hover:text-emerald-800 flex items-center justify-center shrink-0 text-[10px] font-mono font-bold">
+                          {idx + 1}
+                        </span>
+                        <Icon className="w-4 h-4 text-emerald-700 shrink-0" />
+                        <span className="truncate">{item.title}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+
+                {/* Profile & Footer Links inside Dropdown */}
+                <div className="pt-2 px-2 space-y-2 text-xs">
+                  {isLoggedIn ? (
+                    <div className="flex items-center justify-between pt-1">
+                      <Link
+                        href="/profile"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-2 min-w-0 font-bold text-stone-800 hover:text-emerald-800"
+                      >
+                        <User className="w-4 h-4 text-emerald-700" />
+                        <span className="truncate">Profil &amp; Destinasi Disimpan</span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="text-xs font-bold text-rose-600 hover:underline cursor-pointer"
+                      >
+                        Log Keluar
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between pt-1 text-stone-500">
+                      <a
+                        href="https://github.com/cs-mirakim/traversi"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 font-bold hover:text-stone-900"
+                      >
+                        <GithubIcon className="w-3.5 h-3.5" />
+                        <span>GitHub Repository</span>
+                      </a>
+                      <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded">
+                        Hackathon 2026
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
         </div>
+
+        {/* Center: Desktop Quick Navigation Links (Visible on large screens) */}
+        <nav className="hidden xl:flex items-center gap-1 text-xs font-bold text-stone-600">
+          <a href="/#masalah" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
+            Problem
+          </a>
+          <a href="/#tonggak" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
+            3 Tonggak
+          </a>
+          <a href="/#perbandingan" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
+            Perbandingan
+          </a>
+          <a href="/#architecture" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
+            Architecture
+          </a>
+          <a href="/#tech-stack" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
+            Tech Stack
+          </a>
+          <a href="/#pasukan" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
+            Team
+          </a>
+        </nav>
+
+        {/* Right: Actions (Language, Auth, Calculator Shortcut) */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Quick Calculator Link */}
+          <Link
+            href="/kalkulator"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-900 text-xs font-bold transition-all shadow-2xs"
+          >
+            <Calculator className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Kalkulator Bajet</span>
+          </Link>
+
+          {/* Language Switcher */}
+          <button
+            type="button"
+            onClick={toggleLocale}
+            title={locale === "bm" ? "Switch to English" : "Tukar ke Bahasa Melayu"}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
+          >
+            <Globe className="w-3.5 h-3.5 text-emerald-700" />
+            <span>{locale === "bm" ? "BM" : "EN"}</span>
+          </button>
+
+          {/* Auth: Not logged in */}
+          {!isLoggedIn ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/login"
+                className="text-xs font-bold px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors cursor-pointer"
+              >
+                {locale === "bm" ? "Log Masuk" : "Login"}
+              </Link>
+              <Link
+                href="/register"
+                className="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white transition-all shadow-xs cursor-pointer"
+              >
+                {locale === "bm" ? "Daftar" : "Register"}
+              </Link>
+            </div>
+          ) : (
+            /* Auth: Logged in Profile Badge */
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-950 text-xs font-bold transition-all"
+              title={locale === "bm" ? "Lihat Profil & Destinasi Disimpan" : "View Profile & Saved Destinations"}
+            >
+              <div className="w-6 h-6 rounded-lg bg-emerald-800 text-white text-[11px] font-black flex items-center justify-center">
+                {user?.avatar || user?.name?.[0] || "U"}
+              </div>
+              <span className="font-bold hidden sm:inline">{user?.name}</span>
+              {user?.starredDestinations && user.starredDestinations.length > 0 && (
+                <span className="flex items-center gap-0.5 text-[10px] text-amber-700 bg-amber-100/80 px-1.5 py-0.2 rounded font-bold">
+                  <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
+                  <span>{user.starredDestinations.length}</span>
+                </span>
+              )}
+            </Link>
+          )}
+        </div>
       </div>
-    </>
+    </header>
   );
 }
-
