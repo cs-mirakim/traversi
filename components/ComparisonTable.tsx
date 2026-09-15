@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, X, Minus } from "lucide-react";
+import { Check, X, AlertCircle } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface ComparisonFeature {
@@ -9,11 +9,11 @@ interface ComparisonFeature {
   titleEn: string;
   descBm: string;
   descEn: string;
-  traversi: { type: "yes" | "no" | "partial"; labelBm?: string; labelEn?: string };
-  skyscanner: { type: "yes" | "no" | "partial"; labelBm?: string; labelEn?: string };
-  googleFlights: { type: "yes" | "no" | "partial"; labelBm?: string; labelEn?: string };
-  traveloka: { type: "yes" | "no" | "partial"; labelBm?: string; labelEn?: string };
-  klook: { type: "yes" | "no" | "partial"; labelBm?: string; labelEn?: string };
+  traversi: { type: "yes" | "no" | "partial"; labelBm: string; labelEn: string };
+  skyscanner: { type: "yes" | "no" | "partial"; labelBm: string; labelEn: string };
+  googleFlights: { type: "yes" | "no" | "partial"; labelBm: string; labelEn: string };
+  traveloka: { type: "yes" | "no" | "partial"; labelBm: string; labelEn: string };
+  klook: { type: "yes" | "no" | "partial"; labelBm: string; labelEn: string };
 }
 
 const COMPARISON_DATA: ComparisonFeature[] = [
@@ -24,9 +24,9 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     descEn: "Search and compare live flight fares across international carrier networks.",
     traversi: { type: "yes", labelBm: "Amadeus API", labelEn: "Amadeus API" },
     skyscanner: { type: "yes", labelBm: "Metasearch Penuh", labelEn: "Full Metasearch" },
-    googleFlights: { type: "yes", labelBm: "Peta & Kalendar", labelEn: "Fast Matrix" },
+    googleFlights: { type: "yes", labelBm: "Matriks Kalendar", labelEn: "Fast Matrix" },
     traveloka: { type: "yes", labelBm: "Inventori SEA", labelEn: "SEA Inventory" },
-    klook: { type: "partial", labelBm: "Penerbangan Terpilih", labelEn: "Selected Flights" },
+    klook: { type: "partial", labelBm: "Tiket Terpilih", labelEn: "Selected Flights" },
   },
   {
     titleBm: "2. Formula Bajet Terbalik (\"Reverse-Budgeting\") Mengikut Siling RM",
@@ -36,8 +36,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     traversi: { type: "yes", labelBm: "Kiraan Penuh 4D", labelEn: "Full 4D Fit" },
     skyscanner: { type: "partial", labelBm: "Tiket Sahaja (Explore)", labelEn: "Flights Only (Explore)" },
     googleFlights: { type: "partial", labelBm: "Tiket Sahaja (Explore)", labelEn: "Flights Only (Explore)" },
-    traveloka: { type: "no", labelBm: "Pilih Destinasi Dulu", labelEn: "Dest. Required" },
-    klook: { type: "no", labelBm: "Pilih Tarikan Dulu", labelEn: "Attraction Required" },
+    traveloka: { type: "no", labelBm: "Wajib Pilih Bandar", labelEn: "City Required" },
+    klook: { type: "no", labelBm: "Wajib Pilih Tarikan", labelEn: "Attraction Required" },
   },
   {
     titleBm: "3. Kiraan Holistik 4 Dimensi (Tiket + Hotel Kongsi + Makan + Grab)",
@@ -69,11 +69,11 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     traversi: { type: "yes", labelBm: "Kueri Overpass OSM", labelEn: "OSM Overpass Query" },
     skyscanner: { type: "no", labelBm: "Tiada Penapis", labelEn: "Not Available" },
     googleFlights: { type: "no", labelBm: "Tiada Penapis", labelEn: "Not Available" },
-    traveloka: { type: "partial", labelBm: "Penapis Terhad Hotel", labelEn: "Selected Hotels" },
-    klook: { type: "partial", labelBm: "Pakej Mesra Muslim", labelEn: "Selected Tours" },
+    traveloka: { type: "partial", labelBm: "Penapis Hotel Sahaja", labelEn: "Hotel Filter Only" },
+    klook: { type: "partial", labelBm: "Pakej Terpilih", labelEn: "Selected Tours" },
   },
   {
-    titleBm: "6. Tempahan Terus Tiket, Hotel & Pas Lawatan (Commercial OTA Engine)",
+    titleBm: "6. Tempahan Terus Tiket & Pas Lawatan (Commercial OTA Engine)",
     titleEn: "6. Direct Commercial Booking & Ticketing Engine (OTA)",
     descBm: "Pembelian tiket sah dan pengeluaran baucar penginapan terus dalam sistem.",
     descEn: "Direct transactional purchasing of flight e-tickets and accommodation vouchers in-app.",
@@ -88,7 +88,7 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     titleEn: "7. Local Attraction Passes & Day Tour Tickets",
     descBm: "Jualan pas tiket taman tema, pengangkutan awam bandar (JR/MRT pass), dan aktiviti berpandu.",
     descEn: "Sales of theme park admissions, transit tourist passes, and localized day tour excursions.",
-    traversi: { type: "partial", labelBm: "Cadangan Itinerari AI", labelEn: "AI Suggested Plans" },
+    traversi: { type: "partial", labelBm: "Cadangan Jadual AI", labelEn: "AI Suggested Plans" },
     skyscanner: { type: "no", labelBm: "Tiada", labelEn: "Not Available" },
     googleFlights: { type: "no", labelBm: "Tiada", labelEn: "Not Available" },
     traveloka: { type: "yes", labelBm: "Traveloka Xperience", labelEn: "Traveloka Xperience" },
@@ -99,24 +99,20 @@ const COMPARISON_DATA: ComparisonFeature[] = [
 export default function ComparisonTable() {
   const { locale } = useLanguage();
 
-  const renderBadge = (item: { type: "yes" | "no" | "partial"; labelBm?: string; labelEn?: string }, isTraversi: boolean = false) => {
+  const renderBadge = (item: { type: "yes" | "no" | "partial"; labelBm: string; labelEn: string }, isTraversi: boolean = false) => {
     const label = locale === "bm" ? item.labelBm : item.labelEn;
 
     if (item.type === "yes") {
       return (
         <div className="flex flex-col items-center gap-1">
-          <div className={`w-6 h-6 rounded-lg flex items-center justify-center shadow-2xs ${
-            isTraversi ? "bg-emerald-800 text-white" : "bg-emerald-100 text-emerald-900 border border-emerald-300"
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold shadow-2xs ${
+            isTraversi 
+              ? "bg-emerald-800 text-white shadow-emerald-900/10" 
+              : "bg-emerald-50 text-emerald-950 border border-emerald-300"
           }`}>
-            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-          </div>
-          {label && (
-            <span className={`text-[9px] font-bold tracking-tight text-center ${
-              isTraversi ? "text-emerald-900" : "text-stone-600"
-            }`}>
-              {label}
-            </span>
-          )}
+            <Check className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
+            <span>{label}</span>
+          </span>
         </div>
       );
     }
@@ -124,14 +120,10 @@ export default function ComparisonTable() {
     if (item.type === "partial") {
       return (
         <div className="flex flex-col items-center gap-1">
-          <div className="w-6 h-6 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 flex items-center justify-center shadow-2xs">
-            <Minus className="w-3.5 h-3.5 stroke-[2.5]" />
-          </div>
-          {label && (
-            <span className="text-[9px] font-bold text-amber-800 tracking-tight text-center">
-              {label}
-            </span>
-          )}
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-950 border border-amber-300 text-[11px] font-bold shadow-2xs">
+            <AlertCircle className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+            <span>{label}</span>
+          </span>
         </div>
       );
     }
@@ -139,34 +131,48 @@ export default function ComparisonTable() {
     // "no"
     return (
       <div className="flex flex-col items-center gap-1">
-        <div className="w-6 h-6 rounded-lg bg-stone-100 text-stone-400 border border-stone-200 flex items-center justify-center">
-          <X className="w-3.5 h-3.5 stroke-[2]" />
-        </div>
-        {label && (
-          <span className="text-[9px] font-medium text-stone-500 tracking-tight text-center">
-            {label}
-          </span>
-        )}
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-100 text-stone-600 border border-stone-200 text-[11px] font-medium">
+          <X className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+          <span>{label}</span>
+        </span>
       </div>
     );
   };
 
   return (
-    <div className="w-full space-y-3">
-      {/* Informative Positioning Note */}
-      <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-stone-600 font-medium">
-        <p>
-          <strong className="text-stone-900 font-bold">
-            {locale === "bm" ? "Penentududukan Pasaran Yang Adil:" : "Objective Market Positioning:"}
-          </strong>{" "}
-          {locale === "bm"
-            ? "Traversi bukan berniat menggantikan OTA komersial (seperti Skyscanner atau Traveloka untuk tempahan tiket). Traversi berfungsi khusus sebagai enjin pra-perancangan bajet (reverse-budgeting) dengan data pasport & makanan halal untuk belia Malaysia."
-            : "Traversi is not built to displace commercial OTAs (like Skyscanner or Traveloka for actual bookings). Rather, it fills the critical pre-planning gap: reverse-budgeting with passport & halal scoring tailored for Malaysian travelers."}
-        </p>
+    <div className="w-full space-y-4">
+      {/* Explicit Petunjuk Simbol / Legend Card */}
+      <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2">
+          <span className="font-bold text-stone-900 uppercase tracking-wider text-[11px]">
+            {locale === "bm" ? "Petunjuk Simbol:" : "Legend:"}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 font-medium">
+          {/* Yes */}
+          <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-950 border border-emerald-300 px-2.5 py-1 rounded-lg text-[11px] font-bold">
+            <Check className="w-3.5 h-3.5 text-emerald-700" />
+            <span>{locale === "bm" ? "Disokong Penuh" : "Fully Supported"}</span>
+          </div>
+
+          {/* Partial */}
+          <div className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-950 border border-amber-300 px-2.5 py-1 rounded-lg text-[11px] font-bold">
+            <AlertCircle className="w-3.5 h-3.5 text-amber-700" />
+            <span>{locale === "bm" ? "Sokongan Separa / Terhad" : "Partial / Limited"}</span>
+          </div>
+
+          {/* No */}
+          <div className="inline-flex items-center gap-1.5 bg-stone-100 text-stone-600 border border-stone-200 px-2.5 py-1 rounded-lg text-[11px] font-medium">
+            <X className="w-3.5 h-3.5 text-stone-400" />
+            <span>{locale === "bm" ? "Tidak Disokong / Tiada" : "Not Supported"}</span>
+          </div>
+        </div>
       </div>
 
+      {/* Comparison Table */}
       <div className="w-full overflow-x-auto rounded-3xl border border-stone-200 bg-white shadow-sm">
-        <table className="w-full text-left border-collapse min-w-[820px]">
+        <table className="w-full text-left border-collapse min-w-[860px]">
           <thead>
             <tr className="border-b border-stone-200 bg-stone-50/90 text-xs text-stone-700">
               <th className="p-4 font-bold w-[34%]">
@@ -214,7 +220,7 @@ export default function ComparisonTable() {
                 </td>
 
                 {/* Traversi Column (Highlighted) */}
-                <td className="p-3 text-center bg-emerald-50/50 border-x border-emerald-200">
+                <td className="p-3 text-center bg-emerald-50/40 border-x border-emerald-200">
                   {renderBadge(row.traversi, true)}
                 </td>
 

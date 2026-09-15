@@ -53,13 +53,7 @@ export default function HomePage() {
         {/* =========================================================================
             HERO PITCH: REVERSE-BUDGETING VALUE PROPOSITION
         ========================================================================= */}
-        <section className="relative pt-14 pb-18 px-4 sm:px-6 max-w-5xl mx-auto text-center">
-          {/* Hackathon Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 mb-6 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-            <span>{locale === "bm" ? "Averis x Monash Hackathon 2026 • Edisi Cloud + AI" : "Averis x Monash Hackathon 2026 • Cloud + AI Edition"}</span>
-          </div>
-
+        <section className="relative pt-12 pb-18 px-4 sm:px-6 max-w-5xl mx-auto text-center min-h-[calc(100vh-4rem)] flex flex-col justify-center">
           {/* Main Title */}
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-stone-950 mb-6 max-w-4xl mx-auto leading-tight">
             {locale === "bm" ? (
@@ -99,7 +93,7 @@ export default function HomePage() {
 
             <a
               href="#technical-architecture"
-              className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-50 text-stone-700 font-bold text-base flex items-center justify-center gap-2 border border-stone-200 shadow-2xs transition-colors"
+              className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-base flex items-center justify-center gap-2 border border-stone-300 shadow-2xs hover:border-stone-400 transition-colors"
             >
               <Layers className="w-4 h-4 text-emerald-800" />
               <span>{locale === "bm" ? "Seni Bina Supabase & AI" : "Supabase & AI Architecture"}</span>
@@ -150,7 +144,7 @@ export default function HomePage() {
         {/* =========================================================================
             01. PROBLEM STATEMENT (Averis Guidelines: The Problem)
         ========================================================================= */}
-        <section id="problem-statement" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="problem-statement" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "01 • Penyataan Masalah" : "01 • Problem Statement"}
@@ -214,7 +208,7 @@ export default function HomePage() {
         {/* =========================================================================
             02. THREE CORE PILLARS
         ========================================================================= */}
-        <section id="core-pillars" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="core-pillars" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "02 • Tiga Tonggak Utama" : "02 • Three Core Pillars"}
@@ -273,7 +267,7 @@ export default function HomePage() {
         {/* =========================================================================
             03. MARKET BENCHMARK (COMPARISON TABLE)
         ========================================================================= */}
-        <section id="market-benchmark" className="py-16 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="market-benchmark" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "03 • Penanda Aras Pasaran" : "03 • Market Benchmark"}
@@ -295,7 +289,7 @@ export default function HomePage() {
         {/* =========================================================================
             04. TECHNICAL ARCHITECTURE (Averis Guidelines: Cloud + AI Requirement)
         ========================================================================= */}
-        <section id="technical-architecture" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="technical-architecture" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">
               <Server className="w-3.5 h-3.5 text-emerald-700" />
@@ -445,7 +439,7 @@ export default function HomePage() {
         {/* =========================================================================
             05. TECHNICAL STACK (Averis Guidelines: Tech Stack Section)
         ========================================================================= */}
-        <section id="tech-stack" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="tech-stack" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             {/* Averis Badges */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
@@ -546,7 +540,9 @@ export default function HomePage() {
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-emerald-900">
                       Overpass API (OpenStreetMap)
                     </td>
-                    <td className="py-3.5 px-4 sm:px-6">10,000 Panggilan Sehari (Free OSS)</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm" ? "10,000 Panggilan Sehari (Free OSS)" : "10,000 Requests/Day (Free OSS)"}
+                    </td>
                     <td className="py-3.5 px-4 sm:px-6">
                       {locale === "bm"
                         ? "Kueri nod spatial diet:halal=yes sebenar tanpa hardcode statik"
@@ -564,7 +560,9 @@ export default function HomePage() {
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-emerald-900">
                       Passport-Visa-API + REST Countries
                     </td>
-                    <td className="py-3.5 px-4 sm:px-6">Akses Terbuka Tanpa Had</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm" ? "Akses Terbuka Tanpa Had" : "Unlimited Open Access"}
+                    </td>
                     <td className="py-3.5 px-4 sm:px-6">
                       {locale === "bm"
                         ? "Semakan hak akses pasport Malaysia (180+ negara bebas visa)"
@@ -582,7 +580,9 @@ export default function HomePage() {
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-emerald-900">
                       Amadeus Flight API (Test Env)
                     </td>
-                    <td className="py-3.5 px-4 sm:px-6">2,000 Panggilan Sebulan</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm" ? "2,000 Panggilan Sebulan" : "2,000 Requests/Month"}
+                    </td>
                     <td className="py-3.5 px-4 sm:px-6">
                       {locale === "bm"
                         ? "Data tambang pergi-balik pasaran (disimpan 24 jam dalam flight_cache)"
@@ -599,7 +599,7 @@ export default function HomePage() {
         {/* =========================================================================
             06. IMPLEMENTATION DETAILS & MATHEMATICAL MODEL
         ========================================================================= */}
-        <section id="implementation-details" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="implementation-details" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "06 • Butiran Pelaksanaan" : "06 • Implementation Details"}
@@ -684,7 +684,7 @@ export default function HomePage() {
         {/* =========================================================================
             07. CHALLENGES FACED (Averis Guidelines: Challenges Faced)
         ========================================================================= */}
-        <section id="challenges-faced" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="challenges-faced" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "07 • Cabaran Dihadapi" : "07 • Challenges Faced"}
@@ -760,7 +760,7 @@ export default function HomePage() {
         {/* =========================================================================
             08. FUTURE ROADMAP (Averis Guidelines: Future Roadmap)
         ========================================================= */}
-        <section id="future-roadmap" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="future-roadmap" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "08 • Pelan Hala Tuju" : "08 • Future Roadmap"}
@@ -828,7 +828,7 @@ export default function HomePage() {
         {/* =========================================================================
             09. TEAM GOVERNANCE (4-Member Team matching README.md & TASKS.md)
         ========================================================================= */}
-        <section id="team-governance" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="team-governance" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {locale === "bm" ? "09 • Pasukan Pembangun" : "09 • Team Governance"}
@@ -914,7 +914,7 @@ export default function HomePage() {
         {/* =========================================================================
             10. LIVE PROTOTYPE & SUBMISSION LINKS (Averis Guidelines: Mandatory Links)
         ========================================================================= */}
-        <section id="live-prototype" className="py-16 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200/80 scroll-mt-20">
+        <section id="live-prototype" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200/80 scroll-mt-16">
           <div className="p-8 sm:p-12 rounded-3xl bg-emerald-50/80 border border-emerald-200 shadow-sm space-y-6">
             {/* Live Status Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-emerald-300 text-xs font-bold text-emerald-900 shadow-2xs">
@@ -948,7 +948,7 @@ export default function HomePage() {
                 href="https://github.com/cs-mirakim/traversi"
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-100 text-stone-800 font-bold text-sm flex items-center justify-center gap-2 border border-stone-200 shadow-2xs transition-colors"
+                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-sm flex items-center justify-center gap-2 border border-stone-300 shadow-2xs hover:border-stone-400 transition-colors"
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>GitHub Repository</span>

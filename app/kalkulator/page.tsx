@@ -71,23 +71,23 @@ export default function CalculatorPage() {
 
       <main className="flex-1 md:pl-72">
         {/* TOP BAR / BREADCRUMB */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-7 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-8 pt-7 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 hover:text-stone-950 transition-colors bg-white px-3.5 py-2 rounded-xl border border-stone-200 shadow-2xs"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-700 hover:text-stone-950 transition-colors bg-white px-3.5 py-2 rounded-xl border border-stone-300 shadow-2xs hover:border-stone-400 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>{locale === "bm" ? "Kembali ke Pengenalan" : "Back to Overview"}</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-800 bg-emerald-50 px-3.5 py-2 rounded-xl border border-emerald-200">
+          <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-900 bg-emerald-50 px-3.5 py-2 rounded-xl border border-emerald-200 shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
             <span>{locale === "bm" ? "Kalkulator Bajet Aktif" : "Calculator Active"}</span>
           </div>
         </div>
 
         {/* INPUT FORM SECTION */}
-        <section className="pt-6 pb-12 px-4 sm:px-6 max-w-4xl mx-auto">
+        <section className="pt-6 pb-12 px-4 sm:px-8 max-w-6xl mx-auto w-full">
           <BudgetForm
             budget={budget}
             budgetMode={budgetMode}
@@ -107,7 +107,7 @@ export default function CalculatorPage() {
         </section>
 
         {/* RESULTS SECTION */}
-        <section id="cadangan" className="py-12 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200">
+        <section id="cadangan" className="py-12 px-4 sm:px-8 max-w-6xl mx-auto w-full border-t border-stone-200">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 pb-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">

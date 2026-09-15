@@ -140,17 +140,17 @@ export default function Navbar() {
           1. PERMANENT DESKTOP SIDEBAR (ALWAYS VISIBLE ON DESKTOP & LAPTOP md+)
       ========================================================================= */}
       <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-72 bg-white border-r border-stone-200 z-40 overflow-y-auto select-none shadow-xs">
-        {/* Top Brand Header */}
-        <div className="p-5 border-b border-stone-100 space-y-3">
+        {/* Top Brand Header (Exactly h-16 and border-b border-stone-200 to align seamlessly with top header) */}
+        <div className="h-16 px-5 border-b border-stone-200 flex items-center justify-between shrink-0">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-800 flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:rotate-45">
+            <div className="w-9 h-9 rounded-xl bg-emerald-800 flex items-center justify-center text-white shadow-xs transition-transform duration-300 group-hover:rotate-45">
               <Compass className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-black text-xl text-stone-950 tracking-tight">Traversi</span>
+                <span className="font-black text-lg text-stone-950 tracking-tight">Traversi</span>
               </div>
-              <p className="text-[10px] font-bold text-emerald-800">
+              <p className="text-[10px] font-bold text-emerald-800 leading-none">
                 {locale === "bm" ? "Travel Versi Anda" : "Your Trip, Your Version"}
               </p>
             </div>
@@ -158,27 +158,28 @@ export default function Navbar() {
         </div>
 
         {/* Middle: Pitch Deck Navigation strictly matching Averis Guidelines */}
-        <div className="flex-1 p-3.5 space-y-1">
-          <div className="px-2.5 py-1 text-[10px] font-black text-stone-400 uppercase tracking-wider flex items-center justify-between">
-            <span>{locale === "bm" ? "Struktur Pitch Deck Averis" : "Averis Pitch Deck"}</span>
-            <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-50 text-emerald-800 rounded border border-emerald-200">
+        <div className="flex-1 p-3 space-y-1">
+          <div className="px-2.5 py-1.5 text-[10px] font-black text-stone-400 uppercase tracking-wider flex items-center justify-between">
+            <span>{locale === "bm" ? "Struktur Pitch Deck" : "Pitch Deck Structure"}</span>
+            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-800 rounded border border-emerald-200">
               10 Seksyen
             </span>
           </div>
 
-          <nav className="space-y-0.5">
+          <nav className="space-y-1">
             {averisSections.map((item) => {
-              const Icon = item.icon;
               return (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="flex items-start gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 hover:bg-stone-50 transition-colors group"
+                  className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200/60 transition-all group"
                 >
-                  <Icon className="w-4 h-4 text-stone-400 group-hover:text-emerald-700 transition-colors shrink-0 mt-0.5" />
+                  <span className="w-6 h-5 rounded-md bg-stone-100 text-stone-600 font-mono text-[10px] font-black flex items-center justify-center shrink-0 group-hover:bg-emerald-800 group-hover:text-white transition-colors">
+                    {item.num}
+                  </span>
                   <div className="min-w-0 truncate">
                     <p className="truncate leading-tight text-stone-900 group-hover:text-emerald-950">{item.label}</p>
-                    <p className="text-[10px] text-stone-600 font-medium truncate group-hover:text-emerald-900">{item.sub}</p>
+                    <p className="text-[10px] text-stone-500 font-medium truncate group-hover:text-emerald-800">{item.sub}</p>
                   </div>
                 </a>
               );
@@ -252,15 +253,15 @@ export default function Navbar() {
             <div className="grid grid-cols-2 gap-2">
               <Link
                 href="/login"
-                className="py-2 text-center rounded-xl border border-stone-200 bg-white hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors"
+                className="py-2 text-center rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-xs font-bold text-stone-800 shadow-2xs transition-colors"
               >
-                {locale === "bm" ? "Log Masuk" : "Login"}
+                {locale === "bm" ? "Log Masuk" : "Sign In"}
               </Link>
               <Link
                 href="/register"
                 className="py-2 text-center rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-xs transition-colors"
               >
-                {locale === "bm" ? "Daftar" : "Register"}
+                {locale === "bm" ? "Daftar Akaun" : "Sign Up"}
               </Link>
             </div>
           )}
@@ -305,7 +306,7 @@ export default function Navbar() {
               type="button"
               onClick={toggleLocale}
               title={locale === "bm" ? "Switch to English" : "Tukar ke Bahasa Melayu"}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-xs font-bold text-stone-800 shadow-2xs transition-colors cursor-pointer"
             >
               <Globe className="w-3.5 h-3.5 text-emerald-700" />
               <span>{locale === "bm" ? "BM" : "EN"}</span>
@@ -316,15 +317,15 @@ export default function Navbar() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/login"
-                  className="text-xs font-bold px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors cursor-pointer"
+                  className="text-xs font-bold px-3 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 hover:text-stone-950 shadow-2xs transition-colors cursor-pointer"
                 >
-                  {locale === "bm" ? "Log Masuk" : "Login"}
+                  {locale === "bm" ? "Log Masuk" : "Sign In"}
                 </Link>
                 <Link
                   href="/register"
                   className="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white transition-all shadow-xs cursor-pointer"
                 >
-                  {locale === "bm" ? "Daftar" : "Register"}
+                  {locale === "bm" ? "Daftar Akaun" : "Sign Up"}
                 </Link>
               </div>
             ) : (
@@ -386,16 +387,17 @@ export default function Navbar() {
 
             <nav className="space-y-1 text-xs font-bold text-stone-700">
               {averisSections.map((item) => {
-                const Icon = item.icon;
                 return (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-emerald-50/70 hover:text-emerald-900 border border-transparent hover:border-emerald-200/50 transition-colors"
                   >
-                    <Icon className="w-4 h-4 text-emerald-700 shrink-0" />
-                    <span>{item.label}</span>
+                    <span className="w-6 h-5 rounded-md bg-stone-100 text-stone-700 font-mono text-[10px] font-black flex items-center justify-center shrink-0">
+                      {item.num}
+                    </span>
+                    <span className="truncate">{item.label}</span>
                   </a>
                 );
               })}
@@ -416,16 +418,16 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2.5 text-center rounded-xl border border-stone-200 text-xs font-bold text-stone-800"
+                  className="py-2.5 text-center rounded-xl border border-stone-300 bg-white text-xs font-bold text-stone-800 shadow-2xs"
                 >
-                  {locale === "bm" ? "Log Masuk" : "Login"}
+                  {locale === "bm" ? "Log Masuk" : "Sign In"}
                 </Link>
                 <Link
                   href="/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2.5 text-center rounded-xl bg-emerald-800 text-white text-xs font-bold"
+                  className="py-2.5 text-center rounded-xl bg-emerald-800 text-white text-xs font-bold shadow-xs"
                 >
-                  {locale === "bm" ? "Daftar" : "Register"}
+                  {locale === "bm" ? "Daftar Akaun" : "Sign Up"}
                 </Link>
               </div>
             )}
