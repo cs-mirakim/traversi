@@ -22,7 +22,8 @@ import {
   Calculator,
   ExternalLink,
   Sparkles,
-  Server
+  Server,
+  PlayCircle
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
@@ -59,66 +60,76 @@ export default function Navbar() {
     router.push("/");
   };
 
-  // Exact pitch deck links following user requirements
-  const navItems = [
+  // Official Pitch Deck sections strictly matching Averis Hackathon 2026 Documentation Guidelines
+  const averisSections = [
     {
-      num: "1",
-      label: locale === "bm" ? "Problem (Mengapa Tersangkut)" : "1. Real Problem Statement",
-      href: "/#masalah",
+      num: "01",
+      label: locale === "bm" ? "Penyataan Masalah" : "Problem Statement",
+      sub: locale === "bm" ? "Perangkap Kos Sebenar Belia" : "The Core Youth Expense Trap",
+      href: "/#problem-statement",
       icon: BookOpen,
     },
     {
-      num: "2",
-      label: locale === "bm" ? "3 Tonggak Utama (4D, Visa, Halal)" : "2. Three Core Pillars",
-      href: "/#tonggak",
+      num: "02",
+      label: locale === "bm" ? "3 Tonggak Utama" : "Three Core Pillars",
+      sub: locale === "bm" ? "4D Cost, Visa MY & Halal OSM" : "4D Cost, Visa Free & Halal",
+      href: "/#core-pillars",
       icon: ShieldCheck,
     },
     {
-      num: "3",
-      label: locale === "bm" ? "Perbandingan vs Skyscanner/Flights" : "3. Ecosystem Comparison",
-      href: "/#perbandingan",
+      num: "03",
+      label: locale === "bm" ? "Perbandingan Pasaran" : "Market Benchmark",
+      sub: locale === "bm" ? "Traversi vs Skyscanner/Flights" : "Traversi vs Booking Engines",
+      href: "/#market-benchmark",
       icon: Layers,
     },
     {
-      num: "4",
-      label: locale === "bm" ? "Architecture Diagram (Supabase + Gemini)" : "4. Supabase & AI Architecture",
-      href: "/#architecture",
+      num: "04",
+      label: locale === "bm" ? "Seni Bina Teknikal" : "Technical Architecture",
+      sub: locale === "bm" ? "Supabase Cloud + Vercel + Gemini" : "Cloud Caching & AI Engine",
+      href: "/#technical-architecture",
       icon: Server,
     },
     {
-      num: "5",
-      label: locale === "bm" ? "Tech Stack Section (Cloud + AI)" : "5. Tech Stack (Cloud + AI)",
+      num: "05",
+      label: locale === "bm" ? "Susunan Teknologi" : "Technical Stack",
+      sub: locale === "bm" ? "Pematuhan Averis Cloud & AI" : "Cloud & AI Free-Tier Audit",
       href: "/#tech-stack",
       icon: Cpu,
     },
     {
-      num: "6",
-      label: locale === "bm" ? "Implementation Details (Formula 4D)" : "6. Math Formula & Logic",
-      href: "/#pelaksanaan",
+      num: "06",
+      label: locale === "bm" ? "Butiran Pelaksanaan" : "Implementation Details",
+      sub: locale === "bm" ? "Formula Matematik 4 Dimensi" : "4D Math Model & Scoring",
+      href: "/#implementation-details",
       icon: Code2,
     },
     {
-      num: "7",
-      label: locale === "bm" ? "Challenges Faced" : "7. Challenges & Solutions",
-      href: "/#cabaran",
+      num: "07",
+      label: locale === "bm" ? "Cabaran Dihadapi" : "Challenges Faced",
+      sub: locale === "bm" ? "Had Kuota API & Ketepatan Halal" : "API Quotas & Solutions",
+      href: "/#challenges-faced",
       icon: AlertTriangle,
     },
     {
-      num: "8",
-      label: locale === "bm" ? "Future Roadmap" : "8. Product Roadmap",
-      href: "/#roadmap",
+      num: "08",
+      label: locale === "bm" ? "Pelan Hala Tuju" : "Future Roadmap",
+      sub: locale === "bm" ? "Pelan 3 Fasa Komersial" : "3-Phase Commercial Scale",
+      href: "/#future-roadmap",
       icon: Milestone,
     },
     {
-      num: "9",
-      label: locale === "bm" ? "Team 4 orang" : "9. 4-Member Team",
-      href: "/#pasukan",
+      num: "09",
+      label: locale === "bm" ? "Pasukan Pembangun" : "Team Governance",
+      sub: locale === "bm" ? "4 Orang Ahli Pasukan" : "4-Member Engineering Team",
+      href: "/#team-governance",
       icon: Users,
     },
     {
       num: "10",
-      label: locale === "bm" ? "CTA ke Kalkulator & Demo" : "10. Calculator CTA & Demo",
-      href: "/#cta",
+      label: locale === "bm" ? "Prototaip & Pautan" : "Live Prototype & Demo",
+      sub: locale === "bm" ? "Kalkulator, GitHub & Live URL" : "App, Repo & Video Demo",
+      href: "/#live-prototype",
       icon: Calculator,
     },
   ];
@@ -129,7 +140,7 @@ export default function Navbar() {
           1. PERMANENT DESKTOP SIDEBAR (ALWAYS VISIBLE ON DESKTOP & LAPTOP md+)
       ========================================================================= */}
       <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-72 bg-white border-r border-stone-200 z-40 overflow-y-auto select-none shadow-xs">
-        {/* Top: Brand Header */}
+        {/* Top Brand Header */}
         <div className="p-5 border-b border-stone-100 space-y-3">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-10 h-10 rounded-2xl bg-emerald-800 flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:rotate-45">
@@ -156,7 +167,7 @@ export default function Navbar() {
           >
             <div className="flex items-center gap-2">
               <Calculator className="w-4 h-4 text-emerald-700" />
-              <span>{locale === "bm" ? "Kalkulator Bajet" : "Budget Calculator"}</span>
+              <span>{locale === "bm" ? "Buka Kalkulator Bajet" : "Launch Calculator"}</span>
             </div>
             <span className="text-[10px] font-extrabold bg-white/80 text-emerald-900 px-1.5 py-0.5 rounded">
               GO
@@ -164,23 +175,29 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Middle: Pitch Deck Navigation Links (Matching User Format Exact) */}
+        {/* Middle: Pitch Deck Navigation strictly matching Averis Guidelines */}
         <div className="flex-1 p-3.5 space-y-1">
-          <div className="px-2.5 py-1 text-[10px] font-black text-stone-400 uppercase tracking-wider">
-            {locale === "bm" ? "Navigasi Pitch Deck" : "Pitch Deck Navigation"}
+          <div className="px-2.5 py-1 text-[10px] font-black text-stone-400 uppercase tracking-wider flex items-center justify-between">
+            <span>{locale === "bm" ? "Struktur Pitch Deck Averis" : "Averis Pitch Deck"}</span>
+            <span className="text-[9px] font-bold px-1.5 py-0.2 bg-emerald-50 text-emerald-800 rounded border border-emerald-200">
+              10 Seksyen
+            </span>
           </div>
 
           <nav className="space-y-0.5">
-            {navItems.map((item) => {
+            {averisSections.map((item) => {
               const Icon = item.icon;
               return (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold text-stone-600 hover:text-stone-950 hover:bg-stone-50 transition-colors group"
+                  className="flex items-start gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 hover:bg-stone-50 transition-colors group"
                 >
-                  <Icon className="w-4 h-4 text-stone-400 group-hover:text-emerald-700 transition-colors shrink-0" />
-                  <span className="truncate leading-tight">{item.label}</span>
+                  <Icon className="w-4 h-4 text-stone-400 group-hover:text-emerald-700 transition-colors shrink-0 mt-0.5" />
+                  <div className="min-w-0 truncate">
+                    <p className="truncate leading-tight text-stone-900 group-hover:text-emerald-950">{item.label}</p>
+                    <p className="text-[10px] text-stone-600 font-medium truncate group-hover:text-emerald-900">{item.sub}</p>
+                  </div>
                 </a>
               );
             })}
@@ -195,23 +212,23 @@ export default function Navbar() {
                 }`}
               >
                 <User className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "Profil & Destinasi Disimpan" : "Profile & Saved Items"}</span>
+                <span>{locale === "bm" ? "Profil & Destinasi Disimpan" : "Profile & Saved Destinations"}</span>
               </Link>
             )}
           </nav>
         </div>
 
-        {/* Bottom: User Profile Status, Language Switcher, GitHub Repo */}
+        {/* Bottom: Language Switcher, GitHub Repo & Auth Status */}
         <div className="p-4 border-t border-stone-100 space-y-3 bg-stone-50/50">
-          {/* Language & GitHub Row */}
           <div className="flex items-center justify-between">
             <button
               type="button"
               onClick={toggleLocale}
+              title={locale === "bm" ? "Switch to English" : "Tukar ke Bahasa Melayu"}
               className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-stone-200 bg-white hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
             >
               <Globe className="w-3.5 h-3.5 text-emerald-700" />
-              <span>{locale === "bm" ? "BM" : "EN"}</span>
+              <span>{locale === "bm" ? "BM (Bahasa)" : "EN (English)"}</span>
             </button>
 
             <a
@@ -225,7 +242,7 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Auth State in Sidebar */}
+          {/* Auth Status in Sidebar */}
           {isLoggedIn ? (
             <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200">
               <Link
@@ -243,7 +260,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={handleLogout}
-                title="Log Keluar"
+                title={locale === "bm" ? "Log Keluar" : "Log Out"}
                 className="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer shrink-0"
               >
                 <LogOut className="w-4 h-4" />
@@ -294,7 +311,7 @@ export default function Navbar() {
 
           {/* Desktop Left Breadcrumb / Context */}
           <div className="hidden md:flex items-center gap-2 text-xs font-bold text-stone-500">
-            <span className="text-emerald-800 font-extrabold">Averis Hackathon 2026</span>
+            <span className="text-emerald-800 font-extrabold">Averis x Monash Hackathon 2026</span>
             <span>&bull;</span>
             <span className="text-stone-700">Cloud + AI Edition</span>
           </div>
@@ -397,7 +414,7 @@ export default function Navbar() {
             </div>
 
             <nav className="space-y-1 text-xs font-bold text-stone-700">
-              {navItems.map((item) => {
+              {averisSections.map((item) => {
                 const Icon = item.icon;
                 return (
                   <a
@@ -428,7 +445,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full py-2.5 text-center text-xs font-bold text-rose-600 bg-rose-50 rounded-xl"
+                className="w-full py-2.5 text-center text-xs font-bold text-rose-600 bg-rose-50 rounded-xl cursor-pointer"
               >
                 {locale === "bm" ? "Log Keluar" : "Log Out"}
               </button>

@@ -28,7 +28,10 @@ import {
   Sparkles,
   Server,
   Zap,
-  Radio
+  Radio,
+  PlayCircle,
+  Clock,
+  Award
 } from "lucide-react";
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -47,10 +50,16 @@ export default function HomePage() {
       <Navbar />
 
       <main className="flex-1 md:pl-72">
-        {/* =========================================================
-            HERO SECTION: CLEAN WHITE WITH CALM EMERALD HIGHLIGHTS
-        ========================================================= */}
-        <section className="relative pt-16 pb-20 px-4 sm:px-6 max-w-5xl mx-auto text-center">
+        {/* =========================================================================
+            HERO PITCH: REVERSE-BUDGETING VALUE PROPOSITION
+        ========================================================================= */}
+        <section className="relative pt-14 pb-18 px-4 sm:px-6 max-w-5xl mx-auto text-center">
+          {/* Hackathon Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 mb-6 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+            <span>{locale === "bm" ? "Averis x Monash Hackathon 2026 • Edisi Cloud + AI" : "Averis x Monash Hackathon 2026 • Cloud + AI Edition"}</span>
+          </div>
+
           {/* Main Title */}
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-stone-950 mb-6 max-w-4xl mx-auto leading-tight">
             {locale === "bm" ? (
@@ -71,14 +80,14 @@ export default function HomePage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-xl text-stone-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+          <p className="text-base sm:text-lg text-stone-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
             {locale === "bm"
-              ? "Sistem kalkulator terbalik (Reverse-Budgeting) pertama untuk belia Malaysia: masukkan had wang poket anda, enjin pintar menentukan destinasi mana yang muat bajet siap pecahan tiket, hotel kongsi, makan harian, dan status halal."
-              : "Malaysia's first reverse-budgeting travel recommendation engine: enter your actual spending limit, and the system computes destinations that genuinely fit return flights, twin-sharing hotels, daily meals, and visa/halal requirements."}
+              ? "Sistem kalkulator terbalik (Reverse-Budgeting) pertama untuk belia Malaysia: masukkan had wang poket anda, enjin pintar menentukan destinasi mana yang muat bajet siap pecahan tiket penerbangan, hotel berkongsi berdua, makan minum harian, dan semakan pasport/halal."
+              : "Malaysia's first reverse-budgeting travel recommendation engine: specify your spending ceiling, and our intelligent engine computes destinations that genuinely fit return flights, twin-sharing rooms, daily halal dining, and visa privileges."}
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-12">
             <Link
               href="/kalkulator"
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-base flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-900/15 transition-all cursor-pointer"
@@ -89,7 +98,7 @@ export default function HomePage() {
             </Link>
 
             <a
-              href="#architecture"
+              href="#technical-architecture"
               className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-50 text-stone-700 font-bold text-base flex items-center justify-center gap-2 border border-stone-200 shadow-2xs transition-colors"
             >
               <Layers className="w-4 h-4 text-emerald-800" />
@@ -97,62 +106,62 @@ export default function HomePage() {
             </a>
           </div>
 
-          {/* Three Quick Pillars Highlight */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto pt-2 text-left">
+          {/* Quick Metrics */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
             <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
-              <div className="flex items-center gap-2 font-bold text-stone-900 text-base mb-1">
+              <div className="flex items-center gap-2 font-bold text-stone-900 text-sm mb-1">
                 <Check className="w-4 h-4 text-emerald-700 shrink-0 stroke-[2.5]" />
                 <span>{locale === "bm" ? "100% Kos Telus" : "100% Transparent Costs"}</span>
               </div>
-              <p className="text-xs text-stone-600 font-medium">
+              <p className="text-xs text-stone-600 font-medium leading-relaxed">
                 {locale === "bm" 
-                  ? "Pecahan 4 dimensi: penerbangan, bilik hotel kongsi, makan harian, dan Grab."
-                  : "4-dimensional split: flights, twin-sharing rooms, daily meals, and ground transport."}
+                  ? "Pecahan 4 dimensi: penerbangan, bilik hotel kongsi berdua ceil(pax/2), makan harian, dan Grab."
+                  : "4D breakdown: airfare, twin-sharing hotel rooms ceil(pax/2), daily dining, and local transit."}
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
-              <div className="flex items-center gap-2 font-bold text-stone-900 text-base mb-1">
+              <div className="flex items-center gap-2 font-bold text-stone-900 text-sm mb-1">
                 <UtensilsCrossed className="w-4 h-4 text-emerald-700 shrink-0" />
-                <span>{locale === "bm" ? "Overpass Halal OSM" : "Overpass Halal OSM"}</span>
+                <span>{locale === "bm" ? "Kueri Geospatial Halal" : "Geospatial Halal Audit"}</span>
               </div>
-              <p className="text-xs text-stone-600 font-medium">
+              <p className="text-xs text-stone-600 font-medium leading-relaxed">
                 {locale === "bm"
-                  ? "Kueri geospatial premis makanan diet:halal OpenStreetMap sebenar di destinasi."
-                  : "Live geospatial query of OpenStreetMap diet:halal food nodes around the city."}
+                  ? "Kueri langsung OpenStreetMap Overpass API bagi nod diet:halal tanpa senarai statik."
+                  : "Live OpenStreetMap Overpass API queries of diet:halal food nodes with zero hardcoding."}
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
-              <div className="flex items-center gap-2 font-bold text-stone-900 text-base mb-1">
+              <div className="flex items-center gap-2 font-bold text-stone-900 text-sm mb-1">
                 <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
                 <span>{locale === "bm" ? "Pasport Malaysia (MY)" : "Malaysian Passport (MY)"}</span>
               </div>
-              <p className="text-xs text-stone-600 font-medium">
+              <p className="text-xs text-stone-600 font-medium leading-relaxed">
                 {locale === "bm"
-                  ? "Semakan automatik akses bebas visa dan tempoh hari tanpa perlu carian berulang."
-                  : "Automated visa exemption checking and permitted duration for Malaysian citizens."}
+                  ? "Semakan automatik peraturan bebas visa 180+ negara dan penerbangan domestik MyKad."
+                  : "Automated visa exemption duration checking for 180+ countries and domestic MyKad flights."}
               </p>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            1. REAL PROBLEM: KENAPA BELIA MALAYSIA SELALU OVERBUDGET
-        ========================================================= */}
-        <section id="masalah" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            01. PROBLEM STATEMENT (Averis Guidelines: The Problem)
+        ========================================================================= */}
+        <section id="problem-statement" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Kajian Masalah Nyata" : "The Core Problem"}
+              {locale === "bm" ? "01 • Penyataan Masalah" : "01 • Problem Statement"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Mengapa Ramai Belia Malaysia Terlebih Belanja?" : "Why Do Malaysian Youth Constantly Overspend?"}
+              {locale === "bm" ? "Mengapa 70% Belia Terlebih Belanja Semasa Melancong?" : "Why Do 70% of Youth Overspend While Traveling?"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm" 
-                ? "Lebih 70% pengembara belia terlebih belanja kerana maklumat industri semasa berpecah-belah."
-                : "Over 70% of young travelers exceed their planned budget due to fragmented booking tools."}
+                ? "Kajian perbelanjaan mendapati belia dan pelajar Malaysia terjerat dengan maklumat industri yang pecah-belah."
+                : "Studies show Malaysian youth and student travelers overspend due to fragmented booking platforms."}
             </p>
           </div>
 
@@ -162,12 +171,12 @@ export default function HomePage() {
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-base text-stone-950">
-                {locale === "bm" ? "Tiket Flight Cuma Separuh Cerita" : "Flights Are Only Half the Picture"}
+                {locale === "bm" ? "1. Tiket Promosi Cuma Separuh Cerita" : "1. Cheap Airfare Trap"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Skyscanner tunjuk tiket RM280, tapi sampai destinasi kos hotel, makan minum, dan Grab melonjak cecah RM2,000 tanpa sedar."
-                  : "Platforms advertise flights for RM280, but ground expenses easily exceed RM2,000 once you arrive."}
+                  ? "Beli tiket promosi RM280, tapi bila tiba di destinasi, kos bilik hotel, makanan harian, dan Grab mencecah RM2,000 tanpa disedari."
+                  : "You snag a RM280 promo flight, but ground expenses for hotel rooms, daily dining, and local rides silently surge to RM2,000."}
               </p>
             </div>
 
@@ -176,12 +185,12 @@ export default function HomePage() {
                 <Layers className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-base text-stone-950">
-                {locale === "bm" ? "Kena Buka 4 Aplikasi Berbeza" : "Juggling 4 Separate Apps"}
+                {locale === "bm" ? "2. Tiada Enjin Carian Bajet Terbalik" : "2. No Reverse Budget Search"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Satu laman untuk tiket, satu aplikasi untuk hotel, satu tab Google syarat visa pasport MY, dan satu lagi cari restoran halal."
-                  : "One site for airfare, another for hotels, a Google tab for visa regulations, and another searching for halal eateries."}
+                  ? "Skyscanner dan Google Flights paksa pilih bandar dahulu. Belia yang ada bajet RM1,500 tidak tahu ke mana sebenarnya duit mereka muat."
+                  : "Traditional engines force you to specify a city first. Travelers who only know they have RM1,500 have no idea where that money actually lasts."}
               </p>
             </div>
 
@@ -190,28 +199,28 @@ export default function HomePage() {
                 <Target className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-base text-stone-950">
-                {locale === "bm" ? "Tiada Enjin Dari Sudut Poket Anda" : "Zero Wallet-First Engines"}
+                {locale === "bm" ? "3. Terpaksa Buka 4 Aplikasi Berasingan" : "3. Juggling 4 Fragmented Apps"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Sistem komersial sedia ada dibina untuk menjual tiket komisen, bukan untuk memastikan pengembara tidak terlebih belanja."
-                  : "Existing travel platforms push commission inventory rather than safeguarding your bottom line."}
+                  ? "Satu aplikasi semak tiket, satu cari hotel, satu Google syarat visa pasport Malaysia, dan satu lagi mencari kedai makan halal."
+                  : "One app for airfare, another for rooms, a search tab checking Malaysian visa policies, and another hunting for verified halal dining."}
               </p>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            2. THREE PILLARS (TIGA TONGGAK)
-        ========================================================= */}
-        <section id="tonggak" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            02. THREE CORE PILLARS
+        ========================================================================= */}
+        <section id="core-pillars" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Tiga Tonggak Traversi" : "Three Pillars"}
+              {locale === "bm" ? "02 • Tiga Tonggak Utama" : "02 • Three Core Pillars"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Dicipta Khas Untuk Pengembara Malaysia" : "Engineered Specifically for Malaysian Travelers"}
+              {locale === "bm" ? "Dicipta Khas Mengikut Keperluan Pengembara Malaysia" : "Engineered Specifically for Malaysian Youth"}
             </h2>
           </div>
 
@@ -221,12 +230,12 @@ export default function HomePage() {
                 <Calculator className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-stone-950">
-                {locale === "bm" ? "1. Kos Penuh 4 Dimensi" : "1. Realistic 4D Cost Breakdown"}
+                {locale === "bm" ? "1. Kiraan Kos Penuh 4 Dimensi" : "1. Realistic 4D Cost Breakdown"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Formula mengira tiket pergi-balik per pax, hotel bilik kongsi ceil(pax/2), makan harian, dan Grab perkongsian kumpulan."
-                  : "Computes return flights, shared twin rooms ceil(pax/2), daily halal dining, and rideshare transport."}
+                  ? "Formula mengira tiket pergi-balik per pax, bilik hotel kongsi berdua ceil(pax/2), makan harian, dan tambang kenderaan tempatan."
+                  : "Computes return airfare, twin-sharing hotel rooms ceil(pax/2), daily meals, and rideshare transport."}
               </p>
             </div>
 
@@ -235,12 +244,12 @@ export default function HomePage() {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-stone-950">
-                {locale === "bm" ? "2. Halal OSM & Pasport MY" : "2. Live Halal & Visa Checks"}
+                {locale === "bm" ? "2. Halal Overpass & Pasport MY" : "2. Live Halal & Visa Checks"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Data Overpass API OpenStreetMap untuk premis makanan halal dan semakan peraturan pasport Malaysia 180+ negara."
-                  : "Live OpenStreetMap Overpass API halal queries paired with Malaysian passport visa datasets."}
+                  ? "Kueri nod OpenStreetMap sebenar bagi diet:halal dan semakan syarat pasport Malaysia tanpa sebarang data lapuk."
+                  : "Live OpenStreetMap Overpass queries for diet:halal nodes paired with Malaysian passport visa datasets."}
               </p>
             </div>
 
@@ -249,32 +258,32 @@ export default function HomePage() {
                 <Calendar className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-stone-950">
-                {locale === "bm" ? "3. Jadual 4 Hari Realistik" : "3. Realistic 4-Day Itinerary"}
+                {locale === "bm" ? "3. Jadual 4 Hari Realistik" : "3. Authentic 4-Day Itineraries"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Itinerari harian yang praktikal bersama port makan halal berkadar tinggi yang sepadan dengan baki poket sebenar."
-                  : "Curated itineraries featuring high-rated halal spots matched against remaining pocket budget."}
+                  ? "Jadual perjalanan praktikal bersama senarai port makan halal berkadar tinggi yang sepadan dengan baki wang saku sebenar."
+                  : "Balanced day-by-day itineraries featuring high-rated halal spots matched against your remaining spending money."}
               </p>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            3. COMPARISON TABLE
-        ========================================================= */}
-        <section id="perbandingan" className="py-16 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            03. MARKET BENCHMARK (COMPARISON TABLE)
+        ========================================================================= */}
+        <section id="market-benchmark" className="py-16 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Penanda Aras Ekosistem" : "Market Benchmark"}
+              {locale === "bm" ? "03 • Penanda Aras Pasaran" : "03 • Market Benchmark"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Perbandingan Traversi Berbanding Sistem Komersial Global" : "Traversi vs Global Commercial Travel Platforms"}
+              {locale === "bm" ? "Perbandingan Traversi vs Platform Komersial Global" : "Traversi vs Global Commercial Travel Platforms"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm" 
-                ? "Lihat bagaimana Traversi mengisi jurang yang ditinggalkan oleh enjin carian tiket biasa."
+                ? "Lihat bagaimana Traversi menyelesaikan titik buta (blindspot) enjin carian tiket komersial sedia ada."
                 : "Discover how Traversi resolves the blindspots of standard flight booking engines."}
             </p>
           </div>
@@ -283,50 +292,54 @@ export default function HomePage() {
         </section>
 
 
-        {/* =========================================================
-            4. ARCHITECTURE DIAGRAM (SUPABASE + VERCEL + GEMINI)
-        ========================================================= */}
-        <section id="architecture" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            04. TECHNICAL ARCHITECTURE (Averis Guidelines: Cloud + AI Requirement)
+        ========================================================================= */}
+        <section id="technical-architecture" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">
               <Server className="w-3.5 h-3.5 text-emerald-700" />
-              <span>{locale === "bm" ? "Seni Bina Penuh (Averis Cloud + AI)" : "Full System Architecture"}</span>
+              <span>{locale === "bm" ? "04 • Seni Bina Teknikal (Averis Cloud + AI)" : "04 • Technical Architecture"}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-1">
-              {locale === "bm" ? "Rajah Aliran Seni Bina: Supabase, Vercel & Gemini" : "Architecture Diagram: Supabase, Vercel & Gemini"}
+              {locale === "bm" ? "Integrasi Penuh: Supabase Cloud, Vercel & Google Gemini" : "Full Integration: Supabase Cloud, Vercel & Google Gemini"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
-                ? "Aliran data hujung-ke-hujung (end-to-end) menggabungkan pengkomputeran pelayan awan, lapisan cache multi-tier, kueri geospatial, dan penaakulan AI."
+                ? "Aliran data hujung-ke-hujung menggabungkan pengkomputeran pelayan awan, lapisan cache multi-tier, kueri geospatial, dan penaakulan AI."
                 : "End-to-end data pipeline merging serverless cloud computing, multi-tier caching, geospatial queries, and LLM reasoning."}
             </p>
           </div>
 
           <div className="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-8">
-            {/* Visual Interactive Architecture Diagram Flow */}
+            {/* Interactive Architecture Flow Diagram */}
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-2 border-b border-stone-100">
                 <span className="text-xs font-bold text-stone-800 uppercase tracking-wide flex items-center gap-1.5">
                   <Radio className="w-3.5 h-3.5 text-emerald-700 animate-pulse" />
-                  <span>Pipeline Ekosistem Realtime</span>
+                  <span>{locale === "bm" ? "Aliran Pemprosesan Realtime" : "Realtime Data Pipeline"}</span>
                 </span>
-                <span className="text-[11px] font-mono text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                  Latency: &lt; 2.5s (Cached: ~120ms)
+                <span className="text-[11px] font-mono text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 font-bold">
+                  {locale === "bm" ? "Latensi: < 2.5s (Cached: ~120ms)" : "Latency: < 2.5s (Cached: ~120ms)"}
                 </span>
               </div>
 
-              {/* Step Flow Grid */}
+              {/* 4 Pipeline Step Nodes */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {/* Node 1: Client & Edge */}
+                {/* Node 1 */}
                 <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100/70 px-1.5 py-0.5 rounded">LAYER 1</span>
                       <Globe className="w-4 h-4 text-stone-400" />
                     </div>
-                    <h4 className="font-black text-stone-950 text-sm mt-2">Pelanggan &amp; Vercel Edge</h4>
-                    <p className="text-[11px] text-stone-600 font-medium mt-1">
-                      Antara muka dwibahasa (BM/EN) dihoskan di Vercel Cloud Serverless dengan global CDN.
+                    <h4 className="font-black text-stone-950 text-sm mt-2">
+                      {locale === "bm" ? "Pelanggan & Vercel Edge" : "Client & Vercel Edge"}
+                    </h4>
+                    <p className="text-[11px] text-stone-600 font-medium mt-1 leading-relaxed">
+                      {locale === "bm"
+                        ? "Antara muka dwibahasa (BM/EN) dihoskan di Vercel Cloud Serverless dengan CDN global."
+                        : "Bilingual UI (BM/EN) hosted on Vercel Cloud Serverless with global Edge CDN."}
                     </p>
                   </div>
                   <div className="text-[10px] font-mono bg-white p-2 rounded-lg border border-stone-200 text-stone-700">
@@ -334,16 +347,20 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Node 2: Supabase Cloud */}
+                {/* Node 2 */}
                 <div className="p-4 rounded-2xl bg-emerald-50/50 border-2 border-emerald-600/60 flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono font-bold text-emerald-900 bg-emerald-200 px-1.5 py-0.5 rounded">CLOUD TIER</span>
                       <Database className="w-4 h-4 text-emerald-700" />
                     </div>
-                    <h4 className="font-black text-emerald-950 text-sm mt-2">Supabase Postgres</h4>
-                    <p className="text-[11px] text-emerald-900/80 font-medium mt-1">
-                      Pangkalan data awan AWS (ap-southeast-1). Semakan cache penerbangan &amp; destinasi.
+                    <h4 className="font-black text-emerald-950 text-sm mt-2">
+                      {locale === "bm" ? "Supabase Postgres" : "Supabase Cloud Postgres"}
+                    </h4>
+                    <p className="text-[11px] text-emerald-900/80 font-medium mt-1 leading-relaxed">
+                      {locale === "bm"
+                        ? "Pangkalan data awan AWS (ap-southeast-1). Semakan cache penerbangan & destinasi."
+                        : "Managed AWS Postgres (ap-southeast-1). Flight & destination caching layer."}
                     </p>
                   </div>
                   <div className="text-[10px] font-mono bg-white p-2 rounded-lg border border-emerald-200 text-emerald-950">
@@ -351,16 +368,20 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Node 3: External APIs */}
+                {/* Node 3 */}
                 <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono font-bold text-blue-800 bg-blue-100 px-1.5 py-0.5 rounded">INGESTION</span>
                       <Cloud className="w-4 h-4 text-stone-400" />
                     </div>
-                    <h4 className="font-black text-stone-950 text-sm mt-2">Panggilan Selari API</h4>
-                    <p className="text-[11px] text-stone-600 font-medium mt-1">
-                      Kueri serentak jika cache miss untuk penerbangan, halal OSM, dan status pasport MY.
+                    <h4 className="font-black text-stone-950 text-sm mt-2">
+                      {locale === "bm" ? "Panggilan Selari API" : "Parallel Ingestion APIs"}
+                    </h4>
+                    <p className="text-[11px] text-stone-600 font-medium mt-1 leading-relaxed">
+                      {locale === "bm"
+                        ? "Kueri serentak jika cache miss untuk penerbangan, halal OSM, dan status pasport MY."
+                        : "Parallel fetch on cache miss: airfares, OSM halal nodes, and MY passport rules."}
                     </p>
                   </div>
                   <div className="text-[10px] font-mono bg-white p-2 rounded-lg border border-stone-200 text-stone-700">
@@ -368,16 +389,20 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Node 4: Gemini AI Engine */}
+                {/* Node 4 */}
                 <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded">AI ENGINE</span>
                       <Cpu className="w-4 h-4 text-amber-700" />
                     </div>
-                    <h4 className="font-black text-stone-950 text-sm mt-2">Gemini 1.5 Flash</h4>
-                    <p className="text-[11px] text-stone-600 font-medium mt-1">
-                      Anggaran kos hotel bilik kongsi, sentimen ulasan halal pelancong, &amp; jadual 4 hari.
+                    <h4 className="font-black text-stone-950 text-sm mt-2">
+                      {locale === "bm" ? "Google Gemini 1.5" : "Google Gemini 1.5 Flash"}
+                    </h4>
+                    <p className="text-[11px] text-stone-600 font-medium mt-1 leading-relaxed">
+                      {locale === "bm"
+                        ? "Anggaran kos hotel bilik kongsi, sentimen ulasan halal pelancong, & jadual 4 hari."
+                        : "Dynamic twin-share room modeling, halal reviews sentiment, & 4-day itineraries."}
                     </p>
                   </div>
                   <div className="text-[10px] font-mono bg-white p-2 rounded-lg border border-stone-200 text-stone-700">
@@ -387,27 +412,39 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Detailed Architecture Flow Explanation */}
+            {/* Request Lifecycle Steps */}
             <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-700 space-y-3 font-medium">
               <div className="font-bold text-stone-900 text-sm flex items-center gap-2">
                 <Zap className="w-4 h-4 text-emerald-800" />
-                <span>Aliran Kitaran Hayat Permintaan (Request Lifecycle)</span>
+                <span>{locale === "bm" ? "Aliran Kitaran Hayat Permintaan (Request Lifecycle)" : "End-to-End Request Lifecycle"}</span>
               </div>
               <ol className="list-decimal list-inside space-y-1.5 leading-relaxed text-stone-600 pl-1">
-                <li>Pengguna memasukkan bajet (RM), tempoh hari (1-14), bilangan pax (1-10), dan lapangan terbang asal di <code>/kalkulator</code>.</li>
-                <li>Laluan API <code>POST /api/recommend</code> menyemak jadual cache Supabase Postgres terlebih dahulu bagi mengelakkan pembaziran kuota API.</li>
-                <li>Jika berlaku cache miss, sistem menghantar panggilan selari (parallel fetch) ke Amadeus Flight API, Overpass OSM (kueri nod <code>diet:halal=yes</code>), dan Passport-Visa-API.</li>
-                <li>Model <strong>Google Gemini 1.5 Flash</strong> mengira unjuran kos hotel bilik kongsi <code>ceil(pax/2)</code>, makanan halal harian, dan menghasilkan itinerari realistik.</li>
-                <li>Hasil cadangan 3 destinasi terbaik yang muat dalam had bajet dikembalikan ke pelayar dan sejarah carian direkodkan ke Supabase.</li>
+                {locale === "bm" ? (
+                  <>
+                    <li>Pengguna memasukkan had bajet (RM), tempoh (1–14 hari), bilangan pax (1–10), dan lapangan terbang asal di <code>/kalkulator</code>.</li>
+                    <li>Laluan API <code>POST /api/recommend</code> menyemak jadual cache Supabase Postgres terlebih dahulu bagi mengelakkan pembaziran kuota API.</li>
+                    <li>Sekiranya berlaku cache miss, sistem menghantar panggilan selari ke Amadeus Flight API, Overpass OSM (nod <code>diet:halal=yes</code>), dan Passport-Visa-API.</li>
+                    <li>Model <strong>Google Gemini 1.5 Flash</strong> mengira unjuran kos hotel bilik kongsi <code>ceil(pax/2)</code>, makanan halal harian, dan menghasilkan itinerari realistik.</li>
+                    <li>Hasil cadangan 3 destinasi terbaik yang muat dalam had bajet dipaparkan bersama pecahan kos 4 dimensi dan disimpan ke jadual sejarah Supabase.</li>
+                  </>
+                ) : (
+                  <>
+                    <li>The traveler inputs their spending ceiling (RM), duration (1–14 days), party size (1–10 pax), and origin airport at <code>/kalkulator</code>.</li>
+                    <li>The API route <code>POST /api/recommend</code> inspects the Supabase Postgres cache layer first to conserve upstream API quotas.</li>
+                    <li>On a cache miss, parallel async requests query the Amadeus Flight API, Overpass OSM (geospatial <code>diet:halal=yes</code>), and Passport-Visa-API.</li>
+                    <li><strong>Google Gemini 1.5 Flash</strong> estimates twin-share room costs <code>ceil(pax/2)</code>, daily halal meals, and synthesizes 4-day realistic itineraries.</li>
+                    <li>The top 3 optimal destinations fitting within budget are delivered with transparent 4D cost breakdowns and logged to Supabase.</li>
+                  </>
+                )}
               </ol>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            5. TECH STACK SECTION (WITH CLOUD + AI BADGES)
-        ========================================================= */}
+        {/* =========================================================================
+            05. TECHNICAL STACK (Averis Guidelines: Tech Stack Section)
+        ========================================================================= */}
         <section id="tech-stack" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             {/* Averis Badges */}
@@ -423,12 +460,12 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight">
-              {locale === "bm" ? "Susunan Teknologi (Tech Stack) & Pengesahan Percuma" : "Tech Stack & 100% Free Tier Confirmation"}
+              {locale === "bm" ? "05 • Susunan Teknologi & Pengesahan 100% Percuma" : "05 • Technical Stack & 100% Free-Tier Audit"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
-                ? "Direka bentuk untuk ketahanan hackathon: semua komponen beroperasi pada pelan percuma tanpa memerlukan kad kredit."
-                : "Engineered for hackathon resilience: all infrastructure runs entirely within verified free tiers with zero credit card requirements."}
+                ? "Semua komponen beroperasi sepenuhnya pada pelan percuma tanpa memerlukan kad kredit mengikut garis panduan Averis."
+                : "All infrastructure runs strictly within verified free tiers with zero credit card dependencies per Averis guidelines."}
             </p>
           </div>
 
@@ -438,10 +475,10 @@ export default function HomePage() {
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
-                    <th className="py-3.5 px-4 sm:px-6">Lapisan (Layer)</th>
-                    <th className="py-3.5 px-4 sm:px-6">Teknologi &amp; Model</th>
-                    <th className="py-3.5 px-4 sm:px-6">Had Pelan Percuma</th>
-                    <th className="py-3.5 px-4 sm:px-6">Peranan Dalam Traversi</th>
+                    <th className="py-3.5 px-4 sm:px-6">{locale === "bm" ? "Lapisan (Layer)" : "Layer"}</th>
+                    <th className="py-3.5 px-4 sm:px-6">{locale === "bm" ? "Teknologi & Model" : "Technology & Model"}</th>
+                    <th className="py-3.5 px-4 sm:px-6">{locale === "bm" ? "Had Pelan Percuma" : "Free-Tier Limit"}</th>
+                    <th className="py-3.5 px-4 sm:px-6">{locale === "bm" ? "Peranan Dalam Traversi" : "Role in Traversi"}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-100 text-stone-600 font-medium">
@@ -456,7 +493,11 @@ export default function HomePage() {
                       Supabase Postgres (AWS Cloud)
                     </td>
                     <td className="py-3.5 px-4 sm:px-6">500MB DB, 1GB Storage, 50k MAU</td>
-                    <td className="py-3.5 px-4 sm:px-6">Menyimpan cache penerbangan &amp; destinasi, mengelakkan kueri berulang</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm"
+                        ? "Menyimpan cache penerbangan & destinasi, mengelakkan kueri berulang"
+                        : "Stores flight & destination cache, prevents redundant external API hits"}
+                    </td>
                   </tr>
 
                   <tr className="hover:bg-stone-50/50 transition-colors">
@@ -469,22 +510,30 @@ export default function HomePage() {
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-emerald-900">
                       Google Gemini 1.5 Flash
                     </td>
-                    <td className="py-3.5 px-4 sm:px-6">15 RPM, 1,500 Permintaan Sehari (RPD)</td>
-                    <td className="py-3.5 px-4 sm:px-6">Anggaran kos dinamik, justifikasi poket, itinerari, &amp; sentimen halal</td>
+                    <td className="py-3.5 px-4 sm:px-6">15 RPM, 1,500 RPD (Google AI Studio)</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm"
+                        ? "Anggaran kos dinamik, justifikasi poket, itinerari, & sentimen halal"
+                        : "Dynamic cost estimation, budget rationale, itineraries & halal review sentiment"}
+                    </td>
                   </tr>
 
                   <tr className="hover:bg-stone-50/50 transition-colors">
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">
                       <span className="flex items-center gap-2">
                         <Server className="w-3.5 h-3.5 text-emerald-700" />
-                        <span>Frontend &amp; Hosting</span>
+                        <span>Frontend &amp; Edge Hosting</span>
                       </span>
                     </td>
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-emerald-900">
                       Next.js 14 App Router on Vercel
                     </td>
                     <td className="py-3.5 px-4 sm:px-6">100GB Bandwidth, Edge Functions</td>
-                    <td className="py-3.5 px-4 sm:px-6">Rendering pelayan pantas, Fast Refresh, &amp; seni bina API modular</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm"
+                        ? "Rendering pelayan pantas, Fast Refresh, & seni bina API modular"
+                        : "Server-side rendering, Fast Refresh, & modular cloud API routing"}
+                    </td>
                   </tr>
 
                   <tr className="hover:bg-stone-50/50 transition-colors">
@@ -498,7 +547,11 @@ export default function HomePage() {
                       Overpass API (OpenStreetMap)
                     </td>
                     <td className="py-3.5 px-4 sm:px-6">10,000 Panggilan Sehari (Free OSS)</td>
-                    <td className="py-3.5 px-4 sm:px-6">Kueri nod nod spatial diet:halal=yes sebenar tanpa hardcode statik</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm"
+                        ? "Kueri nod spatial diet:halal=yes sebenar tanpa hardcode statik"
+                        : "Live spatial query of diet:halal=yes nodes without static hardcoding"}
+                    </td>
                   </tr>
 
                   <tr className="hover:bg-stone-50/50 transition-colors">
@@ -512,21 +565,29 @@ export default function HomePage() {
                       Passport-Visa-API + REST Countries
                     </td>
                     <td className="py-3.5 px-4 sm:px-6">Akses Terbuka Tanpa Had</td>
-                    <td className="py-3.5 px-4 sm:px-6">Semakan hak akses pasport Malaysia (180+ negara bebas visa)</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm"
+                        ? "Semakan hak akses pasport Malaysia (180+ negara bebas visa)"
+                        : "Malaysian passport privilege checking (180+ visa-exempt nations)"}
+                    </td>
                   </tr>
 
                   <tr className="hover:bg-stone-50/50 transition-colors">
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-stone-900">
                       <span className="flex items-center gap-2">
                         <Compass className="w-3.5 h-3.5 text-emerald-700" />
-                        <span>Harga Penerbangan</span>
+                        <span>Flight Pricing</span>
                       </span>
                     </td>
                     <td className="py-3.5 px-4 sm:px-6 font-bold text-emerald-900">
                       Amadeus Flight API (Test Env)
                     </td>
                     <td className="py-3.5 px-4 sm:px-6">2,000 Panggilan Sebulan</td>
-                    <td className="py-3.5 px-4 sm:px-6">Data tambang pergi-balik pasaran (disimpan 24 jam dalam flight_cache)</td>
+                    <td className="py-3.5 px-4 sm:px-6">
+                      {locale === "bm"
+                        ? "Data tambang pergi-balik pasaran (disimpan 24 jam dalam flight_cache)"
+                        : "Real market return airfare data (cached 24h in flight_cache)"}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -535,20 +596,20 @@ export default function HomePage() {
         </section>
 
 
-        {/* =========================================================
-            6. IMPLEMENTATION DETAILS & REVERSE-BUDGETING FORMULA
-        ========================================================= */}
-        <section id="pelaksanaan" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            06. IMPLEMENTATION DETAILS & MATHEMATICAL MODEL
+        ========================================================================= */}
+        <section id="implementation-details" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Butiran Pelaksanaan Teknikal" : "Technical Implementation Details"}
+              {locale === "bm" ? "06 • Butiran Pelaksanaan" : "06 • Implementation Details"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Formula Matematik & Logik Terbalik" : "Reverse Budgeting Mathematical Logic"}
+              {locale === "bm" ? "Formula Matematik 4 Dimensi & Logik Terbalik" : "4D Reverse-Budgeting Mathematical Model"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
-                ? "Bagaimana enjin Traversi menukar had perbelanjaan kasar kepada pengiraan tepat kos hidup di destinasi."
+                ? "Bagaimana enjin Traversi menukar had perbelanjaan kasar kepada pecahan realistik kos hidup di destinasi."
                 : "How Traversi mathematically transforms a top-level spending ceiling into precise on-the-ground travel costs."}
             </p>
           </div>
@@ -558,10 +619,10 @@ export default function HomePage() {
             <div className="p-6 sm:p-7 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-4">
               <h3 className="font-bold text-lg text-stone-950 flex items-center gap-2">
                 <Code2 className="w-5 h-5 text-emerald-800" />
-                <span>{locale === "bm" ? "Formula Matematik 4 Dimensi" : "4D Mathematical Formula"}</span>
+                <span>{locale === "bm" ? "Formula Pengiraan Kos Total" : "Total Cost Calculation Formula"}</span>
               </h3>
               <div className="p-4 rounded-xl bg-stone-50 font-mono text-xs text-stone-800 border border-stone-200 space-y-1.5">
-                <p className="text-emerald-800 font-bold">// Pengiraan Kos Total Kumpulan</p>
+                <p className="text-emerald-800 font-bold">// {locale === "bm" ? "Logik Kongsi Bilik & Kenderaan" : "Twin-Sharing & Rideshare Logic"}</p>
                 <p>rooms = Math.ceil(pax / 2);</p>
                 <p>nights = Math.max(0, days - 1);</p>
                 <p className="text-stone-950 font-bold pt-1.5 border-t border-stone-200">
@@ -569,7 +630,9 @@ export default function HomePage() {
                 </p>
               </div>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
-                Mencerminkan tingkah laku sebenar belia Malaysia: berkongsi bilik hotel berdua (twin-sharing <code>ceil(pax/2)</code>) dan berkongsi tambang kenderaan/Grab secara kumpulan untuk penjimatan maksimum.
+                {locale === "bm"
+                  ? "Mencerminkan tingkah laku sebenar belia Malaysia: berkongsi bilik hotel berdua (twin-sharing ceil(pax/2)) dan berkongsi tambang kenderaan/Grab secara kumpulan untuk penjimatan maksimum."
+                  : "Reflects real Malaysian travel dynamics: sharing twin rooms ceil(pax/2) and splitting rideshare fares across the group for maximum economy."}
               </p>
             </div>
 
@@ -580,20 +643,37 @@ export default function HomePage() {
                 <span>{locale === "bm" ? "Algoritma Penilaian (Value Score)" : "Value Score Metric"}</span>
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
-                Destinasi dinilai dan disusun secara automatik menggunakan skor nilai seimbang:
+                {locale === "bm"
+                  ? "Destinasi dinilai dan disusun secara automatik menggunakan skor nilai seimbang:"
+                  : "Destinations are ranked automatically by a multi-factor value scoring algorithm:"}
               </p>
               <ul className="text-xs text-stone-700 space-y-2 font-medium">
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />
-                  <span><strong>Ketepatan Bajet:</strong> Destinasi yang menggunakan 70% hingga 95% had belanja diberi keutamaan tertinggi bagi mengelakkan pembaziran baki.</span>
+                  <span>
+                    <strong>{locale === "bm" ? "Ketepatan Bajet: " : "Budget Sweet-Spot: "}</strong>
+                    {locale === "bm"
+                      ? "Destinasi yang menggunakan 70% hingga 95% had belanja diberi keutamaan tertinggi bagi mengelakkan pembaziran baki."
+                      : "Destinations utilizing 70% to 95% of available funds receive top priority to prevent idle leftover cash."}
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />
-                  <span><strong>Pengiraan Halal Overpass:</strong> &ge;100 nod halal diiktiraf sebagai &quot;Mudah&quot; (+15 mata), 20-99 &quot;Sederhana&quot; (+8 mata), &lt;20 &quot;Terhad&quot;.</span>
+                  <span>
+                    <strong>{locale === "bm" ? "Skor Halal Overpass: " : "Halal Overpass Score: "}</strong>
+                    {locale === "bm"
+                      ? "≥100 nod halal diiktiraf sebagai \"Mudah\" (+15 mata), 20-99 \"Sederhana\" (+8 mata), <20 \"Terhad\"."
+                      : "≥100 halal nodes scored as \"Easy\" (+15 pts), 20–99 \"Moderate\" (+8 pts), <20 \"Restricted\"."}
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />
-                  <span><strong>Akses Pasport MY:</strong> Destinasi bebas visa 30-90 hari atau penerbangan domestik MyKad diberi bonus markah kemudahan perjalanan.</span>
+                  <span>
+                    <strong>{locale === "bm" ? "Akses Pasport MY: " : "MY Passport Access: "}</strong>
+                    {locale === "bm"
+                      ? "Destinasi bebas visa 30-90 hari atau penerbangan domestik MyKad diberi bonus markah kemudahan perjalanan."
+                      : "Visa-exempt destinations (30–90 days) and domestic MyKad flights earn travel convenience bonuses."}
+                  </span>
                 </li>
               </ul>
             </div>
@@ -601,71 +681,89 @@ export default function HomePage() {
         </section>
 
 
-        {/* =========================================================
-            7. CHALLENGES FACED & ENGINEERING DECISIONS
-        ========================================================= */}
-        <section id="cabaran" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            07. CHALLENGES FACED (Averis Guidelines: Challenges Faced)
+        ========================================================================= */}
+        <section id="challenges-faced" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Cabaran & Keputusan Kejuruteraan" : "Challenges & Solutions"}
+              {locale === "bm" ? "07 • Cabaran Dihadapi" : "07 • Challenges Faced"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Halangan Teknikal & Penyelesaian Nyata" : "Technical Challenges & Engineering Decisions"}
+              {locale === "bm" ? "Halangan Kejuruteraan & Keputusan Seni Bina" : "Technical Challenges & Engineering Decisions"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
-                ? "Tiga cabaran kritikal yang dihadapi semasa membangunkan sistem dan bagaimana arkitek kami menyelesaikannya."
+                ? "Tiga cabaran kritikal yang dihadapi semasa pembinaan prototaip dan bagaimana arkitek kami menyelesaikannya."
                 : "Three key architectural hurdles encountered and the engineering choices made to overcome them."}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-3">
-              <h3 className="text-base font-bold text-stone-950">1. Had Kuota API Luaran</h3>
-              <p className="text-xs text-rose-700 font-bold">Cabaran:</p>
+              <h3 className="text-base font-bold text-stone-950">
+                {locale === "bm" ? "1. Had Kuota API Luaran" : "1. Upstream API Quota Limits"}
+              </h3>
+              <p className="text-xs text-rose-700 font-bold">{locale === "bm" ? "Cabaran:" : "Challenge:"}</p>
               <p className="text-xs text-stone-600 font-medium leading-relaxed">
-                Amadeus Test API menghadkan 2,000 panggilan sebulan, manakala kueri Overpass awam boleh mengalami latensi tinggi semasa demo.
+                {locale === "bm"
+                  ? "Amadeus Test API menghadkan 2,000 panggilan sebulan, manakala kueri Overpass awam boleh mengalami latensi tinggi semasa demo."
+                  : "Amadeus Test limits developers to 2,000 requests/month, while public Overpass OSM queries can experience demo latency."}
               </p>
-              <p className="text-xs text-emerald-800 font-bold pt-1">Penyelesaian Kejuruteraan:</p>
+              <p className="text-xs text-emerald-800 font-bold pt-1">{locale === "bm" ? "Penyelesaian Kejuruteraan:" : "Engineering Solution:"}</p>
               <p className="text-xs text-stone-600 font-medium leading-relaxed">
-                Membina lapisan cache multi-tier dalam Supabase Postgres (<code className="text-emerald-800 font-semibold">destinations_cache</code> &amp; <code className="text-emerald-800 font-semibold">flight_cache</code>) dengan jangka hayat TTL 24 jam.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-3">
-              <h3 className="text-base font-bold text-stone-950">2. Ketepatan Data Halal</h3>
-              <p className="text-xs text-rose-700 font-bold">Cabaran:</p>
-              <p className="text-xs text-stone-600 font-medium leading-relaxed">
-                Banyak platform pelancongan hanya menggunakan senarai statik yang lapuk, tidak mewakili realiti restoran di lokasi.
-              </p>
-              <p className="text-xs text-emerald-800 font-bold pt-1">Penyelesaian Kejuruteraan:</p>
-              <p className="text-xs text-stone-600 font-medium leading-relaxed">
-                Menghantar kueri nod spatial <code className="text-emerald-800 font-semibold">node[&quot;diet:halal&quot;=&quot;yes&quot;]</code> terus ke OpenStreetMap dan menyemak silang dengan sentimen ulasan Google via Gemini 1.5 Flash.
+                {locale === "bm"
+                  ? "Membina lapisan cache multi-tier dalam Supabase Postgres (destinations_cache & flight_cache) dengan jangka hayat TTL 24 jam."
+                  : "Engineered multi-tier caching in Supabase Postgres (destinations_cache & flight_cache) with 24h TTL."}
               </p>
             </div>
 
             <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-3">
-              <h3 className="text-base font-bold text-stone-950">3. Kekeliruan Visa Belia</h3>
-              <p className="text-xs text-rose-700 font-bold">Cabaran:</p>
+              <h3 className="text-base font-bold text-stone-950">
+                {locale === "bm" ? "2. Ketepatan Data Halal" : "2. Real Halal Authenticity"}
+              </h3>
+              <p className="text-xs text-rose-700 font-bold">{locale === "bm" ? "Cabaran:" : "Challenge:"}</p>
               <p className="text-xs text-stone-600 font-medium leading-relaxed">
-                Belia sering keliru antara visa on arrival, permohonan eVisa awal (K-ETA Korea), dan negara bebas visa sepenuhnya.
+                {locale === "bm"
+                  ? "Banyak platform pelancongan hanya menggunakan senarai statik yang lapuk, tidak mewakili realiti restoran di lokasi."
+                  : "Most travel platforms rely on static outdated lists that fail to reflect actual dining options on the ground."}
               </p>
-              <p className="text-xs text-emerald-800 font-bold pt-1">Penyelesaian Kejuruteraan:</p>
+              <p className="text-xs text-emerald-800 font-bold pt-1">{locale === "bm" ? "Penyelesaian Kejuruteraan:" : "Engineering Solution:"}</p>
               <p className="text-xs text-stone-600 font-medium leading-relaxed">
-                Penyepaduan modul semakan pasport automatik yang memaparkan label jelas (contoh: Visa Free 30 Hari, K-ETA, atau MyKad bagi penerbangan domestik).
+                {locale === "bm"
+                  ? "Menghantar kueri nod spatial node[\"diet:halal\"=\"yes\"] terus ke OpenStreetMap dan menyemak silang dengan sentimen Google via Gemini AI."
+                  : "Executed live node[\"diet:halal\"=\"yes\"] OpenStreetMap spatial queries paired with Gemini review sentiment analysis."}
+              </p>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-3">
+              <h3 className="text-base font-bold text-stone-950">
+                {locale === "bm" ? "3. Kekeliruan Visa Belia" : "3. Malaysian Visa Regulations"}
+              </h3>
+              <p className="text-xs text-rose-700 font-bold">{locale === "bm" ? "Cabaran:" : "Challenge:"}</p>
+              <p className="text-xs text-stone-600 font-medium leading-relaxed">
+                {locale === "bm"
+                  ? "Belia sering keliru antara visa on arrival, permohonan eVisa awal (K-ETA Korea), dan negara bebas visa sepenuhnya."
+                  : "Youth frequently confuse visa-on-arrival, pre-entry eVisa (like K-ETA), and true visa-exempt destinations."}
+              </p>
+              <p className="text-xs text-emerald-800 font-bold pt-1">{locale === "bm" ? "Penyelesaian Kejuruteraan:" : "Engineering Solution:"}</p>
+              <p className="text-xs text-stone-600 font-medium leading-relaxed">
+                {locale === "bm"
+                  ? "Penyepaduan modul semakan pasport automatik yang memaparkan label jelas (contoh: Visa Free 30 Hari, K-ETA, atau MyKad bagi domestik)."
+                  : "Integrated automated passport rules returning clear tags (e.g. Visa Free 30 Days, K-ETA, or MyKad for domestic)."}
               </p>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            8. FUTURE ROADMAP
+        {/* =========================================================================
+            08. FUTURE ROADMAP (Averis Guidelines: Future Roadmap)
         ========================================================= */}
-        <section id="roadmap" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        <section id="future-roadmap" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Pelan Hala Tuju Produk" : "Product Roadmap"}
+              {locale === "bm" ? "08 • Pelan Hala Tuju" : "08 • Future Roadmap"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
               {locale === "bm" ? "Dari Prototaip Hackathon Ke Ekosistem Komersial" : "From Hackathon Prototype to Commercial Ecosystem"}
@@ -673,69 +771,75 @@ export default function HomePage() {
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
                 ? "Langkah perancangan strategik 3 fasa untuk mengembangkan Traversi menjadi aplikasi pengembaraan nombor satu belia."
-                : "A 3-phase execution strategy taking Traversi from hackathon MVP into Malaysia's premier youth travel companion."}
+                : "A 3-phase execution roadmap scaling Traversi into Malaysia's premier youth travel companion."}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-3xl bg-emerald-50/70 border-2 border-emerald-600 space-y-3">
               <div className="inline-block px-3 py-1 rounded-full bg-emerald-800 text-white text-xs font-bold">
-                FASA 1: MVP
+                {locale === "bm" ? "FASA 1: MVP" : "PHASE 1: MVP"}
               </div>
-              <h3 className="font-bold text-base text-stone-950">Averis Hackathon 2026 (18-22 Sept)</h3>
+              <h3 className="font-bold text-base text-stone-950">
+                {locale === "bm" ? "Averis x Monash Hackathon 2026" : "Averis x Monash Hackathon 2026"}
+              </h3>
               <ul className="text-xs text-stone-700 space-y-1.5 font-medium">
-                <li>&bull; Enjin Reverse-Budgeting fleksibel (RM500-RM10,000)</li>
-                <li>&bull; Pecahan 4 dimensi kos per pax &amp; perkongsian bilik</li>
-                <li>&bull; Semakan Halal Overpass OSM &amp; Pasport Malaysia</li>
-                <li>&bull; Penjanaan jadual 4 hari realistik dengan Gemini AI</li>
-                <li>&bull; Lapisan cache Supabase Postgres untuk penjimatan kuota</li>
+                <li>&bull; {locale === "bm" ? "Enjin Reverse-Budgeting fleksibel (RM500-RM10,000)" : "Flexible reverse-budgeting engine (RM500–RM10,000)"}</li>
+                <li>&bull; {locale === "bm" ? "Pecahan 4 dimensi kos per pax & perkongsian bilik" : "4D cost breakdown with twin-sharing room allocation"}</li>
+                <li>&bull; {locale === "bm" ? "Semakan Halal Overpass OSM & Pasport Malaysia" : "Live Overpass OSM halal & Malaysian passport rules"}</li>
+                <li>&bull; {locale === "bm" ? "Penjanaan jadual 4 hari realistik dengan Gemini AI" : "Curated 4-day realistic itineraries with Gemini AI"}</li>
+                <li>&bull; {locale === "bm" ? "Lapisan cache Supabase Postgres untuk penjimatan kuota" : "Supabase Postgres caching layer conserving upstream quotas"}</li>
               </ul>
             </div>
 
             <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-3">
               <div className="inline-block px-3 py-1 rounded-full bg-stone-100 text-stone-800 text-xs font-bold">
-                FASA 2: Komuniti
+                {locale === "bm" ? "FASA 2: Komuniti" : "PHASE 2: Community"}
               </div>
-              <h3 className="font-bold text-base text-stone-950">Suku Keempat 2026</h3>
+              <h3 className="font-bold text-base text-stone-950">
+                {locale === "bm" ? "Suku Keempat 2026" : "Q4 2026 Validation"}
+              </h3>
               <ul className="text-xs text-stone-700 space-y-1.5 font-medium">
-                <li>&bull; Modul submit kos sebenar oleh belia (Crowdsourced validation)</li>
-                <li>&bull; Log masuk Supabase Auth (Google OAuth) rasmi</li>
-                <li>&bull; Eksport jadual harian dan kiraan kos terus ke WhatsApp &amp; PDF</li>
-                <li>&bull; Ciri perbandingan multi-destinasi bersebelahan (Side-by-side)</li>
+                <li>&bull; {locale === "bm" ? "Modul submit kos sebenar oleh belia (Crowdsourced validation)" : "Crowdsourced on-ground expense validation by travelers"}</li>
+                <li>&bull; {locale === "bm" ? "Log masuk Supabase Auth (Google OAuth) rasmi" : "Production Supabase Auth with Google OAuth"}</li>
+                <li>&bull; {locale === "bm" ? "Eksport jadual harian dan kiraan kos terus ke WhatsApp & PDF" : "One-click export of itineraries & budgets to WhatsApp/PDF"}</li>
+                <li>&bull; {locale === "bm" ? "Ciri perbandingan multi-destinasi bersebelahan" : "Side-by-side multi-destination budget comparison"}</li>
               </ul>
             </div>
 
             <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm space-y-3">
               <div className="inline-block px-3 py-1 rounded-full bg-stone-100 text-stone-800 text-xs font-bold">
-                FASA 3: Ekosistem
+                {locale === "bm" ? "FASA 3: Ekosistem" : "PHASE 3: Ecosystem"}
               </div>
-              <h3 className="font-bold text-base text-stone-950">Tahun 2027</h3>
+              <h3 className="font-bold text-base text-stone-950">
+                {locale === "bm" ? "Tahun 2027" : "Year 2027 Scale"}
+              </h3>
               <ul className="text-xs text-stone-700 space-y-1.5 font-medium">
-                <li>&bull; Pautan affiliate rasmi AirAsia, Skyscanner, &amp; Agoda</li>
-                <li>&bull; Aplikasi Web Progresif (PWA) mod luar talian (offline mode)</li>
-                <li>&bull; Integrasi e-dompet belia tempatan (Touch &apos;n Go eWallet)</li>
-                <li>&bull; Pemantauan amaran tambang murah automatik via emel</li>
+                <li>&bull; {locale === "bm" ? "Pautan affiliate rasmi AirAsia, Skyscanner, & Agoda" : "Affiliate integration with AirAsia, Skyscanner, & Agoda"}</li>
+                <li>&bull; {locale === "bm" ? "Aplikasi Web Progresif (PWA) mod luar talian" : "Progressive Web App (PWA) with offline itinerary mode"}</li>
+                <li>&bull; {locale === "bm" ? "Integrasi e-dompet belia tempatan (Touch 'n Go eWallet)" : "Local e-wallet integration (Touch 'n Go eWallet budgeting)"}</li>
+                <li>&bull; {locale === "bm" ? "Pemantauan amaran tambang murah automatik via emel" : "Automated fare drop alert notifications via email"}</li>
               </ul>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            9. TEAM (4 ORANG)
-        ========================================================= */}
-        <section id="pasukan" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            09. TEAM GOVERNANCE (4-Member Team matching README.md & TASKS.md)
+        ========================================================================= */}
+        <section id="team-governance" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              {locale === "bm" ? "Pasukan Pembangun" : "Development Team"}
+              {locale === "bm" ? "09 • Pasukan Pembangun" : "09 • Team Governance"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Pasukan 4 Orang Traversi" : "Traversi 4-Member Team"}
+              {locale === "bm" ? "Pasukan 4 Orang Traversi (Averis x Monash 2026)" : "Traversi 4-Member Team (Averis x Monash 2026)"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
                 ? "Gabungan kepakaran kejuruteraan perisian, seni bina awan, penyelidikan model AI, dan integrasi API luaran."
-                : "Multidisciplinary team spanning full-stack software engineering, cloud architectures, AI systems, and API integration."}
+                : "A multidisciplinary team spanning full-stack engineering, cloud architecture, AI systems, and API integration."}
             </p>
           </div>
 
@@ -747,24 +851,28 @@ export default function HomePage() {
               </div>
               <div>
                 <h3 className="font-bold text-stone-950 text-base">Amir Hakim</h3>
-                <p className="text-xs font-bold text-emerald-800 mt-0.5">Team Lead &amp; Full-Stack</p>
+                <p className="text-xs font-bold text-emerald-800 mt-0.5">{locale === "bm" ? "Ketua Pasukan & Full-Stack" : "Team Lead & Full-Stack"}</p>
               </div>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
-                Seni bina Next.js 14 App Router, enjin reverse-budgeting, rekaan UI anti-slop, dan koordinasi projek.
+                {locale === "bm"
+                  ? "Seni bina Next.js 14 App Router, enjin reverse-budgeting, rekaan UI anti-slop, dan koordinasi projek."
+                  : "Next.js 14 architecture, reverse-budgeting logic, clean anti-slop design system, and project direction."}
               </p>
             </div>
 
-            {/* 2. Moi */}
+            {/* 2. Moi (Amir Azib) */}
             <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm text-center space-y-3 hover:border-emerald-300 transition-colors">
               <div className="w-14 h-14 rounded-2xl bg-stone-100 text-stone-800 font-black text-lg flex items-center justify-center mx-auto border border-stone-200">
                 M
               </div>
               <div>
-                <h3 className="font-bold text-stone-950 text-base">Moi</h3>
-                <p className="text-xs font-bold text-emerald-800 mt-0.5">Cloud &amp; Database</p>
+                <h3 className="font-bold text-stone-950 text-base">Moi (Amir Azib)</h3>
+                <p className="text-xs font-bold text-emerald-800 mt-0.5">{locale === "bm" ? "Pakar Awan & Pangkalan Data" : "Cloud & Database Architect"}</p>
               </div>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
-                Skema Supabase Cloud Postgres, lapisan cache multi-tier (flight &amp; destinations), dan keselamatan data.
+                {locale === "bm"
+                  ? "Skema Supabase Cloud Postgres, lapisan cache multi-tier (flight & destinations), dan keselamatan data."
+                  : "Supabase Cloud Postgres schemas, multi-tier caching (flight & destination), and authentication security."}
               </p>
             </div>
 
@@ -775,63 +883,67 @@ export default function HomePage() {
               </div>
               <div>
                 <h3 className="font-bold text-stone-950 text-base">Eqhlas</h3>
-                <p className="text-xs font-bold text-emerald-800 mt-0.5">AI &amp; LLM Engineer</p>
+                <p className="text-xs font-bold text-emerald-800 mt-0.5">{locale === "bm" ? "Jurutera AI & LLM" : "AI & LLM Engineer"}</p>
               </div>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
-                Prompt engineering Google Gemini 1.5 Flash, anggaran kos makanan/hotel, dan penjanaan jadual 4 hari.
+                {locale === "bm"
+                  ? "Prompt engineering Google Gemini 1.5 Flash, anggaran kos makanan/hotel, dan penjanaan jadual 4 hari."
+                  : "Google Gemini 1.5 Flash prompt engineering, dynamic cost modeling, and 4-day itinerary generation."}
               </p>
             </div>
 
-            {/* 4. Paan */}
+            {/* 4. Paan (Daniel Farhan) */}
             <div className="p-6 rounded-3xl bg-white border border-stone-200 shadow-sm text-center space-y-3 hover:border-emerald-300 transition-colors">
               <div className="w-14 h-14 rounded-2xl bg-stone-100 text-stone-800 font-black text-lg flex items-center justify-center mx-auto border border-stone-200">
                 P
               </div>
               <div>
-                <h3 className="font-bold text-stone-950 text-base">Paan</h3>
-                <p className="text-xs font-bold text-emerald-800 mt-0.5">External APIs</p>
+                <h3 className="font-bold text-stone-950 text-base">Paan (Daniel Farhan)</h3>
+                <p className="text-xs font-bold text-emerald-800 mt-0.5">{locale === "bm" ? "Penyepaduan API Luaran" : "External APIs & Integration"}</p>
               </div>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
-                Penyepaduan Amadeus Flight API, Overpass OSM geospatial halal queries, Passport-Visa-API, dan pertukaran mata wang.
+                {locale === "bm"
+                  ? "Penyepaduan Amadeus Flight API, Overpass OSM geospatial halal queries, Passport-Visa-API, dan pertukaran mata wang."
+                  : "Amadeus Flight API integration, Overpass OSM geospatial halal queries, Passport-Visa-API, and FX exchange."}
               </p>
             </div>
           </div>
         </section>
 
 
-        {/* =========================================================
-            10. FINAL CTA: KALKULATOR + GITHUB + LIVE DEMO
-        ========================================================= */}
-        <section id="cta" className="py-16 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200/80 scroll-mt-20">
+        {/* =========================================================================
+            10. LIVE PROTOTYPE & SUBMISSION LINKS (Averis Guidelines: Mandatory Links)
+        ========================================================================= */}
+        <section id="live-prototype" className="py-16 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200/80 scroll-mt-20">
           <div className="p-8 sm:p-12 rounded-3xl bg-emerald-50/80 border border-emerald-200 shadow-sm space-y-6">
-            {/* Live Demo Status Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-emerald-300 text-xs font-bold text-emerald-900 shadow-2xs">
+            {/* Live Status Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-emerald-300 text-xs font-bold text-emerald-900 shadow-2xs">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping" />
-              <span>Live Demo Beroperasi (Averis Hackathon 2026)</span>
+              <span>{locale === "bm" ? "Prototaip Beroperasi Sepenuhnya (Averis Hackathon 2026)" : "Fully Operational Prototype (Averis Hackathon 2026)"}</span>
             </div>
 
             <h2 className="text-2xl sm:text-4xl font-black text-stone-950 tracking-tight">
-              {locale === "bm" ? "Bersedia Merancang Trip Mengikut Bajet Anda?" : "Ready to Plan a Trip Within Your Budget?"}
+              {locale === "bm" ? "Bersedia Merancang Trip Mengikut Bajet Anda?" : "Ready to Plan a Trip Within Your Actual Budget?"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 max-w-xl mx-auto font-medium leading-relaxed">
               {locale === "bm"
-                ? "Masukkan had bajet poket anda dan biarkan Traversi carikan destinasi yang benar-benar muat tanpa sebarang teka-teki."
-                : "Enter your spending limit and let Traversi compute destinations that genuinely fit return airfare, rooms, meals, and visas."}
+                ? "Masukkan had bajet wang poket anda sekarang dan lihat destinasi yang benar-benar muat tanpa sebarang teka-teki."
+                : "Enter your spending limit now and let Traversi compute destinations that genuinely fit return airfare, rooms, meals, and visas."}
             </p>
 
-            {/* Action Buttons: Calculator, GitHub, Live Demo */}
+            {/* Action Buttons strictly reflecting Averis Submission Components */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-              {/* Primary: Calculator */}
+              {/* 1. Working Prototype / Calculator */}
               <Link
                 href="/kalkulator"
                 className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-sm flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-900/15 transition-all cursor-pointer"
               >
                 <Calculator className="w-4 h-4" />
-                <span>{locale === "bm" ? "Buka Kalkulator Bajet" : "Open Budget Calculator"}</span>
+                <span>{locale === "bm" ? "Buka Kalkulator Bajet" : "Launch Budget Calculator"}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
-              {/* Secondary: GitHub Repo */}
+              {/* 2. GitHub Repo Link */}
               <a
                 href="https://github.com/cs-mirakim/traversi"
                 target="_blank"
@@ -843,13 +955,13 @@ export default function HomePage() {
                 <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
               </a>
 
-              {/* Tertiary: Live Demo Anchor */}
+              {/* 3. Live Prototype Link */}
               <a
                 href="/kalkulator"
                 className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-emerald-100/70 hover:bg-emerald-100 text-emerald-950 font-bold text-sm flex items-center justify-center gap-2 border border-emerald-200 transition-colors"
               >
                 <Sparkles className="w-4 h-4 text-emerald-700" />
-                <span>Live Demo</span>
+                <span>{locale === "bm" ? "Demo Prototaip Langsung" : "Live Prototype Demo"}</span>
               </a>
             </div>
           </div>
@@ -864,7 +976,9 @@ export default function HomePage() {
             <span>Traversi &bull; {locale === "bm" ? "Travel Versi Anda" : "Your Trip, Your Version"}</span>
           </div>
           <p className="text-stone-500 max-w-md mx-auto">
-            Dibina sempena <strong>Averis Hackathon 2026</strong> (Cloud + AI Edition). 
+            {locale === "bm" 
+              ? "Dibina sempena Averis x Monash Hackathon 2026 (Edisi Cloud + AI)."
+              : "Built for Averis x Monash Hackathon 2026 (Cloud + AI Edition)."}
           </p>
           <div className="flex items-center justify-center gap-4 text-xs font-semibold text-emerald-800">
             <a href="https://github.com/cs-mirakim/traversi" target="_blank" rel="noreferrer" className="hover:underline flex items-center gap-1">
@@ -873,15 +987,16 @@ export default function HomePage() {
             </a>
             <span>&bull;</span>
             <Link href="/kalkulator" className="hover:underline">
-              Kalkulator Bajet
+              {locale === "bm" ? "Kalkulator Bajet" : "Budget Calculator"}
             </Link>
             <span>&bull;</span>
-            <a href="#architecture" className="hover:underline">
-              Seni Bina Supabase &amp; Gemini
+            <a href="#technical-architecture" className="hover:underline">
+              {locale === "bm" ? "Seni Bina Supabase & Gemini" : "Supabase & Gemini Architecture"}
             </a>
           </div>
           <div className="pt-2 text-[11px] text-stone-400 border-t border-stone-100">
-            Pasukan 4 Orang: <strong>Amir Hakim</strong> &bull; <strong>Moi</strong> &bull; <strong>Eqhlas</strong> &bull; <strong>Paan</strong>
+            {locale === "bm" ? "Pasukan 4 Orang: " : "4-Member Team: "}
+            <strong>Amir Hakim</strong> &bull; <strong>Moi (Amir Azib)</strong> &bull; <strong>Eqhlas</strong> &bull; <strong>Paan (Daniel Farhan)</strong>
           </div>
         </div>
       </footer>
