@@ -175,7 +175,7 @@ export default function ItineraryModal({
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
                 <h3 className="text-sm font-bold text-stone-100">
-                  {locale === "bm" ? "Pautan Tempahan Pintar (Deep-Link)" : "Smart Booking Deep Links"}
+                  {locale === "bm" ? "Pautan Tempahan Terus (Deep-Link)" : "Direct Booking Deep Links"}
                 </h3>
               </div>
               <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-md bg-stone-800 text-stone-300 border border-stone-700">

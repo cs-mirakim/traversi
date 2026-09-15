@@ -345,7 +345,7 @@ export default function ComparisonTable() {
               <th className="p-3 text-center bg-emerald-50 text-emerald-950 border-x border-emerald-200 w-[15%]">
                 <div className="tracking-tight text-xs sm:text-sm font-black text-emerald-950">TRAVERSI</div>
                 <div className="text-[9px] sm:text-[10px] text-emerald-800 font-bold uppercase tracking-wider">
-                  {locale === "bm" ? "Enjin Bajet Pintar" : "Smart Budget Engine"}
+                  {locale === "bm" ? "Bajet Terbalik" : "Reverse-Budgeting"}
                 </div>
               </th>
               <th className="p-2.5 text-center text-stone-700 font-bold w-[12.5%]">
