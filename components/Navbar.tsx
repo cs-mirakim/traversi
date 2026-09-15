@@ -271,8 +271,8 @@ export default function Navbar() {
       {/* =========================================================================
           2. TOP HEADER FOR MAIN CONTENT (OFFSET BY md:pl-72 FOR DESKTOP SIDEBAR)
       ========================================================================= */}
-      <header className="sticky top-0 z-30 w-full md:pl-72 border-b border-stone-200 bg-white/95 backdrop-blur-md">
-        <div className="w-full px-4 sm:px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-30 w-full md:pl-72 h-16 border-b border-stone-200 bg-white/95 backdrop-blur-md flex items-center">
+        <div className="w-full px-4 sm:px-8 h-full flex items-center justify-between">
           {/* Mobile Only: Menu Trigger + Brand */}
           <div className="flex items-center gap-3 md:hidden">
             <button

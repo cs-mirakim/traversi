@@ -90,14 +90,6 @@ export default function HomePage() {
               <span>{locale === "bm" ? "Mula Kira Bajet Sekarang" : "Calculate My Budget Now"}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-
-            <a
-              href="#technical-architecture"
-              className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-base flex items-center justify-center gap-2 border border-stone-300 shadow-2xs hover:border-stone-400 transition-colors"
-            >
-              <Layers className="w-4 h-4 text-emerald-800" />
-              <span>{locale === "bm" ? "Seni Bina Supabase & AI" : "Supabase & AI Architecture"}</span>
-            </a>
           </div>
 
           {/* Quick Metrics */}
