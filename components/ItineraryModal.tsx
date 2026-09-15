@@ -128,9 +128,11 @@ export default function ItineraryModal({
           {/* Badges */}
           <div>
             <BadgeHalalVisa
-              visaStatusText={destination.visaStatusText}
-              halalScore={destination.halalScore}
-              halalDescription={destination.halalDescription}
+              visaBadge={result.visa?.badge}
+              visaNote={result.visa?.note}
+              halalScore={result.halal?.score}
+              halalCount={result.halal?.count}
+              halalDescription={result.halal?.description}
               currencyCode={destination.currencyCode}
             />
           </div>
@@ -139,13 +141,13 @@ export default function ItineraryModal({
           <div className="space-y-2">
             <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-emerald-800" />
-              Pecahan Bajet Perjalanan ({daysInput} Hari, {paxInput} Pax)
+              Pecahan Bajet Perjalanan ({daysInput} Hari, {paxInput} Pax &bull; {costBreakdown.rooms} Bilik)
             </h3>
             <BreakdownBar
-              flight={costBreakdown.flightTotal}
-              hotel={costBreakdown.hotelTotal}
-              food={costBreakdown.foodTotal}
-              transport={costBreakdown.transportTotal}
+              flight={costBreakdown.flightTotalRM}
+              hotel={costBreakdown.hotelTotalRM}
+              food={costBreakdown.foodTotalRM}
+              transport={costBreakdown.transportTotalRM}
               total={totalCost}
             />
           </div>

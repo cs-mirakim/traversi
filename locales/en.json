@@ -1,0 +1,82 @@
+{
+  "app": {
+    "name": "Traversi",
+    "tagline": "Your Trip, Your Version",
+    "subtitle": "Reverse-Budgeting Travel Recommendation Engine for Malaysian Youth",
+    "hackathon": "Averis Hackathon 2026",
+    "badge": "Averis Hackathon 2026 | Cloud + AI Edition"
+  },
+  "nav": {
+    "pitchDeck": "Pitch Deck",
+    "kalkulator": "Calculator",
+    "architecture": "Architecture",
+    "comparison": "Comparison",
+    "roadmap": "Roadmap",
+    "cta": "Open Calculator"
+  },
+  "hero": {
+    "badge": "First Reverse-Budgeting Engine in Malaysia",
+    "title": "You Enter Your Budget,\nTraversi Finds the Fit.",
+    "description": "Over 70% of travelers exceed their budget because flight tickets are only half the picture. Traversi computes total costs: return flights, shared hotel rooms, daily halal meals, and local ground transport from day one.",
+    "ctaPrimary": "Calculate My Budget Now",
+    "ctaSecondary": "View System Architecture",
+    "stat1": "100% Transparent",
+    "stat1Sub": "4-dimensional cost split",
+    "stat2": "Overpass OSM",
+    "stat2Sub": "Live halal premise audit",
+    "stat3": "Malaysian Passport",
+    "stat3Sub": "Automated visa regulations"
+  },
+  "problem": {
+    "tag": "Real Problem for Youth",
+    "title": "Why Do Independent Travelers Overspend?",
+    "p1": "Booking platforms display flights for RM280, but ground expenses easily exceed RM2,000 without realizing it.",
+    "p2": "Travelers juggle 4 different apps: one for flights, one for hotels, one for visa rules, and one for halal food spots.",
+    "p3": "Not a single commercial tool starts from your wallet's perspective."
+  },
+  "pillars": {
+    "tag": "Three Core Pillars",
+    "title": "Engineered for Malaysian Travelers",
+    "pillar1Title": "Realistic 4D Cost Breakdown",
+    "pillar1Desc": "Far beyond just flights. We compute return airfare, shared twin rooms, daily halal food, and rideshare transport.",
+    "pillar2Title": "Automated Halal & Visa Checks",
+    "pillar2Desc": "Live OpenStreetMap halal query integration paired with Malaysian passport visa regulations without guesswork.",
+    "pillar3Title": "Authentic 4-Day Itineraries",
+    "pillar3Desc": "Carefully balanced day-by-day itineraries tailored for youth pacing, culture, and memorable food spots."
+  },
+  "kalkulator": {
+    "title": "Reverse-Budgeting Calculator",
+    "subtitle": "Specify your maximum budget, trip duration, number of travelers, and preferred vibe.",
+    "budgetLabel": "Budget (RM)",
+    "budgetHelp": "Value between RM500 and RM10,000",
+    "budgetModeTotal": "Total Group Budget",
+    "budgetModePerPax": "Per Person (Per Pax)",
+    "daysLabel": "Duration",
+    "daysUnit": "Days",
+    "paxLabel": "Travelers",
+    "paxUnit": "Pax",
+    "originLabel": "Departing From",
+    "vibeLabel": "Atmosphere & Vibe",
+    "submitBtn": "Find Matching Destinations",
+    "searching": "Querying OpenStreetMap & Passport API...",
+    "resultsTitle": "Optimal Destinations Within Your Budget",
+    "resultsSubtitle": "Ranked by highest savings and trip satisfaction.",
+    "noResults": "No destinations found within this budget. Try increasing budget or adjusting trip length.",
+    "roomShareNote": "Hotel rooms calculated on twin-sharing basis (ceil(pax/2))",
+    "breakdownFlight": "Flights",
+    "breakdownHotel": "Hotel",
+    "breakdownFood": "Food & Dining",
+    "breakdownTransport": "Ground Transport",
+    "savings": "Estimated Savings",
+    "viewItinerary": "View 4-Day Itinerary",
+    "bookFlight": "Check Flights on AirAsia/Skyscanner"
+  },
+  "itinerary": {
+    "modalTitle": "Recommended 4-Day Itinerary",
+    "close": "Close",
+    "day": "Day",
+    "activities": "Highlights & Activities",
+    "food": "Curated Halal Food Spot",
+    "estCost": "Est. Daily Spend"
+  }
+}

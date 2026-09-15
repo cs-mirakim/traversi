@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, X } from "lucide-react";
+import { Check, X, ShieldCheck, Sparkles } from "lucide-react";
 
 interface ComparisonFeature {
   title: string;
@@ -16,7 +16,7 @@ interface ComparisonFeature {
 const COMPARISON_DATA: ComparisonFeature[] = [
   {
     title: "Anggaran Kos Penuh 4 Dimensi (Tiket + Hotel + Makan + Grab)",
-    description: "Mengira kos realistik 4 perbelanjaan wajib dalam satu paparan angka perbelanjaan telus.",
+    description: "Mengira kos realistik 4 perbelanjaan wajib dalam satu paparan angka perbelanjaan telus tanpa caj tersembunyi.",
     traversi: true,
     skyscanner: false,
     googleFlights: false,
@@ -25,7 +25,7 @@ const COMPARISON_DATA: ComparisonFeature[] = [
   },
   {
     title: "Formula Bajet Terbalik (\"Reverse-Budgeting\")",
-    description: "Pengguna hanya letak bajet poket, sistem yang tentukan destinasi mana yang lepas bajet.",
+    description: "Pengguna hanya letak bajet poket, sistem yang tentukan destinasi mana yang muat bajet mengikut bilangan pax & hari.",
     traversi: true,
     skyscanner: false,
     googleFlights: false,
@@ -33,8 +33,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     klook: false,
   },
   {
-    title: "Semakan Pasport Malaysia & Akses Bebas Visa",
-    description: "Amaran automatik status visa dan had tempoh hari sah khusus untuk warganegara Malaysia.",
+    title: "Semakan Pasport Malaysia & Akses Bebas Visa Dinamik",
+    description: "Semakan automatik status visa dan tempoh hari sah khusus untuk pemegang pasport Malaysia (180+ negara).",
     traversi: true,
     skyscanner: false,
     googleFlights: false,
@@ -42,8 +42,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     klook: false,
   },
   {
-    title: "Skor & Panduan Port Makanan Halal Tempatan",
-    description: "Pengesanan kemudahan mencari premis makanan halal serta cadangan port spesifik di setiap bandar.",
+    title: "Skor Halal Berpusatkan OpenStreetMap (Overpass API)",
+    description: "Mengesan bilangan premis makanan diet:halal sebenar di sekitar koordinat bandar destinasi secara geospatial.",
     traversi: true,
     skyscanner: false,
     googleFlights: false,
@@ -51,8 +51,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     klook: false,
   },
   {
-    title: "Mod Bajet Fleksibel (Per Pax @ Jumlah Kumpulan)",
-    description: "Kiraan automatik sama ada perbelanjaan dikira bagi setiap individu atau kos kongsi kumpulan.",
+    title: "Mod Bajet Fleksibel (Per Pax vs Jumlah Kumpulan)",
+    description: "Kiraan automatik sama ada perbelanjaan dikira bagi setiap individu atau perkongsian bilik hotel (twin sharing).",
     traversi: true,
     skyscanner: false,
     googleFlights: false,
@@ -60,8 +60,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     klook: false,
   },
   {
-    title: "Penjanaan Itinerari Harian Mengikut Baki Poket",
-    description: "Cadangan aktiviti harian bersesuaian yang dipadankan dengan baki lebihan simpanan sebenar.",
+    title: "Penjanaan Itinerari 4 Hari Realistik Belia",
+    description: "Cadangan aktiviti harian berbaloi yang dipadankan dengan baki lebihan simpanan sebenar tanpa kejar jadual.",
     traversi: true,
     skyscanner: false,
     googleFlights: false,
@@ -70,7 +70,7 @@ const COMPARISON_DATA: ComparisonFeature[] = [
   },
   {
     title: "100% Percuma & Dioptimumkan untuk Belia Malaysia",
-    description: "Bebas tanpa caj komisen tiket terselindung atau kos tersembunyi agensi pelancongan.",
+    description: "Bebas tanpa sebarang caj tersembunyi, komisen ejen terselindung, atau bayaran langganan korporat.",
     traversi: true,
     skyscanner: "separa",
     googleFlights: "separa",
@@ -81,94 +81,74 @@ const COMPARISON_DATA: ComparisonFeature[] = [
 
 export default function ComparisonTable() {
   return (
-    <section className="py-12 sm:py-16 px-4 sm:px-6 max-w-6xl mx-auto">
-      {/* Header Badge & Title */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-950 mb-2 border border-emerald-300">
-            <span>Penanda Aras Ekosistem</span>
-            <span className="text-emerald-700">•</span>
-            <span className="text-emerald-800 font-medium normal-case tracking-normal">Audit Platform Perjalanan 2026</span>
-          </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-stone-950 tracking-tight">
-            Perbandingan Traversi Berbanding Platform Komersial
-          </h2>
-        </div>
-
-        <div className="shrink-0">
-          <span className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-900 border border-emerald-300 shadow-2xs">
-            TRAVERSI: Malaysia-First
-          </span>
-        </div>
-      </div>
-
+    <div className="w-full">
       {/* Table Container */}
-      <div className="w-full overflow-x-auto rounded-2xl border border-stone-300 bg-white shadow-sm">
-        <table className="w-full text-left border-collapse min-w-[760px]">
+      <div className="w-full overflow-x-auto rounded-3xl border-2 border-emerald-300/40 bg-[#ecfdf5] text-[#022c22] shadow-2xl">
+        <table className="w-full text-left border-collapse min-w-[780px]">
           <thead>
-            <tr className="border-b border-stone-200 bg-stone-50/80 text-xs text-stone-800">
-              <th className="p-4 sm:p-5 font-bold w-[34%]">
+            <tr className="border-b-2 border-emerald-200 bg-emerald-100/70 text-xs text-emerald-950">
+              <th className="p-5 font-black w-[35%]">
                 Ciri &amp; Keupayaan Sistem
               </th>
               {/* Highlighted Traversi Column */}
-              <th className="p-4 sm:p-5 font-black text-center bg-emerald-50 text-emerald-950 border-x border-emerald-200 w-[16%]">
-                <div className="tracking-tight text-sm font-black">TRAVERSI</div>
-                <div className="text-[10px] text-emerald-800 font-bold uppercase tracking-wider">Malaysia</div>
+              <th className="p-5 font-black text-center bg-[#022c22] text-[#ecfdf5] border-x-2 border-emerald-700 w-[17%]">
+                <div className="tracking-tight text-base font-black text-white">TRAVERSI</div>
+                <div className="text-[11px] text-emerald-300 font-bold uppercase tracking-wider">Malaysia-First</div>
               </th>
-              <th className="p-3 sm:p-4 text-center text-stone-700 font-bold w-[12%]">
+              <th className="p-4 text-center text-emerald-950 font-bold w-[12%]">
                 <div>Skyscanner</div>
-                <div className="text-[10px] text-stone-700 font-medium">UK / Global</div>
+                <div className="text-[10px] text-emerald-700 font-semibold">UK / Global</div>
               </th>
-              <th className="p-3 sm:p-4 text-center text-stone-700 font-bold w-[12%]">
+              <th className="p-4 text-center text-emerald-950 font-bold w-[12%]">
                 <div>Google Flights</div>
-                <div className="text-[10px] text-stone-700 font-medium">US</div>
+                <div className="text-[10px] text-emerald-700 font-semibold">US / Global</div>
               </th>
-              <th className="p-3 sm:p-4 text-center text-stone-700 font-bold w-[13%]">
+              <th className="p-4 text-center text-emerald-950 font-bold w-[12%]">
                 <div>Traveloka</div>
-                <div className="text-[10px] text-stone-700 font-medium">SEA</div>
+                <div className="text-[10px] text-emerald-700 font-semibold">Indonesia / SEA</div>
               </th>
-              <th className="p-3 sm:p-4 text-center text-stone-700 font-bold w-[13%]">
+              <th className="p-4 text-center text-emerald-950 font-bold w-[12%]">
                 <div>Klook</div>
-                <div className="text-[10px] text-stone-700 font-medium">Global</div>
+                <div className="text-[10px] text-emerald-700 font-semibold">Hong Kong / Global</div>
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-200 text-xs">
+          <tbody className="divide-y divide-emerald-200/80 text-xs">
             {COMPARISON_DATA.map((row, idx) => (
               <tr 
                 key={idx} 
-                className="hover:bg-stone-50/60 transition-colors"
+                className="hover:bg-white/60 transition-colors"
               >
                 {/* Feature Name & Description */}
-                <td className="p-4 sm:p-5">
-                  <p className="font-bold text-stone-950 text-sm mb-1 leading-snug">
+                <td className="p-5">
+                  <p className="font-black text-[#022c22] text-sm mb-1 leading-snug">
                     {row.title}
                   </p>
-                  <p className="text-stone-700 text-xs leading-relaxed font-medium">
+                  <p className="text-emerald-800 text-xs leading-relaxed font-medium">
                     {row.description}
                   </p>
                 </td>
 
                 {/* Traversi Column (Highlighted) */}
-                <td className="p-4 text-center bg-emerald-50/70 border-x border-emerald-200">
-                  <div className="w-7 h-7 mx-auto rounded-lg bg-emerald-800 text-white flex items-center justify-center shadow-xs">
-                    <Check className="w-4 h-4 stroke-[3]" />
+                <td className="p-4 text-center bg-emerald-100/50 border-x-2 border-emerald-700/30">
+                  <div className="w-8 h-8 mx-auto rounded-xl bg-[#022c22] text-emerald-300 flex items-center justify-center shadow-md border border-emerald-500/40">
+                    <Check className="w-5 h-5 stroke-[3]" />
                   </div>
                 </td>
 
                 {/* Skyscanner */}
                 <td className="p-4 text-center">
                   {row.skyscanner === true ? (
-                    <div className="w-6 h-6 mx-auto rounded-md bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-200 text-stone-700 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5" />
                     </div>
                   ) : row.skyscanner === "separa" ? (
-                    <span className="inline-block text-[11px] font-semibold text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
+                    <span className="text-[11px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">
                       Tiket Sahaja
                     </span>
                   ) : (
-                    <div className="w-6 h-6 mx-auto text-stone-400 flex items-center justify-center">
-                      <X className="w-4 h-4 stroke-[2.5]" />
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-100 text-stone-400 flex items-center justify-center">
+                      <X className="w-3.5 h-3.5" />
                     </div>
                   )}
                 </td>
@@ -176,16 +156,16 @@ export default function ComparisonTable() {
                 {/* Google Flights */}
                 <td className="p-4 text-center">
                   {row.googleFlights === true ? (
-                    <div className="w-6 h-6 mx-auto rounded-md bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-200 text-stone-700 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5" />
                     </div>
                   ) : row.googleFlights === "separa" ? (
-                    <span className="inline-block text-[11px] font-semibold text-stone-700 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
+                    <span className="text-[11px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">
                       Tiket Sahaja
                     </span>
                   ) : (
-                    <div className="w-6 h-6 mx-auto text-stone-400 flex items-center justify-center">
-                      <X className="w-4 h-4 stroke-[2.5]" />
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-100 text-stone-400 flex items-center justify-center">
+                      <X className="w-3.5 h-3.5" />
                     </div>
                   )}
                 </td>
@@ -193,12 +173,12 @@ export default function ComparisonTable() {
                 {/* Traveloka */}
                 <td className="p-4 text-center">
                   {row.traveloka === true ? (
-                    <div className="w-6 h-6 mx-auto rounded-md bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-200 text-stone-700 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5" />
                     </div>
                   ) : (
-                    <div className="w-6 h-6 mx-auto text-stone-400 flex items-center justify-center">
-                      <X className="w-4 h-4 stroke-[2.5]" />
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-100 text-stone-400 flex items-center justify-center">
+                      <X className="w-3.5 h-3.5" />
                     </div>
                   )}
                 </td>
@@ -206,12 +186,12 @@ export default function ComparisonTable() {
                 {/* Klook */}
                 <td className="p-4 text-center">
                   {row.klook === true ? (
-                    <div className="w-6 h-6 mx-auto rounded-md bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-200 text-stone-700 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5" />
                     </div>
                   ) : (
-                    <div className="w-6 h-6 mx-auto text-stone-400 flex items-center justify-center">
-                      <X className="w-4 h-4 stroke-[2.5]" />
+                    <div className="w-6 h-6 mx-auto rounded-md bg-stone-100 text-stone-400 flex items-center justify-center">
+                      <X className="w-3.5 h-3.5" />
                     </div>
                   )}
                 </td>
@@ -220,6 +200,6 @@ export default function ComparisonTable() {
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   );
 }

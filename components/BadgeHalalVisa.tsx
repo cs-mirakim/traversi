@@ -5,70 +5,78 @@ import { ShieldCheck, UtensilsCrossed, Coins } from "lucide-react";
 import { getCurrencyInfo } from "@/lib/currency";
 
 interface BadgeHalalVisaProps {
-  visaStatusText: string;
-  halalScore: "senang" | "sederhana" | "mencabar";
-  halalDescription: string;
+  visaBadge?: string;
+  visaNote?: string;
+  halalScore?: "Mudah" | "Sederhana" | "Terhad";
+  halalCount?: number;
+  halalDescription?: string;
   currencyCode: string;
 }
 
 export default function BadgeHalalVisa({
-  visaStatusText,
-  halalScore,
-  halalDescription,
+  visaBadge = "Visa Free 30 Hari",
+  visaNote = "Bebas visa untuk pasport Malaysia",
+  halalScore = "Mudah",
+  halalCount,
+  halalDescription = "Premis halal mudah didapati",
   currencyCode,
 }: BadgeHalalVisaProps) {
   const currency = getCurrencyInfo(currencyCode);
 
   const halalBadgeConfig = {
-    senang: {
-      label: "Halal: Senang Didapati",
-      bg: "bg-emerald-50",
-      text: "text-emerald-900",
+    Mudah: {
+      label: halalCount ? `Halal: ${halalCount}+ Premis OSM` : "Halal: Mudah",
+      bg: "bg-emerald-100",
+      text: "text-emerald-950",
       border: "border-emerald-300",
     },
-    sederhana: {
-      label: "Halal: Sederhana",
-      bg: "bg-amber-50",
-      text: "text-amber-900",
+    Sederhana: {
+      label: halalCount ? `Halal: ${halalCount} Premis OSM` : "Halal: Sederhana",
+      bg: "bg-amber-100",
+      text: "text-amber-950",
       border: "border-amber-300",
     },
-    mencabar: {
-      label: "Halal: Perlu Diteliti",
-      bg: "bg-rose-50",
-      text: "text-rose-900",
+    Terhad: {
+      label: halalCount ? `Halal: ${halalCount} Premis (Terhad)` : "Halal: Terhad",
+      bg: "bg-rose-100",
+      text: "text-rose-950",
       border: "border-rose-300",
     },
-  }[halalScore];
+  }[halalScore] || {
+    label: "Halal: Mudah",
+    bg: "bg-emerald-100",
+    text: "text-emerald-950",
+    border: "border-emerald-300",
+  };
 
   return (
     <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Status Visa dan Halal">
       {/* Visa Badge */}
       <div
-        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-stone-100 text-stone-900 border border-stone-300"
-        title={visaStatusText}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-emerald-950 border border-emerald-300 shadow-2xs"
+        title={visaNote}
       >
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-800 shrink-0" />
-        <span>{visaStatusText}</span>
+        <ShieldCheck className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+        <span>{visaBadge}</span>
       </div>
 
       {/* Halal Badge */}
       <div
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold ${halalBadgeConfig.bg} ${halalBadgeConfig.text} border ${halalBadgeConfig.border}`}
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold ${halalBadgeConfig.bg} ${halalBadgeConfig.text} border ${halalBadgeConfig.border} shadow-2xs`}
         title={halalDescription}
       >
-        <UtensilsCrossed className="w-3.5 h-3.5 shrink-0" />
+        <UtensilsCrossed className="w-3.5 h-3.5 shrink-0 text-emerald-800" />
         <span>{halalBadgeConfig.label}</span>
       </div>
 
       {/* Currency Badge */}
       <div
-        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-stone-100 text-stone-900 border border-stone-300"
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-emerald-950 border border-emerald-300 shadow-2xs"
         title={`Kadar tukaran anggaran: ${currency.name}`}
       >
-        <Coins className="w-3.5 h-3.5 text-amber-800 shrink-0" />
+        <Coins className="w-3.5 h-3.5 text-amber-600 shrink-0" />
         <span>{currency.formattedRateText}</span>
       </div>
     </div>
   );
 }
-

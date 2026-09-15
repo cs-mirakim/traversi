@@ -24,110 +24,115 @@ export default function DestinationCard({
   rank = 1,
   onSelect,
 }: DestinationCardProps) {
-  const { destination, totalCost, costBreakdown, budgetUsagePercent, remainingBudget } = result;
+  const { destination, totalCost, costBreakdown, budgetUsagePercent, remainingBudget, halal, visa } = result;
   const isTopPick = rank === 1;
 
   return (
     <div 
-      className={`bg-white rounded-2xl transition-all duration-200 overflow-hidden flex flex-col group ${
+      className={`bg-[#ecfdf5] text-[#022c22] rounded-3xl transition-all duration-200 overflow-hidden flex flex-col group border-2 ${
         isTopPick 
-          ? "border-2 border-emerald-800 shadow-md ring-1 ring-emerald-800/20 relative" 
-          : "border border-stone-200 shadow-xs hover:shadow-md"
+          ? "border-emerald-500 shadow-xl ring-2 ring-emerald-400/40 relative" 
+          : "border-emerald-200/80 shadow-md hover:shadow-lg hover:border-emerald-300"
       }`}
     >
       {/* Top Pick Ribbon if Rank 1 */}
       {isTopPick && (
-        <div className="bg-emerald-800 text-white text-[11px] font-bold py-1 px-3 flex items-center justify-between">
+        <div className="bg-[#022c22] text-[#ecfdf5] text-xs font-black py-1.5 px-4 flex items-center justify-between border-b border-emerald-800">
           <span className="flex items-center gap-1.5">
-            <Award className="w-3.5 h-3.5 text-amber-300" />
+            <Award className="w-4 h-4 text-emerald-300" />
             Pilihan #1 Paling Optimum
           </span>
-          <span className="text-emerald-100 text-[10px]">Skor Penjimatan Tertinggi</span>
+          <span className="text-emerald-200 text-[11px] font-bold">Skor Nilai &amp; Penjimatan Tertinggi</span>
         </div>
       )}
 
       {/* Card Header Image */}
-      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-stone-100">
+      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-emerald-950">
         <img
           src={destination.image}
           alt={`Pemandangan menarik di ${destination.city}, ${destination.country}`}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#022c22] via-[#022c22]/40 to-transparent" />
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-          <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-white/95 text-stone-900 shadow-xs">
+          <span className="px-3 py-1 rounded-xl text-xs font-black bg-white/95 text-[#022c22] shadow-sm">
             {destination.flag} {destination.country}
           </span>
 
-          <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-800 text-white shadow-xs flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <span className="px-3 py-1 rounded-xl text-xs font-black bg-[#022c22] text-emerald-300 border border-emerald-400/50 shadow-sm flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
             {budgetUsagePercent}% Bajet
           </span>
         </div>
 
         {/* City Title */}
         <div className="absolute bottom-3 left-3 right-3 text-white">
-          <h3 className="text-xl sm:text-2xl font-black tracking-tight drop-shadow-xs">
+          <h3 className="text-2xl sm:text-3xl font-black tracking-tight drop-shadow-sm">
             {destination.city}
           </h3>
-          <p className="text-xs text-stone-200 line-clamp-1 drop-shadow-xs font-medium">
+          <p className="text-xs text-emerald-100 line-clamp-1 font-medium drop-shadow-sm">
             {destination.tagline}
           </p>
         </div>
       </div>
 
       {/* Card Content Body */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
         {/* Budget Comparison Section */}
-        <div className="flex items-baseline justify-between border-b border-stone-100 pb-3">
+        <div className="flex items-baseline justify-between border-b border-emerald-900/10 pb-3">
           <div>
-            <span className="text-xs font-semibold text-stone-700 block">
-              Anggaran Penuh ({paxInput} Pax)
+            <span className="text-xs font-bold text-emerald-800 block">
+              Anggaran Lengkap ({paxInput} Pax &bull; {daysInput} Hari)
             </span>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl font-black text-stone-950">{formatRM(totalCost)}</span>
-              <span className="text-xs text-stone-700 font-medium">/ {formatRM(budgetInput)}</span>
+              <span className="text-2xl sm:text-3xl font-black text-[#022c22]">{formatRM(totalCost)}</span>
+              <span className="text-xs text-emerald-700 font-bold">/ Had {formatRM(budgetInput)}</span>
             </div>
           </div>
 
           <div className="text-right">
-            <span className="text-xs text-emerald-800 font-bold inline-flex items-center gap-1">
+            <span className="text-xs text-emerald-800 font-black inline-flex items-center gap-1 bg-emerald-200/60 px-2.5 py-1 rounded-lg">
               <TrendingDown className="w-3.5 h-3.5" />
               Baki {formatRM(remainingBudget)}
             </span>
-            <p className="text-[11px] text-stone-700 font-medium">Wang lebihan poket</p>
+            <p className="text-[11px] text-emerald-700 font-semibold mt-0.5">Lebihan wang poket</p>
           </div>
         </div>
 
-        {/* Badges */}
+        {/* Dynamic Halal & Visa Badges */}
         <BadgeHalalVisa
-          visaStatusText={destination.visaStatusText}
-          halalScore={destination.halalScore}
-          halalDescription={destination.halalDescription}
+          visaBadge={visa?.badge}
+          visaNote={visa?.note}
+          halalScore={halal?.score}
+          halalCount={halal?.count}
+          halalDescription={halal?.description}
           currencyCode={destination.currencyCode}
         />
 
         {/* Breakdown Bar */}
-        <div className="space-y-1.5">
-          <span className="text-xs font-bold text-stone-800 block">
-            Pecahan Perbelanjaan ({daysInput} Hari):
-          </span>
+        <div className="space-y-1.5 bg-white p-3.5 rounded-2xl border border-emerald-200">
+          <div className="flex items-center justify-between text-xs font-bold text-emerald-950">
+            <span>Pecahan 4 Dimensi Kos:</span>
+            <span className="text-[11px] text-emerald-700 font-semibold">
+              {costBreakdown.rooms} Bilik Hotel ({costBreakdown.nights} Malam)
+            </span>
+          </div>
           <BreakdownBar
-            flight={costBreakdown.flightTotal}
-            hotel={costBreakdown.hotelTotal}
-            food={costBreakdown.foodTotal}
-            transport={costBreakdown.transportTotal}
+            flight={costBreakdown.flightTotalRM}
+            hotel={costBreakdown.hotelTotalRM}
+            food={costBreakdown.foodTotalRM}
+            transport={costBreakdown.transportTotalRM}
             total={totalCost}
           />
         </div>
 
         {/* Local Insight Quote */}
-        <div className="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-800 flex items-start gap-2.5">
-          <Quote className="w-4 h-4 text-emerald-800 mt-0.5 shrink-0" />
-          <p className="line-clamp-2 leading-relaxed text-[11px] font-medium text-stone-700">
+        <div className="p-3.5 rounded-2xl bg-white border border-emerald-200 text-xs text-[#022c22] flex items-start gap-2.5">
+          <Quote className="w-4 h-4 text-emerald-700 mt-0.5 shrink-0" />
+          <p className="line-clamp-2 leading-relaxed text-xs font-medium text-emerald-950">
             {destination.aiReason}
           </p>
         </div>
@@ -135,16 +140,15 @@ export default function DestinationCard({
         {/* Action Button */}
         <button
           onClick={() => onSelect(result)}
-          className={`w-full mt-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:outline-none ${
+          className={`w-full mt-2 py-3.5 px-4 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center transition-all cursor-pointer shadow-md active:scale-[0.99] focus:outline-none ${
             isTopPick
-              ? "bg-emerald-800 hover:bg-emerald-900 text-white shadow-emerald-900/20"
-              : "bg-stone-900 hover:bg-stone-800 text-white"
+              ? "bg-[#022c22] hover:bg-[#064e3b] text-[#ecfdf5] border border-emerald-500/40"
+              : "bg-white hover:bg-emerald-100 text-[#022c22] border-2 border-emerald-300"
           }`}
         >
-          Lihat Pecahan &amp; Jadual {daysInput} Hari
+          Buka Pecahan &amp; Jadual {daysInput} Hari
         </button>
       </div>
     </div>
   );
 }
-
