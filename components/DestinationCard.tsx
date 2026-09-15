@@ -37,27 +37,27 @@ export default function DestinationCard({
 
   const rankHeaderConfig = {
     1: {
-      bg: "bg-emerald-800 text-white",
-      badgeText: locale === "bm" ? "Pilihan #1 Paling Optimum" : "Top #1 Recommended Fit",
-      scoreText: locale === "bm" ? "Skor Tertinggi" : "Highest Score",
-      iconColor: "text-amber-300",
+      bg: "bg-emerald-900 text-emerald-50 border-b border-emerald-800",
+      badgeText: locale === "bm" ? "Pilihan #1 Optimum" : "Top #1 Best Match",
+      scoreText: locale === "bm" ? "Skor 98%" : "98% Fit Score",
+      iconColor: "text-amber-400",
     },
     2: {
-      bg: "bg-stone-900 text-stone-200",
-      badgeText: locale === "bm" ? "Pilihan #2 Nilai Hebat" : "Top #2 Great Value Fit",
-      scoreText: locale === "bm" ? "Nilai Hebat" : "Great Value",
+      bg: "bg-stone-900 text-stone-100 border-b border-stone-800",
+      badgeText: locale === "bm" ? "Pilihan #2 Nilai Hebat" : "Top #2 Great Value",
+      scoreText: locale === "bm" ? "Penjimatan Tinggi" : "High Savings",
       iconColor: "text-stone-400",
     },
     3: {
-      bg: "bg-stone-900 text-stone-200",
-      badgeText: locale === "bm" ? "Pilihan #3 Mesra Bajet" : "Top #3 Budget Fit",
-      scoreText: locale === "bm" ? "Mesra Bajet" : "Budget Pick",
+      bg: "bg-stone-900 text-stone-100 border-b border-stone-800",
+      badgeText: locale === "bm" ? "Pilihan #3 Paling Jimat" : "Top #3 Budget Saver",
+      scoreText: locale === "bm" ? "Kos Terendah" : "Lowest Spend",
       iconColor: "text-stone-400",
     },
   }[rank] || {
-    bg: "bg-stone-900 text-stone-200",
+    bg: "bg-stone-900 text-stone-100 border-b border-stone-800",
     badgeText: locale === "bm" ? `Pilihan #${rank}` : `Rank #${rank}`,
-    scoreText: locale === "bm" ? "Cadangan Enjin" : "Recommended",
+    scoreText: locale === "bm" ? "Disyorkan" : "Recommended",
     iconColor: "text-stone-400",
   };
 
@@ -89,17 +89,17 @@ export default function DestinationCard({
       <div 
         className={`bg-white text-stone-900 rounded-3xl transition-all duration-200 overflow-hidden flex flex-col justify-between h-full group border ${
           isTopPick 
-            ? "border-emerald-700 shadow-lg ring-1 ring-emerald-700/30 relative" 
-            : "border-stone-200 shadow-xs hover:shadow-md hover:border-stone-300"
+            ? "border-emerald-700 shadow-md ring-1 ring-emerald-700/20 relative" 
+            : "border-stone-200 shadow-2xs hover:shadow-md hover:border-stone-300"
         }`}
       >
-        {/* Uniform Top Header Ribbon across all 3 ranks for pixel-perfect card height alignment */}
-        <div className={`${rankHeaderConfig.bg} text-xs font-bold py-1.5 px-3.5 flex items-center justify-between shrink-0`}>
+        {/* Uniform Top Header Ribbon across all 3 ranks */}
+        <div className={`${rankHeaderConfig.bg} text-xs font-bold py-2 px-4 flex items-center justify-between shrink-0 tracking-tight`}>
           <span className="flex items-center gap-1.5">
             <Award className={`w-3.5 h-3.5 ${rankHeaderConfig.iconColor}`} />
             <span>{rankHeaderConfig.badgeText}</span>
           </span>
-          <span className="text-[10px] font-semibold opacity-90">
+          <span className="text-[11px] font-semibold opacity-90">
             {rankHeaderConfig.scoreText}
           </span>
         </div>
@@ -116,23 +116,24 @@ export default function DestinationCard({
 
           {/* Top Badges & Copy / Star Buttons */}
           <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-            <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-white/95 text-stone-900 shadow-xs">
-              {destination.flag} {destination.country}
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/95 text-stone-900 shadow-xs backdrop-blur-xs border border-stone-200/60 flex items-center gap-1.5">
+              <span>{destination.flag}</span>
+              <span>{destination.country}</span>
             </span>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center bg-white/95 backdrop-blur-xs p-1 rounded-xl shadow-xs border border-stone-200/60 gap-1">
               {/* Quick Copy Summary Button */}
               <button
                 type="button"
                 onClick={handleCopySummary}
                 title={cardCopied ? (locale === "bm" ? "Ringkasan tersalin!" : "Summary copied!") : (locale === "bm" ? "Salin ringkasan trip" : "Copy trip summary")}
-                className={`p-1.5 rounded-lg transition-colors cursor-pointer shadow-xs ${
+                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                   cardCopied
                     ? "bg-emerald-800 text-white"
-                    : "bg-white/90 hover:bg-white text-stone-700 hover:text-emerald-800"
+                    : "hover:bg-stone-100 text-stone-700 hover:text-emerald-800"
                 }`}
               >
-                {cardCopied ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                {cardCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
 
               {/* Star Pin Button */}
@@ -140,19 +141,14 @@ export default function DestinationCard({
                 type="button"
                 onClick={handleStarClick}
                 title={isStarred(destination.id) ? (locale === "bm" ? "Nyah-pin destinasi" : "Unpin destination") : (locale === "bm" ? "Pin / Simpan ke profil" : "Pin / Save to profile")}
-                className={`p-1.5 rounded-lg transition-colors cursor-pointer shadow-xs ${
+                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                   isStarred(destination.id)
-                    ? "bg-amber-400 text-stone-950 hover:bg-amber-300"
-                    : "bg-white/90 text-stone-600 hover:bg-white hover:text-amber-600"
+                    ? "bg-amber-100 text-amber-900"
+                    : "hover:bg-stone-100 text-stone-700 hover:text-amber-700"
                 }`}
               >
-                <Star className={`w-3.5 h-3.5 ${isStarred(destination.id) ? "fill-current" : ""}`} />
+                <Star className={`w-3.5 h-3.5 ${isStarred(destination.id) ? "fill-amber-500 text-amber-500" : ""}`} />
               </button>
-
-              <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow-xs flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
-                <span>{budgetUsagePercent}% {locale === "bm" ? "Bajet" : "Budget"}</span>
-              </span>
             </div>
           </div>
 
@@ -177,16 +173,18 @@ export default function DestinationCard({
                   ? `Anggaran Lengkap (${paxInput} Pax • ${daysInput} Hari)` 
                   : `Total Estimate (${paxInput} Pax • ${daysInput} Days)`}
               </span>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-black text-stone-950">{formatRM(totalCost)}</span>
-                <span className="text-xs text-stone-600 font-semibold">/ {formatRM(budgetInput)}</span>
+              <div className="flex items-baseline gap-2 mt-0.5">
+                <span className="text-2xl font-black text-stone-950 tracking-tight">{formatRM(totalCost)}</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  {budgetUsagePercent}% {locale === "bm" ? "Had Bajet" : "of Budget"}
+                </span>
               </div>
             </div>
 
             <div className="text-right">
               <span className="text-xs text-emerald-800 font-bold inline-flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
                 <TrendingDown className="w-3.5 h-3.5 text-emerald-700" />
-                <span>{locale === "bm" ? `Baki ${formatRM(remainingBudget)}` : `Left ${formatRM(remainingBudget)}`}</span>
+                <span>{locale === "bm" ? `Baki +${formatRM(remainingBudget)}` : `Left +${formatRM(remainingBudget)}`}</span>
               </span>
               <p className="text-[11px] text-stone-500 font-medium mt-0.5">
                 {locale === "bm" ? "Lebihan wang poket" : "Pocket savings"}

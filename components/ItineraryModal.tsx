@@ -1,9 +1,7 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
-import { X, Calendar, DollarSign, Share2, Check, Quote, Utensils, Copy, Send } from "lucide-react";
+import { X, Calendar, DollarSign, Check, Quote, Utensils, Copy, Plane, Hotel, ExternalLink, Sparkles } from "lucide-react";
 import { RecommendationResult } from "@/lib/mockDestinations";
-import { formatRM, generateTripShareText } from "@/lib/utils";
+import { formatRM, generateTripShareText, getBookingDeepLinks } from "@/lib/utils";
 import BreakdownBar from "./BreakdownBar";
 import BadgeHalalVisa from "./BadgeHalalVisa";
 import { useLanguage } from "@/context/LanguageContext";
@@ -43,10 +41,13 @@ export default function ItineraryModal({
 
   const shareText = generateTripShareText(result, budgetInput, daysInput, paxInput, locale);
 
-  const handleWhatsAppShare = () => {
-    const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+  const bookingLinks = getBookingDeepLinks(
+    destination.id,
+    destination.city,
+    destination.country,
+    paxInput,
+    costBreakdown.rooms
+  );
 
   const handleCopySummary = async () => {
     try {
@@ -67,7 +68,7 @@ export default function ItineraryModal({
       aria-modal="true"
       aria-labelledby="modal-destination-title"
     >
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden my-6">
+      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-stone-200 overflow-hidden my-6">
         {/* Header Image Cover */}
         <div className="relative h-48 sm:h-56 w-full">
           <img
@@ -109,26 +110,32 @@ export default function ItineraryModal({
           {copied && (
             <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center gap-2">
               <Check className="w-4 h-4 text-emerald-700 shrink-0" />
-              <span>Ringkasan perjalanan telah disalin ke papan keratan! Sedia untuk ditampal ke WhatsApp.</span>
+              <span>
+                {locale === "bm" 
+                  ? "Itinerari lengkap telah disalin ke papan keratan! Sedia untuk dikongsi." 
+                  : "Full itinerary copied to clipboard! Ready to share."}
+              </span>
             </div>
           )}
 
           {/* Quick Metrics Bar */}
-          <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 flex flex-wrap items-center justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold text-stone-700">Anggaran Kos Keseluruhan ({paxInput} Pax)</p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-black text-stone-950">{formatRM(totalCost)}</span>
-                <span className="text-xs text-stone-700 font-semibold">/ Bajet {formatRM(budgetInput)}</span>
+              <p className="text-xs font-semibold text-stone-600">
+                {locale === "bm" ? `Anggaran Kos Keseluruhan (${paxInput} Pax)` : `Total Estimated Cost (${paxInput} Pax)`}
+              </p>
+              <div className="flex items-baseline gap-2 mt-0.5">
+                <span className="text-2xl font-black text-stone-950 tracking-tight">{formatRM(totalCost)}</span>
+                <span className="text-xs text-stone-600 font-semibold">/ {locale === "bm" ? "Had Bajet" : "Budget Limit"} {formatRM(budgetInput)}</span>
               </div>
             </div>
 
             <div className="text-right">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">
-                {budgetUsagePercent}% Daripada Bajet
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">
+                {budgetUsagePercent}% {locale === "bm" ? "Daripada Had Bajet" : "of Budget Limit"}
               </span>
               <p className="text-xs text-emerald-800 font-bold mt-1">
-                Baki Simpanan: +{formatRM(remainingBudget)}
+                {locale === "bm" ? `Baki Wang Poket: +${formatRM(remainingBudget)}` : `Pocket Savings: +${formatRM(remainingBudget)}`}
               </p>
             </div>
           </div>
@@ -149,7 +156,9 @@ export default function ItineraryModal({
           <div className="space-y-2">
             <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-emerald-800" />
-              Pecahan Bajet Perjalanan ({daysInput} Hari, {paxInput} Pax &bull; {costBreakdown.rooms} Bilik)
+              {locale === "bm"
+                ? `Pecahan Bajet Perjalanan (${daysInput} Hari, ${paxInput} Pax • ${costBreakdown.rooms} Bilik)`
+                : `Trip Expense Breakdown (${daysInput} Days, ${paxInput} Pax • ${costBreakdown.rooms} Rooms)`}
             </h3>
             <BreakdownBar
               flight={costBreakdown.flightTotalRM}
@@ -160,11 +169,121 @@ export default function ItineraryModal({
             />
           </div>
 
+          {/* Direct Booking Deep Links Section (Live Demo & Affiliate Monetization) */}
+          <div className="p-4 rounded-2xl bg-stone-900 text-white border border-stone-800 space-y-3.5 shadow-sm">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+                <h3 className="text-sm font-bold text-stone-100">
+                  {locale === "bm" ? "Pautan Tempahan Pintar (Deep-Link)" : "Smart Booking Deep Links"}
+                </h3>
+              </div>
+              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-md bg-stone-800 text-stone-300 border border-stone-700">
+                {locale === "bm" ? "Rakan Tempahan Rasmi" : "Partner Integrations"}
+              </span>
+            </div>
+
+            <p className="text-xs text-stone-300 leading-relaxed font-normal">
+              {locale === "bm"
+                ? `Buka carian tiket & penginapan terus ke platform rasmi yang telah siap diisi dengan ${paxInput} pax dan kod penerbangan KUL ✈️ ${bookingLinks.airportCode}:`
+                : `Open pre-filled flight and stay searches directly on verified booking platforms for ${paxInput} travelers (KUL ✈️ ${bookingLinks.airportCode}):`}
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              {/* Flight Deep Link 1: Skyscanner */}
+              <a
+                href={bookingLinks.skyscannerFlightUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3 rounded-xl bg-stone-800 hover:bg-stone-700/90 border border-stone-700 transition-all text-xs font-semibold text-white group cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold">
+                    <Plane className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block font-bold text-stone-100">Skyscanner Flights</span>
+                    <span className="text-[11px] text-stone-400 font-normal">KUL ➔ {bookingLinks.airportCode} ({paxInput} Pax)</span>
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-stone-400 group-hover:text-white transition-colors" />
+              </a>
+
+              {/* Flight Deep Link 2: Google Flights */}
+              <a
+                href={bookingLinks.googleFlightsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3 rounded-xl bg-stone-800 hover:bg-stone-700/90 border border-stone-700 transition-all text-xs font-semibold text-white group cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
+                    <Plane className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block font-bold text-stone-100">Google Flights</span>
+                    <span className="text-[11px] text-stone-400 font-normal">{destination.city} ({formatRM(destination.flightPriceReturnRM * paxInput)})</span>
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-stone-400 group-hover:text-white transition-colors" />
+              </a>
+
+              {/* Hotel Deep Link 1: Agoda */}
+              <a
+                href={bookingLinks.agodaHotelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3 rounded-xl bg-stone-800 hover:bg-stone-700/90 border border-stone-700 transition-all text-xs font-semibold text-white group cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                    <Hotel className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block font-bold text-stone-100">Agoda Hotels</span>
+                    <span className="text-[11px] text-stone-400 font-normal">{costBreakdown.rooms} {locale === "bm" ? "Bilik" : "Rooms"} • {destination.city}</span>
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-stone-400 group-hover:text-white transition-colors" />
+              </a>
+
+              {/* Hotel Deep Link 2: Airbnb */}
+              <a
+                href={bookingLinks.airbnbUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3 rounded-xl bg-stone-800 hover:bg-stone-700/90 border border-stone-700 transition-all text-xs font-semibold text-white group cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold">
+                    <Hotel className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block font-bold text-stone-100">Airbnb Homestay</span>
+                    <span className="text-[11px] text-stone-400 font-normal">{destination.city} ({paxInput} Pax)</span>
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-stone-400 group-hover:text-white transition-colors" />
+              </a>
+            </div>
+
+            <div className="pt-1 text-[11px] text-stone-400 border-t border-stone-800 flex items-center gap-1.5 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+              <span>
+                {locale === "bm"
+                  ? "Pautan affiliate menjana komisen 3%–7% untuk Traversi tanpa sebarang surcaj tambahan kepada anda."
+                  : "Affiliate links generate 3%–7% commission for Traversi with zero extra markup to travelers."}
+              </span>
+            </div>
+          </div>
+
           {/* Local Insight Quote */}
-          <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 text-xs sm:text-sm text-stone-800 flex items-start gap-3">
+          <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 text-xs sm:text-sm text-stone-800 flex items-start gap-3">
             <Quote className="w-4 h-4 text-emerald-800 mt-0.5 shrink-0" />
             <div>
-              <span className="font-bold text-stone-950 block mb-0.5">Kenapa Padan Dengan Bajet Anda:</span>
+              <span className="font-bold text-stone-950 block mb-0.5">
+                {locale === "bm" ? "Kenapa Padan Dengan Bajet Anda:" : "Why This Fits Your Budget:"}
+              </span>
               <p className="text-stone-700 leading-relaxed font-medium">{destination.aiReason}</p>
             </div>
           </div>
@@ -173,21 +292,21 @@ export default function ItineraryModal({
           <div className="space-y-3">
             <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
               <Calendar className="w-4 h-4 text-emerald-800" />
-              Cadangan Itinerari Harian
+              {locale === "bm" ? `Cadangan Itinerari ${daysInput} Hari` : `Suggested ${daysInput}-Day Itinerary`}
             </h3>
 
             <div className="space-y-3">
               {destination.itinerary.slice(0, daysInput).map((item) => (
                 <div
                   key={item.day}
-                  className="p-4 rounded-xl bg-white border border-stone-200 shadow-2xs hover:border-stone-300 transition-colors"
+                  className="p-4 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:border-stone-300 transition-colors"
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-xs font-bold px-2.5 py-0.5 rounded-md bg-stone-900 text-white">
-                      Hari {item.day}
+                      {locale === "bm" ? `Hari ${item.day}` : `Day ${item.day}`}
                     </span>
                     <span className="text-xs font-bold text-stone-800">
-                      Anggaran Harian: {formatRM(item.dailyBudgetRM * paxInput)}
+                      {locale === "bm" ? "Anggaran Harian:" : "Daily Est:"} {formatRM(item.dailyBudgetRM * paxInput)}
                     </span>
                   </div>
 
@@ -205,7 +324,9 @@ export default function ItineraryModal({
                   {item.foodSpot && (
                     <div className="pt-2 border-t border-stone-100 text-xs text-stone-700 flex items-center gap-2">
                       <Utensils className="w-3.5 h-3.5 text-emerald-800 shrink-0" />
-                      <span className="font-bold text-stone-950">Cadangan Port Halal:</span>
+                      <span className="font-bold text-stone-950">
+                        {locale === "bm" ? "Cadangan Port Halal:" : "Suggested Halal Spot:"}
+                      </span>
                       <span className="truncate font-medium">{item.foodSpot}</span>
                     </div>
                   )}
@@ -221,7 +342,7 @@ export default function ItineraryModal({
           <button
             type="button"
             onClick={handleCopySummary}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-stone-800 bg-white border border-stone-300 hover:bg-stone-50 shadow-2xs transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-stone-800 bg-white border border-stone-300 hover:bg-stone-100 shadow-2xs transition-colors cursor-pointer"
           >
             {copied ? (
               <>
@@ -231,7 +352,7 @@ export default function ItineraryModal({
             ) : (
               <>
                 <Copy className="w-4 h-4 text-stone-600" />
-                <span>{locale === "bm" ? "Salin Ringkasan Trip" : "Copy Trip Summary"}</span>
+                <span>{locale === "bm" ? "Salin Ringkasan & Itinerari" : "Copy Itinerary Summary"}</span>
               </>
             )}
           </button>
@@ -249,4 +370,5 @@ export default function ItineraryModal({
     </div>
   );
 }
+
 
