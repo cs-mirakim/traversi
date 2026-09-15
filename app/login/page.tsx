@@ -28,7 +28,7 @@ export default function LoginPage() {
 
   const handleDemoLogin = () => {
     setIsLoading(true);
-    login("amir@traversi.my", "Amir Hakim");
+    login("hangtuah@traversi.my", "Hang Tuah");
     router.push("/profile");
   };
 
@@ -104,7 +104,7 @@ export default function LoginPage() {
               className="w-full py-3 px-4 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
             >
               <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
-              <span>{locale === "bm" ? "Masuk Pantas Sebagai Amir Hakim (Demo)" : "Instant Demo Login (Amir Hakim)"}</span>
+              <span>{locale === "bm" ? "Masuk Pantas Sebagai Hang Tuah (Demo)" : "Instant Demo Login (Hang Tuah)"}</span>
             </button>
           </div>
 

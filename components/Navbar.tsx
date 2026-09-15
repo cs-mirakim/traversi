@@ -155,24 +155,6 @@ export default function Navbar() {
               </p>
             </div>
           </Link>
-
-          {/* Quick Primary Button to Calculator */}
-          <Link
-            href="/kalkulator"
-            className={`w-full py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-between transition-all shadow-xs cursor-pointer ${
-              pathname === "/kalkulator"
-                ? "bg-emerald-800 text-white shadow-emerald-900/10"
-                : "bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200"
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <Calculator className="w-4 h-4 text-emerald-700" />
-              <span>{locale === "bm" ? "Buka Kalkulator Bajet" : "Launch Calculator"}</span>
-            </div>
-            <span className="text-[10px] font-extrabold bg-white/80 text-emerald-900 px-1.5 py-0.5 rounded">
-              GO
-            </span>
-          </Link>
         </div>
 
         {/* Middle: Pitch Deck Navigation strictly matching Averis Guidelines */}
@@ -318,17 +300,6 @@ export default function Navbar() {
 
           {/* Right Action Controls */}
           <div className="flex items-center gap-3">
-            {/* Direct Kalkulator Shortcut on Top Header */}
-            {pathname !== "/kalkulator" && (
-              <Link
-                href="/kalkulator"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shadow-2xs cursor-pointer"
-              >
-                <Calculator className="w-3.5 h-3.5 text-emerald-800" />
-                <span>{locale === "bm" ? "Kira Bajet" : "Calculate"}</span>
-              </Link>
-            )}
-
             {/* Language Switcher */}
             <button
               type="button"
@@ -428,15 +399,6 @@ export default function Navbar() {
                   </a>
                 );
               })}
-
-              <Link
-                href="/kalkulator"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-900 border border-emerald-200 font-extrabold mt-2"
-              >
-                <Calculator className="w-4 h-4 text-emerald-800 shrink-0" />
-                <span>{locale === "bm" ? "Buka Kalkulator Bajet" : "Budget Calculator"}</span>
-              </Link>
             </nav>
           </div>
 

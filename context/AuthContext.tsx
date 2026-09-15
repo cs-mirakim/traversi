@@ -32,9 +32,9 @@ interface AuthContextType {
 
 const DEFAULT_USER: UserProfile = {
   id: "usr_mock_1",
-  name: "Amir Hakim",
-  email: "amir@traversi.my",
-  avatar: "AH",
+  name: "Hang Tuah",
+  email: "hangtuah@traversi.my",
+  avatar: "HT",
   passportCountry: "Malaysia (MY)",
   starredDestinations: ["krabi", "langkawi", "bali"],
   searchHistory: [
