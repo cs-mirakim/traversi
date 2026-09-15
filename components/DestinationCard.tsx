@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { CheckCircle2, TrendingDown, Quote, Award, Star } from "lucide-react";
+import { CheckCircle2, TrendingDown, Quote, Award, Star, Send } from "lucide-react";
 import { RecommendationResult } from "@/lib/mockDestinations";
-import { formatRM } from "@/lib/utils";
+import { formatRM, generateTripShareText } from "@/lib/utils";
 import BreakdownBar from "./BreakdownBar";
 import BadgeHalalVisa from "./BadgeHalalVisa";
 import { useLanguage } from "@/context/LanguageContext";
@@ -86,13 +86,29 @@ export default function DestinationCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent" />
 
-        {/* Top Badges & Star Button */}
+        {/* Top Badges & Star / Share Buttons */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
           <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-white/95 text-stone-900 shadow-xs">
             {destination.flag} {destination.country}
           </span>
 
           <div className="flex items-center gap-1.5">
+            {/* Quick WhatsApp Share Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                const shareText = generateTripShareText(result, budgetInput, daysInput, paxInput, locale);
+                const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
+              title={locale === "bm" ? "Kongsi ringkasan ke WhatsApp" : "Share summary to WhatsApp"}
+              className="p-1.5 rounded-lg bg-white/90 hover:bg-emerald-700 hover:text-white text-stone-700 transition-colors cursor-pointer shadow-xs"
+            >
+              <Send className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Star Pin Button */}
             <button
               type="button"
               onClick={(e) => {

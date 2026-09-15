@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Calendar, DollarSign, Share2, Check, Quote, Utensils } from "lucide-react";
+import { X, Calendar, DollarSign, Share2, Check, Quote, Utensils, Copy, Send } from "lucide-react";
 import { RecommendationResult } from "@/lib/mockDestinations";
-import { formatRM } from "@/lib/utils";
+import { formatRM, generateTripShareText } from "@/lib/utils";
 import BreakdownBar from "./BreakdownBar";
 import BadgeHalalVisa from "./BadgeHalalVisa";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ItineraryModalProps {
   result: RecommendationResult | null;
@@ -22,6 +23,7 @@ export default function ItineraryModal({
   paxInput,
   onClose,
 }: ItineraryModalProps) {
+  const { locale } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   // Close on Escape key (R-32)
@@ -39,8 +41,14 @@ export default function ItineraryModal({
 
   const { destination, totalCost, costBreakdown, budgetUsagePercent, remainingBudget } = result;
 
-  const handleShare = async () => {
-    const shareText = `Jom trip ke ${destination.city}, ${destination.country}! Anggaran cuma ${formatRM(totalCost)} untuk ${daysInput} hari (${paxInput} pax). Jimat ${formatRM(remainingBudget)} dari bajet RM${budgetInput}!`;
+  const shareText = generateTripShareText(result, budgetInput, daysInput, paxInput, locale);
+
+  const handleWhatsAppShare = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleCopySummary = async () => {
     try {
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(shareText);
@@ -48,7 +56,7 @@ export default function ItineraryModal({
         setTimeout(() => setCopied(false), 3000);
       }
     } catch {
-      // Fallback if clipboard API unavailable
+      // Fallback
     }
   };
 
@@ -208,29 +216,45 @@ export default function ItineraryModal({
         </div>
 
         {/* Modal Footer Actions */}
-        <div className="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between gap-3">
-          <button
-            onClick={handleShare}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-stone-900 bg-white border border-stone-200 hover:bg-stone-100 focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:outline-none transition-colors cursor-pointer"
-          >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-800" />
-                <span>Telah Disalin!</span>
-              </>
-            ) : (
-              <>
-                <Share2 className="w-3.5 h-3.5" />
-                <span>Kongsi ke WhatsApp</span>
-              </>
-            )}
-          </button>
+        <div className="p-4 bg-stone-50 border-t border-stone-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            {/* 1. Direct WhatsApp Share */}
+            <button
+              type="button"
+              onClick={handleWhatsAppShare}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 shadow-sm transition-all cursor-pointer"
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span>{locale === "bm" ? "Kongsi ke WhatsApp" : "Share to WhatsApp"}</span>
+            </button>
 
+            {/* 2. Copy Budget Summary */}
+            <button
+              type="button"
+              onClick={handleCopySummary}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold text-stone-800 bg-white border border-stone-300 hover:bg-stone-50 shadow-2xs transition-colors cursor-pointer"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>{locale === "bm" ? "Tersalin!" : "Copied!"}</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-stone-500" />
+                  <span>{locale === "bm" ? "Salin Ringkasan" : "Copy Summary"}</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* 3. Close Modal */}
           <button
+            type="button"
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-stone-900 hover:bg-stone-800 focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:outline-none transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-stone-900 hover:bg-stone-800 transition-colors cursor-pointer"
           >
-            Tutup
+            {locale === "bm" ? "Tutup" : "Close"}
           </button>
         </div>
       </div>
