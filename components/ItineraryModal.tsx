@@ -216,39 +216,27 @@ export default function ItineraryModal({
         </div>
 
         {/* Modal Footer Actions */}
-        <div className="p-4 bg-stone-50 border-t border-stone-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            {/* 1. Direct WhatsApp Share */}
-            <button
-              type="button"
-              onClick={handleWhatsAppShare}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 shadow-sm transition-all cursor-pointer"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>{locale === "bm" ? "Kongsi ke WhatsApp" : "Share to WhatsApp"}</span>
-            </button>
+        <div className="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between gap-3">
+          {/* Copy Budget Summary */}
+          <button
+            type="button"
+            onClick={handleCopySummary}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-stone-800 bg-white border border-stone-300 hover:bg-stone-50 shadow-2xs transition-colors cursor-pointer"
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-700" />
+                <span className="text-emerald-900 font-bold">{locale === "bm" ? "Tersalin ke Papan Keratan!" : "Copied to Clipboard!"}</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4 text-stone-600" />
+                <span>{locale === "bm" ? "Salin Ringkasan Trip" : "Copy Trip Summary"}</span>
+              </>
+            )}
+          </button>
 
-            {/* 2. Copy Budget Summary */}
-            <button
-              type="button"
-              onClick={handleCopySummary}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold text-stone-800 bg-white border border-stone-300 hover:bg-stone-50 shadow-2xs transition-colors cursor-pointer"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-700" />
-                  <span>{locale === "bm" ? "Tersalin!" : "Copied!"}</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5 text-stone-500" />
-                  <span>{locale === "bm" ? "Salin Ringkasan" : "Copy Summary"}</span>
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* 3. Close Modal */}
+          {/* Close Modal */}
           <button
             type="button"
             onClick={onClose}

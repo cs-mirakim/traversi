@@ -950,35 +950,18 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="border-t border-stone-200 bg-white py-10 px-4 sm:px-6 text-center text-xs text-stone-500 md:pl-72">
-        <div className="max-w-5xl mx-auto space-y-3">
-          <div className="flex items-center justify-center gap-2 font-bold text-stone-900">
-            <Compass className="w-4 h-4 text-emerald-800" />
+      {/* FOOTER (Compact & Bilingual) */}
+      <footer className="border-t border-stone-200 bg-white py-4 px-4 sm:px-6 text-center text-xs text-stone-600 md:pl-72">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2 font-bold text-stone-900">
+            <Compass className="w-4 h-4 text-emerald-800 shrink-0" />
             <span>Traversi &bull; {locale === "bm" ? "Travel Versi Anda" : "Your Trip, Your Version"}</span>
+            <span className="text-stone-300 hidden sm:inline">|</span>
+            <span className="text-stone-500 font-medium hidden sm:inline">Averis x Monash Hackathon 2026</span>
           </div>
-          <p className="text-stone-500 max-w-md mx-auto">
-            {locale === "bm" 
-              ? "Dibina sempena Averis x Monash Hackathon 2026 (Edisi Cloud + AI)."
-              : "Built for Averis x Monash Hackathon 2026 (Cloud + AI Edition)."}
-          </p>
-          <div className="flex items-center justify-center gap-4 text-xs font-semibold text-emerald-800">
-            <a href="https://github.com/cs-mirakim/traversi" target="_blank" rel="noreferrer" className="hover:underline flex items-center gap-1">
-              <GithubIcon className="w-3.5 h-3.5" />
-              <span>GitHub</span>
-            </a>
-            <span>&bull;</span>
-            <Link href="/kalkulator" className="hover:underline">
-              {locale === "bm" ? "Kalkulator Bajet" : "Budget Calculator"}
-            </Link>
-            <span>&bull;</span>
-            <a href="#technical-architecture" className="hover:underline">
-              {locale === "bm" ? "Seni Bina Supabase & Gemini" : "Supabase & Gemini Architecture"}
-            </a>
-          </div>
-          <div className="pt-2 text-[11px] text-stone-400 border-t border-stone-100">
+          <div className="text-[11px] text-stone-600 font-medium">
             {locale === "bm" ? "Pasukan 4 Orang: " : "4-Member Team: "}
-            <strong>Amir Hakim</strong> &bull; <strong>Moi (Amir Azib)</strong> &bull; <strong>Eqhlas</strong> &bull; <strong>Paan (Daniel Farhan)</strong>
+            <strong className="text-stone-800">Amir Hakim</strong> &bull; <strong className="text-stone-800">Moi</strong> &bull; <strong className="text-stone-800">Eqhlas</strong> &bull; <strong className="text-stone-800">Paan</strong>
           </div>
         </div>
       </footer>

@@ -192,18 +192,18 @@ export default function CalculatorPage() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="border-t border-stone-200 bg-white py-8 px-4 sm:px-6 text-center text-xs text-stone-500 mt-16">
-        <div className="max-w-5xl mx-auto space-y-2">
-          <div className="flex items-center justify-center gap-2 font-bold text-stone-900">
-            <Compass className="w-4 h-4 text-emerald-800" />
+      {/* FOOTER (Compact & Bilingual) */}
+      <footer className="border-t border-stone-200 bg-white py-4 px-4 sm:px-6 text-center text-xs text-stone-600 mt-12">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2 font-bold text-stone-900">
+            <Compass className="w-4 h-4 text-emerald-800 shrink-0" />
             <span>Traversi &bull; {locale === "bm" ? "Travel Versi Anda" : "Your Trip, Your Version"}</span>
+            <span className="text-stone-300 hidden sm:inline">|</span>
+            <span className="text-stone-500 font-medium hidden sm:inline">Averis x Monash Hackathon 2026</span>
           </div>
-          <p className="text-stone-500 max-w-md mx-auto">
-            Averis Hackathon 2026
-          </p>
-          <div className="pt-2 text-[11px] text-stone-400 border-t border-stone-100">
-            Pasukan 4 Orang: <strong>Amir Hakim</strong> &bull; <strong>Moi</strong> &bull; <strong>Eqhlas</strong> &bull; <strong>Paan</strong>
+          <div className="text-[11px] text-stone-600 font-medium">
+            {locale === "bm" ? "Pasukan 4 Orang: " : "4-Member Team: "}
+            <strong className="text-stone-800">Amir Hakim</strong> &bull; <strong className="text-stone-800">Moi</strong> &bull; <strong className="text-stone-800">Eqhlas</strong> &bull; <strong className="text-stone-800">Paan</strong>
           </div>
         </div>
       </footer>
