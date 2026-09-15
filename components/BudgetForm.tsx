@@ -181,8 +181,8 @@ export default function BudgetForm({
             </div>
           </div>
 
-          {/* Slider input */}
-          <div className="relative py-1">
+          {/* Slider input with dynamic gradient fill */}
+          <div className="relative py-2">
             <input
               id="budget-slider"
               type="range"
@@ -192,11 +192,14 @@ export default function BudgetForm({
               value={budget}
               onChange={(e) => onBudgetChange(Number(e.target.value))}
               aria-label="Pelaras Slider Bajet"
-              className="w-full h-2.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-emerald-700"
+              style={{
+                background: `linear-gradient(to right, #065f46 0%, #065f46 ${Math.min(100, Math.max(0, ((budget - 500) / (10000 - 500)) * 100))}%, #e7e5e4 ${Math.min(100, Math.max(0, ((budget - 500) / (10000 - 500)) * 100))}%, #e7e5e4 100%)`,
+              }}
+              className="w-full h-3 rounded-full cursor-pointer shadow-inner transition-all"
             />
-            <div className="flex justify-between text-xs font-semibold text-stone-500 pt-1">
+            <div className="flex justify-between text-xs font-semibold text-stone-500 pt-2">
               <span>RM500 ({locale === "bm" ? "Domestik" : "Domestic"})</span>
-              <span>RM2,500 ({locale === "bm" ? "Purata ASEAN" : "Avg ASEAN"})</span>
+              <span className="font-bold text-emerald-800">RM2,500 ({locale === "bm" ? "Purata ASEAN" : "Avg ASEAN"})</span>
               <span>RM10,000 ({locale === "bm" ? "Global" : "Global"})</span>
             </div>
           </div>

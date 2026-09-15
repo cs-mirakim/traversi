@@ -185,8 +185,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     descEn: "Direct transactional purchasing and issuing of flight tickets and hotel vouchers in-app.",
     traversi: {
       status: "no",
-      reasonBm: "Traversi adalah enjin penasihat & perancang bajet pintar, bukan agensi penjual tiket komersial (OTA).",
-      reasonEn: "Traversi is an intelligent budget planner & advisor, not a commercial ticketing agency (OTA).",
+      reasonBm: "Traversi bukan peniaga tiket (OTA), sebaliknya menyediakan pautan pintar (Deep-Link) terus ke platform rasmi (Skyscanner/Agoda) tanpa perantara.",
+      reasonEn: "Traversi is not a merchant OTA, but provides direct smart deep-links to official platforms (Skyscanner/Agoda) at zero markup.",
     },
     skyscanner: {
       status: "yes",
@@ -216,8 +216,8 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     descEn: "Sales of theme park admissions, transit tourist passes, and localized day tour excursions.",
     traversi: {
       status: "partial",
-      reasonBm: "Menghasilkan cadangan itinerari 4 hari realistik yang dijana oleh Google Gemini AI.",
-      reasonEn: "Synthesizes realistic 4-day itinerary plans powered by Google Gemini AI.",
+      reasonBm: "Menghasilkan itinerari harian pintar dengan cadangan port halal, manakala pas tarikan ditautkan ke rakan niaga komersial (Klook/Agoda).",
+      reasonEn: "Generates smart daily itineraries with curated halal spots, while attraction passes link out to verified partners (Klook/Agoda).",
     },
     skyscanner: {
       status: "no",
