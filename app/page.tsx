@@ -53,7 +53,7 @@ export default function HomePage() {
         {/* =========================================================================
             HERO PITCH: REVERSE-BUDGETING VALUE PROPOSITION
         ========================================================================= */}
-        <section className="relative pt-12 pb-18 px-4 sm:px-6 max-w-5xl mx-auto text-center min-h-[calc(100vh-4rem)] flex flex-col justify-center">
+        <section id="overview" className="relative pt-12 pb-18 px-4 sm:px-6 max-w-5xl mx-auto text-center min-h-[calc(100vh-4rem)] flex flex-col justify-center scroll-mt-16">
           {/* Main Title */}
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-stone-950 mb-6 max-w-4xl mx-auto leading-tight">
             {locale === "bm" ? (

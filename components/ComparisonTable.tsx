@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Check, X, Minus, Info } from "lucide-react";
+import React from "react";
+import { Check, X, Minus } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface PlatformDetail {
@@ -45,7 +45,7 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     },
     traveloka: {
       status: "yes",
-      reasonBm: "Inventori tiket terus dengan liputan kuat bagi syarikat penerbangan rantau Asia Tenggara.",
+      reasonBm: "Inventori tiket terus dengan liputan luas bagi syarikat penerbangan rantau Asia Tenggara.",
       reasonEn: "Direct ticketing inventory with strong coverage of Southeast Asian carriers.",
     },
     klook: {
@@ -179,19 +179,19 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     },
   },
   {
-    titleBm: "6. Tempahan Terus Tiket & Baucar Penginapan Dalam Aplikasi (OTA)",
-    titleEn: "6. Direct Commercial Booking & Ticketing Engine (OTA)",
-    descBm: "Pembelian tiket penerbangan dan baucar hotel secara komersial terus dalam aplikasi.",
-    descEn: "Direct transactional purchasing of flight e-tickets and accommodation vouchers in-app.",
+    titleBm: "6. Tempahan Terus Tiket & Baucar (Online Travel Agency - OTA)",
+    titleEn: "6. Direct Booking & Ticketing (Online Travel Agency - OTA)",
+    descBm: "Pembelian tiket penerbangan dan pengeluaran baucar penginapan secara komersial terus dalam aplikasi.",
+    descEn: "Direct transactional purchasing and issuing of flight tickets and hotel vouchers in-app.",
     traversi: {
       status: "no",
-      reasonBm: "Traversi adalah enjin penasihat bajet pintar, bukan agensi tempahan tiket komersial (OTA).",
-      reasonEn: "Traversi is a budget intelligence & planning engine, not a commercial OTA agency.",
+      reasonBm: "Traversi adalah enjin penasihat & perancang bajet pintar, bukan agensi penjual tiket komersial (OTA).",
+      reasonEn: "Traversi is an intelligent budget planner & advisor, not a commercial ticketing agency (OTA).",
     },
     skyscanner: {
       status: "yes",
-      reasonBm: "Menyediakan pautan terus ke laman syarikat penerbangan atau ejen tiket rasmi.",
-      reasonEn: "Provides direct redirects to airlines and verified travel booking portals.",
+      reasonBm: "Menyediakan pautan terus ke laman syarikat penerbangan atau ejen tiket (OTA) rasmi.",
+      reasonEn: "Provides direct redirects to airlines and verified online travel agencies (OTAs).",
     },
     googleFlights: {
       status: "yes",
@@ -201,12 +201,12 @@ const COMPARISON_DATA: ComparisonFeature[] = [
     traveloka: {
       status: "yes",
       reasonBm: "Agensi pelancongan dalam talian (OTA) berlesen penuh dengan gerbang pembayaran bersepadu.",
-      reasonEn: "Full-service licensed OTA with integrated instant payment and ticketing.",
+      reasonEn: "Full-service licensed Online Travel Agency (OTA) with integrated instant payments.",
     },
     klook: {
       status: "yes",
-      reasonBm: "Peneraju global tempahan terus e-tiket tarikan dan pas masuk segera.",
-      reasonEn: "Global leader in direct instant-ticketing for attractions and transit passes.",
+      reasonBm: "Peneraju global tempahan terus e-tiket tarikan dan pas masuk segera (OTA Aktiviti).",
+      reasonEn: "Global leader in direct instant-ticketing for attractions and transit passes (Activity OTA).",
     },
   },
   {
@@ -248,7 +248,8 @@ export default function ComparisonTable() {
   const renderCellWithTooltip = (
     platformName: string,
     detail: PlatformDetail,
-    isTraversi: boolean = false
+    isTraversi: boolean = false,
+    rowIndex: number = 0
   ) => {
     const reason = locale === "bm" ? detail.reasonBm : detail.reasonEn;
     const statusTitle =
@@ -273,6 +274,10 @@ export default function ComparisonTable() {
         ? "bg-amber-50 text-amber-800 border border-amber-300 shadow-2xs"
         : "bg-stone-100 text-stone-600 border border-stone-300 shadow-2xs";
 
+    // For rows near top (0, 1), show tooltip downwards to avoid clipping above table header.
+    // For rows near bottom, show tooltip upwards.
+    const isTopRow = rowIndex <= 1;
+
     return (
       <div className="relative group/tooltip flex justify-center items-center py-1">
         {/* Interactive Icon Button */}
@@ -286,8 +291,12 @@ export default function ComparisonTable() {
           {detail.status === "no" && <X className="w-3.5 h-3.5 stroke-[2.2]" />}
         </button>
 
-        {/* Hover Explanatory Tooltip Popover */}
-        <div className="pointer-events-none opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 ease-out absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-52 sm:w-60 p-3 rounded-2xl bg-stone-900 text-white text-[11px] shadow-2xl border border-stone-700/80 z-50">
+        {/* Hover Explanatory Tooltip Popover with Smart Boundary-Safe Direction */}
+        <div
+          className={`pointer-events-none opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 ease-out absolute left-1/2 -translate-x-1/2 w-52 sm:w-64 p-3 rounded-2xl bg-stone-900 text-white text-[11px] shadow-2xl border border-stone-700/80 z-50 ${
+            isTopRow ? "top-full mt-2.5" : "bottom-full mb-2.5"
+          }`}
+        >
           <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-stone-800">
             <span className="font-bold text-stone-200 text-xs">{platformName}</span>
             <span
@@ -302,10 +311,16 @@ export default function ComparisonTable() {
               {statusTitle}
             </span>
           </div>
-          <p className="text-stone-300 leading-relaxed font-normal">{reason}</p>
+          <p className="text-stone-300 leading-relaxed font-normal text-left">{reason}</p>
 
-          {/* Tooltip Downward Caret Arrow */}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-solid border-t-stone-900 border-t-6 border-x-transparent border-x-6 border-b-0 w-0 h-0" />
+          {/* Tooltip Caret Pointer */}
+          {isTopRow ? (
+            // Caret on TOP pointing UP
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 -mb-[1px] border-solid border-b-stone-900 border-b-6 border-x-transparent border-x-6 border-t-0 w-0 h-0" />
+          ) : (
+            // Caret on BOTTOM pointing DOWN
+            <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-solid border-t-stone-900 border-t-6 border-x-transparent border-x-6 border-b-0 w-0 h-0" />
+          )}
         </div>
       </div>
     );
@@ -343,7 +358,7 @@ export default function ComparisonTable() {
               </th>
               <th className="p-3 text-center text-stone-700 font-bold w-[12%]">
                 <div className="text-xs font-bold text-stone-900">Traveloka</div>
-                <div className="text-[10px] text-stone-500 font-medium">Regional OTA</div>
+                <div className="text-[10px] text-stone-500 font-medium">{locale === "bm" ? "OTA Serantau" : "Regional OTA"}</div>
               </th>
               <th className="p-3 text-center text-stone-700 font-bold w-[12%]">
                 <div className="text-xs font-bold text-stone-900">Klook</div>
@@ -366,27 +381,27 @@ export default function ComparisonTable() {
 
                 {/* Traversi Column (Highlighted) */}
                 <td className="p-3 text-center bg-emerald-50/30 border-x border-emerald-200">
-                  {renderCellWithTooltip("Traversi", row.traversi, true)}
+                  {renderCellWithTooltip("Traversi", row.traversi, true, idx)}
                 </td>
 
                 {/* Skyscanner */}
                 <td className="p-3 text-center">
-                  {renderCellWithTooltip("Skyscanner", row.skyscanner)}
+                  {renderCellWithTooltip("Skyscanner", row.skyscanner, false, idx)}
                 </td>
 
                 {/* Google Flights */}
                 <td className="p-3 text-center">
-                  {renderCellWithTooltip("Google Flights", row.googleFlights)}
+                  {renderCellWithTooltip("Google Flights", row.googleFlights, false, idx)}
                 </td>
 
                 {/* Traveloka */}
                 <td className="p-3 text-center">
-                  {renderCellWithTooltip("Traveloka", row.traveloka)}
+                  {renderCellWithTooltip("Traveloka", row.traveloka, false, idx)}
                 </td>
 
                 {/* Klook */}
                 <td className="p-3 text-center">
-                  {renderCellWithTooltip("Klook", row.klook)}
+                  {renderCellWithTooltip("Klook", row.klook, false, idx)}
                 </td>
               </tr>
             ))}

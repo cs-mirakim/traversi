@@ -63,6 +63,13 @@ export default function Navbar() {
   // Official Pitch Deck sections strictly matching Averis Hackathon 2026 Documentation Guidelines
   const averisSections = [
     {
+      num: "00",
+      label: locale === "bm" ? "Pengenalan & Nilai" : "Overview & Value Prop",
+      sub: locale === "bm" ? "Enjin Reverse-Budgeting" : "Reverse-Budgeting Engine",
+      href: "/#overview",
+      icon: Sparkles,
+    },
+    {
       num: "01",
       label: locale === "bm" ? "Penyataan Masalah" : "Problem Statement",
       sub: locale === "bm" ? "Perangkap Kos Sebenar Belia" : "The Core Youth Expense Trap",
