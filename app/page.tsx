@@ -282,12 +282,11 @@ export default function HomePage() {
             04. TECHNICAL ARCHITECTURE (Averis Guidelines: Cloud + AI Requirement)
         ========================================================================= */}
         <section id="technical-architecture" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">
-              <Server className="w-3.5 h-3.5 text-emerald-700" />
-              <span>{locale === "bm" ? "04 • Seni Bina Teknikal (Averis Cloud + AI)" : "04 • Technical Architecture"}</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-1">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              {locale === "bm" ? "04 • Seni Bina Teknikal" : "04 • Technical Architecture"}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
               {locale === "bm" ? "Integrasi Penuh: Supabase Cloud, Vercel & Google Gemini" : "Full Integration: Supabase Cloud, Vercel & Google Gemini"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
@@ -333,23 +332,23 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Node 2 */}
-                <div className="p-4 rounded-2xl bg-emerald-50/50 border-2 border-emerald-600/60 flex flex-col justify-between space-y-3">
+                {/* Node 2 - Balanced harmonious styling with other nodes */}
+                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono font-bold text-emerald-900 bg-emerald-200 px-1.5 py-0.5 rounded">CLOUD TIER</span>
+                      <span className="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded">CLOUD TIER</span>
                       <Database className="w-4 h-4 text-emerald-700" />
                     </div>
-                    <h4 className="font-black text-emerald-950 text-sm mt-2">
+                    <h4 className="font-black text-stone-950 text-sm mt-2">
                       {locale === "bm" ? "Supabase Postgres" : "Supabase Cloud Postgres"}
                     </h4>
-                    <p className="text-[11px] text-emerald-900/80 font-medium mt-1 leading-relaxed">
+                    <p className="text-[11px] text-stone-600 font-medium mt-1 leading-relaxed">
                       {locale === "bm"
                         ? "Pangkalan data awan AWS (ap-southeast-1). Semakan cache penerbangan & destinasi."
                         : "Managed AWS Postgres (ap-southeast-1). Flight & destination caching layer."}
                     </p>
                   </div>
-                  <div className="text-[10px] font-mono bg-white p-2 rounded-lg border border-emerald-200 text-emerald-950">
+                  <div className="text-[10px] font-mono bg-white p-2 rounded-lg border border-stone-200 text-stone-700">
                     flight_cache &bull; destinations_cache &bull; searches
                   </div>
                 </div>
@@ -432,26 +431,17 @@ export default function HomePage() {
             05. TECHNICAL STACK (Averis Guidelines: Tech Stack Section)
         ========================================================================= */}
         <section id="tech-stack" className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-16">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            {/* Averis Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-800 text-white text-xs font-bold shadow-xs">
-                <Cloud className="w-3.5 h-3.5" />
-                <span>Averis Cloud Edition Compliant</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900 text-emerald-300 text-xs font-bold shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Averis AI Edition Compliant</span>
-              </span>
-            </div>
-
-            <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight">
-              {locale === "bm" ? "05 • Susunan Teknologi & Pengesahan 100% Percuma" : "05 • Technical Stack & 100% Free-Tier Audit"}
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              {locale === "bm" ? "05 • Susunan Teknologi & Audit" : "05 • Technical Stack & Audit"}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
+              {locale === "bm" ? "Susunan Teknologi & Pengesahan 100% Bebas Kos" : "Technical Stack & 100% Free-Tier Audit"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
-                ? "Semua komponen beroperasi sepenuhnya pada pelan percuma tanpa memerlukan kad kredit mengikut garis panduan Averis."
-                : "All infrastructure runs strictly within verified free tiers with zero credit card dependencies per Averis guidelines."}
+                ? "Semua komponen beroperasi sepenuhnya pada pelan percuma tanpa memerlukan kad kredit mengikut garis panduan Averis Cloud & AI Edition."
+                : "All infrastructure runs strictly within verified free tiers with zero credit card dependencies per Averis Cloud & AI guidelines."}
             </p>
           </div>
 
@@ -948,13 +938,13 @@ export default function HomePage() {
               </a>
 
               {/* 3. Live Prototype Link */}
-              <a
+              <Link
                 href="/kalkulator"
-                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-emerald-100/70 hover:bg-emerald-100 text-emerald-950 font-bold text-sm flex items-center justify-center gap-2 border border-emerald-200 transition-colors"
+                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-stone-50 text-emerald-950 font-bold text-sm flex items-center justify-center gap-2 border-2 border-emerald-700 shadow-sm hover:shadow-md transition-all cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-emerald-700" />
                 <span>{locale === "bm" ? "Demo Prototaip Langsung" : "Live Prototype Demo"}</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
