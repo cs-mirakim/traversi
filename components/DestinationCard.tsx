@@ -166,29 +166,32 @@ export default function DestinationCard({
         {/* Card Content Body */}
         <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
           {/* Budget Comparison Section */}
-          <div className="flex items-baseline justify-between border-b border-stone-100 pb-3">
-            <div>
-              <span className="text-xs font-semibold text-stone-600 block">
+          <div className="border-b border-stone-100 pb-3 space-y-1">
+            <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
+              <span>
                 {locale === "bm" 
-                  ? `Anggaran Lengkap (${paxInput} Pax • ${daysInput} Hari)` 
-                  : `Total Estimate (${paxInput} Pax • ${daysInput} Days)`}
+                  ? `Anggaran (${paxInput} Pax • ${daysInput} Hari)` 
+                  : `Estimate (${paxInput} Pax • ${daysInput} Days)`}
               </span>
-              <div className="flex items-baseline gap-2 mt-0.5">
-                <span className="text-2xl font-black text-stone-950 tracking-tight">{formatRM(totalCost)}</span>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
-                  {budgetUsagePercent}% {locale === "bm" ? "Had Bajet" : "of Budget"}
-                </span>
-              </div>
+              <span className="text-xs font-bold text-emerald-800 flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/80">
+                <TrendingDown className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                <span>{locale === "bm" ? `Baki +${formatRM(remainingBudget)}` : `Save +${formatRM(remainingBudget)}`}</span>
+              </span>
             </div>
 
-            <div className="text-right">
-              <span className="text-xs text-emerald-800 font-bold inline-flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                <TrendingDown className="w-3.5 h-3.5 text-emerald-700" />
-                <span>{locale === "bm" ? `Baki +${formatRM(remainingBudget)}` : `Left +${formatRM(remainingBudget)}`}</span>
+            <div className="flex items-baseline justify-between gap-2 pt-0.5">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-2xl font-black text-stone-950 tracking-tight">
+                  {formatRM(totalCost)}
+                </span>
+                <span className="text-xs text-stone-500 font-medium">
+                  / {formatRM(budgetInput)}
+                </span>
+              </div>
+
+              <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-800 border border-stone-200 whitespace-nowrap">
+                {budgetUsagePercent}% {locale === "bm" ? "Had Bajet" : "of Budget"}
               </span>
-              <p className="text-[11px] text-stone-500 font-medium mt-0.5">
-                {locale === "bm" ? "Lebihan wang poket" : "Pocket savings"}
-              </p>
             </div>
           </div>
 

@@ -193,7 +193,7 @@ export default function CalculatorPage() {
       </main>
 
       {/* FOOTER (Compact & Bilingual) */}
-      <footer className="border-t border-stone-200 bg-white py-4 px-4 sm:px-6 text-center text-xs text-stone-600 mt-12">
+      <footer className="border-t border-stone-200 bg-white py-4 px-4 sm:px-6 text-center text-xs text-stone-600 mt-12 md:pl-72">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <div className="flex items-center gap-2 font-bold text-stone-900">
             <Compass className="w-4 h-4 text-emerald-800 shrink-0" />
