@@ -76,7 +76,7 @@ export default function HomePage() {
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-stone-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
             {locale === "bm"
-              ? "Sistem kalkulator terbalik (Reverse-Budgeting) pertama untuk belia Malaysia: masukkan had wang poket anda, enjin pintar menentukan destinasi mana yang muat bajet siap pecahan tiket penerbangan, hotel berkongsi berdua, makan minum harian, dan semakan pasport/halal."
+              ? "Enjin carian bajet terbalik (Reverse-Budgeting) pertama Malaysia: masukkan had bajet wang poket anda, Traversi mengira destinasi yang muat kos tiket penerbangan, bilik kongsi berdua, makanan halal, dan pasport."
               : "Malaysia's first reverse-budgeting travel recommendation engine: specify your spending ceiling, and our intelligent engine computes destinations that genuinely fit return flights, twin-sharing rooms, daily halal dining, and visa privileges."}
           </p>
 
@@ -87,7 +87,7 @@ export default function HomePage() {
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-base flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-900/15 transition-all cursor-pointer"
             >
               <Calculator className="w-5 h-5" />
-              <span>{locale === "bm" ? "Mula Kira Bajet Sekarang" : "Calculate My Budget Now"}</span>
+              <span>{locale === "bm" ? "Kira Bajet Saya Sekarang" : "Calculate My Budget Now"}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

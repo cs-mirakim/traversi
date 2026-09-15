@@ -3,6 +3,7 @@
 import React from "react";
 import { ShieldCheck, UtensilsCrossed, Coins } from "lucide-react";
 import { getCurrencyInfo } from "@/lib/currency";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface BadgeHalalVisaProps {
   visaBadge?: string;
@@ -21,29 +22,36 @@ export default function BadgeHalalVisa({
   halalDescription = "Premis halal mudah didapati",
   currencyCode,
 }: BadgeHalalVisaProps) {
+  const { locale } = useLanguage();
   const currency = getCurrencyInfo(currencyCode);
 
   const halalBadgeConfig = {
     Mudah: {
-      label: halalCount ? `Halal: ${halalCount}+ Premis OSM` : "Halal: Mudah",
+      label: halalCount 
+        ? (locale === "bm" ? `Halal: ${halalCount}+ Premis OSM` : `Halal: ${halalCount}+ OSM Nodes`)
+        : (locale === "bm" ? "Halal: Mudah" : "Halal: Easy"),
       bg: "bg-emerald-100",
       text: "text-emerald-950",
       border: "border-emerald-300",
     },
     Sederhana: {
-      label: halalCount ? `Halal: ${halalCount} Premis OSM` : "Halal: Sederhana",
+      label: halalCount 
+        ? (locale === "bm" ? `Halal: ${halalCount} Premis OSM` : `Halal: ${halalCount} OSM Nodes`)
+        : (locale === "bm" ? "Halal: Sederhana" : "Halal: Moderate"),
       bg: "bg-amber-100",
       text: "text-amber-950",
       border: "border-amber-300",
     },
     Terhad: {
-      label: halalCount ? `Halal: ${halalCount} Premis (Terhad)` : "Halal: Terhad",
+      label: halalCount 
+        ? (locale === "bm" ? `Halal: ${halalCount} Premis (Terhad)` : `Halal: ${halalCount} Nodes (Limited)`)
+        : (locale === "bm" ? "Halal: Terhad" : "Halal: Limited"),
       bg: "bg-rose-100",
       text: "text-rose-950",
       border: "border-rose-300",
     },
   }[halalScore] || {
-    label: "Halal: Mudah",
+    label: locale === "bm" ? "Halal: Mudah" : "Halal: Easy",
     bg: "bg-emerald-100",
     text: "text-emerald-950",
     border: "border-emerald-300",

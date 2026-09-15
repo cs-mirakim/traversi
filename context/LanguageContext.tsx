@@ -16,7 +16,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<LocaleType>("bm");
+  const [locale, setLocaleState] = useState<LocaleType>("en");
 
   useEffect(() => {
     const saved = localStorage.getItem("traversi_locale") as LocaleType;
