@@ -19,7 +19,13 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-:: 2. Semak fail node_modules
+:: 2. Bebaskan Port 3000 jika ada proses sangkut (mengelakkan konflik port)
+for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":3000" ^| findstr "LISTENING"') do (
+    echo [INFO] Menutup proses lama yang memegang port 3000 (PID: %%a)...
+    taskkill /f /pid %%a >nul 2>nul
+)
+
+:: 3. Semak fail node_modules
 if not exist "node_modules\next\" (
     echo [INFO] Kebergantungan belum lengkap dipasang. Memasang pakej npm...
     call npm install
@@ -33,7 +39,10 @@ if not exist "node_modules\next\" (
 echo [1/2] Membuka pelayar (browser) di http://localhost:3000 ...
 start "" cmd /c "timeout /t 3 /nobreak >nul & start http://localhost:3000"
 
-echo [2/2] Menjalankan pelayan pembangunan Next.js (npm run dev)...
+echo [2/2] Menjalankan pelayan pembangunan Next.js (Fast Refresh diaktifkan)...
+echo.
+echo TIP: Pelayan ini mempunyai Hot Reload (Fast Refresh). 
+echo Sebarang perubahan kod akan dikemas kini serta-merta tanpa perlu restart!
 echo.
 echo Tekan Ctrl+C dalam terminal ini untuk menghentikan server bila selesai.
 echo =======================================================
