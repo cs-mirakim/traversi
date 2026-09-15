@@ -3,18 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Compass, UserPlus, ArrowLeft, Sparkles } from "lucide-react";
+import { Compass, ArrowLeft, Sparkles, CheckCircle2, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { isLoggedIn, register, loginWithGoogle } = useAuth();
+  const { isLoggedIn, login, loginWithGoogle } = useAuth();
   const { locale } = useLanguage();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // If already logged in, redirect straight to profile
@@ -24,16 +20,15 @@ export default function RegisterPage() {
     }
   }, [isLoggedIn, router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    register(name || "Pengembara Traversi", email || "user@traversi.my");
-    router.push("/profile");
-  };
-
   const handleGoogle = () => {
     setIsLoading(true);
     loginWithGoogle();
+    router.push("/profile");
+  };
+
+  const handleDemoRegister = () => {
+    setIsLoading(true);
+    login("amir@traversi.my", "Amir Hakim");
     router.push("/profile");
   };
 
@@ -50,33 +45,37 @@ export default function RegisterPage() {
         </Link>
       </div>
 
-      {/* Main Register Card */}
+      {/* Main Register Card - Pure 1-Click Google & Instant Setup */}
       <div className="max-w-md mx-auto w-full my-auto py-6">
         <div className="bg-white rounded-3xl border border-stone-200 shadow-xl p-6 sm:p-8 space-y-6">
-          {/* Header */}
+          {/* Brand Icon & Heading */}
           <div className="text-center space-y-2">
-            <Link href="/" className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-800 text-white shadow-md mx-auto mb-2">
-              <Compass className="w-6 h-6" />
+            <Link 
+              href="/" 
+              className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-800 text-white shadow-md mx-auto mb-2 group"
+            >
+              <Compass className="w-6 h-6 transition-transform duration-300 group-hover:rotate-45" />
             </Link>
             <h1 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight">
               {locale === "bm" ? "Daftar Akaun Baru" : "Create an Account"}
             </h1>
-            <p className="text-xs text-stone-600 font-medium">
+            <p className="text-xs text-stone-600 font-medium leading-relaxed">
               {locale === "bm"
-                ? "Simpan destinasi kegemaran dan rekod carian bajet anda."
-                : "Save your favorite destinations and travel budget records."}
+                ? "Daftar serta-merta dengan akaun Google tanpa perlu mengisi borang manual."
+                : "Instant signup using your Google account with zero manual form filling."}
             </p>
           </div>
 
-          <div className="space-y-4">
-            {/* Google Button */}
+          {/* Direct Auth Action Buttons */}
+          <div className="space-y-3 pt-2">
+            {/* 1. Google One-Click Button */}
             <button
               type="button"
               onClick={handleGoogle}
               disabled={isLoading}
-              className="w-full py-3 px-4 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-2.5 transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
+              className="w-full py-3.5 px-4 rounded-2xl border border-stone-200 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-3 transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-[0.99]"
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -97,85 +96,49 @@ export default function RegisterPage() {
               <span>{locale === "bm" ? "Daftar dengan Google" : "Sign up with Google"}</span>
             </button>
 
-            <div className="relative text-center my-3">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-stone-200" />
-              </div>
-              <span className="relative bg-white px-3 text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
-                {locale === "bm" ? "atau guna emel" : "or with email"}
-              </span>
+            {/* 2. Instant Demo Register Button */}
+            <button
+              type="button"
+              onClick={handleDemoRegister}
+              disabled={isLoading}
+              className="w-full py-3 px-4 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
+            >
+              <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
+              <span>{locale === "bm" ? "Daftar Segera Sebagai Amir Hakim (Demo)" : "Instant Demo Register (Amir Hakim)"}</span>
+            </button>
+          </div>
+
+          {/* Benefits Feature List */}
+          <div className="pt-3 border-t border-stone-100 space-y-2 text-stone-600 text-xs font-medium">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+              <span>{locale === "bm" ? "100% percuma tanpa langganan tersembunyi" : "100% free with zero hidden costs"}</span>
             </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3.5">
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1">
-                  {locale === "bm" ? "Nama Penuh" : "Full Name"}
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Contoh: Amir Hakim"
-                  className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-stone-300 focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-stone-50/50"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1">
-                  {locale === "bm" ? "Alamat Emel" : "Email Address"}
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="amir@contoh.com"
-                  className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-stone-300 focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-stone-50/50"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1">
-                  {locale === "bm" ? "Cipta Kata Laluan" : "Create Password"}
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-stone-300 focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-stone-50/50"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-3.5 px-4 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs sm:text-sm transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99]"
-              >
-                <UserPlus className="w-4 h-4" />
-                <span>{locale === "bm" ? "Daftar Akaun Percuma" : "Register Free Account"}</span>
-              </button>
-            </form>
-
-            {/* Login link */}
-            <div className="text-center pt-2 border-t border-stone-100">
-              <p className="text-xs text-stone-600">
-                {locale === "bm" ? "Sudah mempunyai akaun? " : "Already have an account? "}
-                <Link href="/login" className="font-bold text-emerald-800 hover:underline">
-                  {locale === "bm" ? "Log masuk di sini" : "Sign in here"}
-                </Link>
-              </p>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+              <span>{locale === "bm" ? "Simpan carian bajet dan destinasi kegemaran" : "Bookmark trips and track past search calculations"}</span>
             </div>
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+              <span>{locale === "bm" ? "Akses selamat dan pantas melalui Supabase Cloud" : "Fast, secured cloud profile on Supabase"}</span>
+            </div>
+          </div>
+
+          {/* Footer Switch to Login */}
+          <div className="text-center pt-1 border-t border-stone-100">
+            <p className="text-xs text-stone-500 font-medium">
+              {locale === "bm" ? "Sudah mempunyai akaun? " : "Already have an account? "}
+              <Link href="/login" className="font-bold text-emerald-800 hover:text-emerald-950 underline transition-colors">
+                {locale === "bm" ? "Log masuk di sini" : "Sign in here"}
+              </Link>
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="text-center text-xs text-stone-500 pb-2">
-        Traversi &bull; Averis Hackathon 2026
+      {/* Footer info */}
+      <div className="text-center py-4 text-[11px] text-stone-400">
+        Traversi &bull; Averis Hackathon 2026 Cloud + AI Edition
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ export default function HomePage() {
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-stone-950 mb-6 max-w-4xl mx-auto leading-tight">
             {locale === "bm" ? (
               <>
-                Kau Masuk Bajet RM, <br className="hidden sm:inline" />
+                Kau Masuk Bajet, <br className="hidden sm:inline" />
                 <span className="text-emerald-800 underline decoration-emerald-300 decoration-wavy decoration-2">
                   Traversi Carikan Destinasi Ngam.
                 </span>
