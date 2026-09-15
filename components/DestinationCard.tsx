@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import { CheckCircle2, TrendingDown, Quote, Award } from "lucide-react";
+import { CheckCircle2, TrendingDown, Quote, Award, Star } from "lucide-react";
 import { RecommendationResult } from "@/lib/mockDestinations";
 import { formatRM } from "@/lib/utils";
 import BreakdownBar from "./BreakdownBar";
 import BadgeHalalVisa from "./BadgeHalalVisa";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface DestinationCardProps {
   result: RecommendationResult;
@@ -26,6 +27,7 @@ export default function DestinationCard({
   onSelect,
 }: DestinationCardProps) {
   const { locale } = useLanguage();
+  const { isLoggedIn, toggleStar, isStarred } = useAuth();
   const { destination, totalCost, costBreakdown, budgetUsagePercent, remainingBudget, halal, visa } = result;
   const isTopPick = rank === 1;
 
@@ -60,16 +62,38 @@ export default function DestinationCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent" />
 
-        {/* Top Badges */}
+        {/* Top Badges & Star Button */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
           <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-white/95 text-stone-900 shadow-xs">
             {destination.flag} {destination.country}
           </span>
 
-          <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow-xs flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
-            <span>{budgetUsagePercent}% {locale === "bm" ? "Bajet" : "Budget"}</span>
-          </span>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (isLoggedIn) {
+                  toggleStar(destination.id);
+                } else {
+                  window.location.href = "/login";
+                }
+              }}
+              title={isStarred(destination.id) ? "Nyah-tanda bintang" : "Simpan / Pin destinasi"}
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer shadow-xs ${
+                isStarred(destination.id)
+                  ? "bg-amber-400 text-stone-950 hover:bg-amber-300"
+                  : "bg-white/90 text-stone-600 hover:bg-white hover:text-amber-600"
+              }`}
+            >
+              <Star className={`w-3.5 h-3.5 ${isStarred(destination.id) ? "fill-current" : ""}`} />
+            </button>
+
+            <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow-xs flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+              <span>{budgetUsagePercent}% {locale === "bm" ? "Bajet" : "Budget"}</span>
+            </span>
+          </div>
         </div>
 
         {/* City Title */}
