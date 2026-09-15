@@ -28,41 +28,15 @@ export default function ProfilePage() {
   const { user, isLoggedIn, logout, toggleStar } = useAuth();
   const { locale } = useLanguage();
 
+  // If not logged in or user logs out, redirect straight to landing page (never show Sign In Required)
+  React.useEffect(() => {
+    if (!isLoggedIn) {
+      router.replace("/");
+    }
+  }, [isLoggedIn, router]);
+
   if (!isLoggedIn || !user) {
-    return (
-      <div className="min-h-screen bg-[#fcfdfd] text-[#0f172a] flex flex-col">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white p-8 rounded-3xl border border-stone-200 shadow-xl text-center space-y-4">
-            <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center mx-auto">
-              <User className="w-7 h-7" />
-            </div>
-            <h1 className="text-2xl font-black text-stone-950">
-              {locale === "bm" ? "Sesi Log Masuk Diperlukan" : "Sign In Required"}
-            </h1>
-            <p className="text-xs text-stone-600 font-medium">
-              {locale === "bm"
-                ? "Sila log masuk untuk melihat profil, destinasi kegemaran, dan rekod bajet anda."
-                : "Please log in to view your profile, saved destinations, and budget history."}
-            </p>
-            <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
-              <Link
-                href="/login"
-                className="flex-1 py-3 px-4 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs shadow-md transition-colors"
-              >
-                {locale === "bm" ? "Log Masuk" : "Sign In"}
-              </Link>
-              <Link
-                href="/register"
-                className="flex-1 py-3 px-4 rounded-xl border border-stone-300 hover:bg-stone-50 font-bold text-xs transition-colors text-stone-800"
-              >
-                {locale === "bm" ? "Daftar Akaun" : "Register"}
-              </Link>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
+    return null;
   }
 
   // Get starred destinations details
