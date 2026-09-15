@@ -21,7 +21,7 @@ if %errorlevel% neq 0 (
 
 :: 2. Bebaskan Port 3000 jika ada proses sangkut (mengelakkan konflik port)
 for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":3000" ^| findstr "LISTENING"') do (
-    echo [INFO] Menutup proses lama yang memegang port 3000 (PID: %%a)...
+    echo [INFO] Menutup proses lama yang memegang port 3000 - PID %%a
     taskkill /f /pid %%a >nul 2>nul
 )
 
