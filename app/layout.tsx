@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -9,9 +10,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Traversi - Bajet Berapa Boleh Pergi Mana? | Travel DIY RM",
+  title: "Traversi - Travel Versi Anda | Reverse-Budgeting Malaysia",
   description:
-    "Sistem cadangan destinasi travel bajet untuk pelajar dan belia Malaysia. Masukkan bajet RM, dapatkan 3 destinasi lepas bajet siap pecahan tiket, hotel, makan & semakan halal.",
+    "Sistem kalkulator bajet terbalik untuk belia Malaysia. Masukkan had bajet RM, sistem paparkan destinasi muat bajet siap pecahan 4 dimensi kos, semakan pasport, dan halal.",
 };
 
 export default function RootLayout({
@@ -21,7 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ms" className={`${plusJakarta.variable} font-sans antialiased scroll-smooth`}>
-      <body className="min-h-screen bg-[#FBFBFA] text-stone-900">{children}</body>
+      <body className="min-h-screen bg-[#fcfdfd] text-[#0f172a]">
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

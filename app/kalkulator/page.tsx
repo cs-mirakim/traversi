@@ -9,8 +9,11 @@ import ItineraryModal from "@/components/ItineraryModal";
 import { RecommendationResult } from "@/lib/mockDestinations";
 import { formatRM } from "@/lib/utils";
 import { Compass, Sparkles, AlertCircle, ArrowLeft } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function CalculatorPage() {
+  const { locale } = useLanguage();
+
   // State for search query
   const [budget, setBudget] = useState<number>(2500);
   const [budgetMode, setBudgetMode] = useState<"per_pax" | "total">("total");
@@ -63,28 +66,28 @@ export default function CalculatorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#022c22] text-[#ecfdf5] font-sans flex flex-col selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-[#fcfdfd] text-[#0f172a] font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
       <Navbar />
 
       <main className="flex-1">
         {/* TOP BAR / BREADCRUMB */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-7 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-7 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-emerald-950/80 px-3.5 py-2 rounded-xl border border-emerald-800 shadow-sm"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 hover:text-stone-950 transition-colors bg-white px-3.5 py-2 rounded-xl border border-stone-200 shadow-2xs"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Kembali ke Pitch Deck Sistem</span>
+            <span>{locale === "bm" ? "Kembali ke Pengenalan" : "Back to Overview"}</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-300 bg-emerald-950/80 px-3.5 py-2 rounded-xl border border-emerald-800">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Kalkulator Enjin Aktif</span>
+          <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-800 bg-emerald-50 px-3.5 py-2 rounded-xl border border-emerald-200">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+            <span>{locale === "bm" ? "Kalkulator Bajet Aktif" : "Calculator Active"}</span>
           </div>
         </div>
 
         {/* INPUT FORM SECTION */}
-        <section className="pt-6 pb-12 px-4 sm:px-6 max-w-5xl mx-auto">
+        <section className="pt-6 pb-12 px-4 sm:px-6 max-w-4xl mx-auto">
           <BudgetForm
             budget={budget}
             budgetMode={budgetMode}
@@ -104,38 +107,49 @@ export default function CalculatorPage() {
         </section>
 
         {/* RESULTS SECTION */}
-        <section id="cadangan" className="py-12 px-4 sm:px-6 max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 border-b border-emerald-800/80 pb-5">
+        <section id="cadangan" className="py-12 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 pb-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-900/60 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-2 border border-emerald-700/50">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                Hasil Padanan Enjin
-              </div>
-              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                3 Destinasi Terbaik Muat Bajet
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                {locale === "bm" ? "Hasil Padanan Enjin" : "Recommended Destinations"}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-2">
+                {locale === "bm" ? "3 Destinasi Terbaik Muat Bajet" : "Top 3 Matching Destinations"}
               </h2>
-              <p className="text-xs sm:text-sm text-emerald-200/90 mt-1 font-medium">
-                Berdasarkan had bajet <strong className="text-white">{formatRM(effectiveBudget)}</strong>{" "}
-                {budgetMode === "per_pax" ? `(RM${budget.toLocaleString()} × ${pax} pax)` : `(Jumlah kumpulan ${pax} pax)`}{" "}
-                untuk <strong className="text-white">{days} hari</strong> dari lapangan terbang {origin}.
+              <p className="text-xs sm:text-sm text-stone-600 mt-1 font-medium">
+                {locale === "bm" ? (
+                  <>
+                    Berdasarkan had bajet <strong className="text-stone-900">{formatRM(effectiveBudget)}</strong>{" "}
+                    {budgetMode === "per_pax" ? `(RM${budget.toLocaleString()} × ${pax} pax)` : `(Jumlah kumpulan ${pax} pax)`}{" "}
+                    untuk <strong className="text-stone-900">{days} hari</strong> dari lapangan terbang {origin}.
+                  </>
+                ) : (
+                  <>
+                    Based on spending limit of <strong className="text-stone-900">{formatRM(effectiveBudget)}</strong>{" "}
+                    {budgetMode === "per_pax" ? `(RM${budget.toLocaleString()} × ${pax} pax)` : `(Group total for ${pax} pax)`}{" "}
+                    for <strong className="text-stone-900">{days} days</strong> departing from {origin}.
+                  </>
+                )}
               </p>
             </div>
 
-            <div className="text-xs font-bold text-emerald-300 bg-emerald-950/90 px-3 py-2 rounded-xl border border-emerald-800/80 w-fit">
-              Disusun mengikut: <span className="text-white font-extrabold underline">Nilai Paling Optimum &amp; Berbaloi</span>
+            <div className="text-xs font-bold text-stone-700 bg-stone-100 px-3 py-2 rounded-xl border border-stone-200 w-fit">
+              {locale === "bm" ? "Disusun mengikut: Nilai Paling Optimum & Berbaloi" : "Sorted by: Highest Value & Trip Comfort"}
             </div>
           </div>
 
           {/* Destination Cards Grid */}
           {isLoading ? (
-            <div className="p-12 text-center bg-[#ecfdf5] text-[#022c22] rounded-3xl border-2 border-emerald-300 max-w-xl mx-auto space-y-4 shadow-2xl">
-              <div className="w-12 h-12 border-4 border-emerald-700 border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="p-12 text-center bg-white text-stone-900 rounded-3xl border border-stone-200 max-w-xl mx-auto space-y-4 shadow-sm">
+              <div className="w-10 h-10 border-3 border-emerald-700 border-t-transparent rounded-full animate-spin mx-auto" />
               <div>
-                <h3 className="text-lg font-black text-[#022c22] mb-1">
-                  Mengira Destinasi Sesuai...
+                <h3 className="text-base font-bold text-stone-950 mb-1">
+                  {locale === "bm" ? "Mengira Destinasi Sesuai..." : "Calculating Matching Destinations..."}
                 </h3>
-                <p className="text-xs font-medium text-emerald-800 max-w-sm mx-auto leading-relaxed">
-                  Sedang menyemak kos penerbangan, bilik hotel kongsi, makan harian, data Overpass OSM halal, dan syarat pasport Malaysia.
+                <p className="text-xs font-medium text-stone-600 max-w-sm mx-auto leading-relaxed">
+                  {locale === "bm"
+                    ? "Sedang menyemak penerbangan, bilik hotel kongsi, makan harian, data Overpass OSM halal, dan syarat pasport Malaysia."
+                    : "Auditing flights, twin-sharing rooms, daily meals, Overpass OSM halal nodes, and passport regulations."}
                 </p>
               </div>
             </div>
@@ -154,20 +168,24 @@ export default function CalculatorPage() {
               ))}
             </div>
           ) : (
-            <div className="p-8 text-center bg-[#ecfdf5] text-[#022c22] rounded-3xl border-2 border-emerald-300 max-w-lg mx-auto shadow-2xl">
-              <AlertCircle className="w-12 h-12 text-amber-700 mx-auto mb-3" />
-              <h3 className="text-lg font-black text-[#022c22] mb-1">Tiada destinasi yang muat dengan bajet ini</h3>
-              <p className="text-xs text-emerald-800 mb-5 font-medium leading-relaxed">
-                Jumlah bajet {formatRM(effectiveBudget)} mungkin terlalu ketat untuk menampung tiket kapal terbang, hotel {days} hari, dan makan minum. Sila laraskan bajet atau kurangkan hari.
+            <div className="p-8 text-center bg-white text-stone-900 rounded-3xl border border-stone-200 max-w-lg mx-auto shadow-sm">
+              <AlertCircle className="w-10 h-10 text-amber-600 mx-auto mb-3" />
+              <h3 className="text-base font-bold text-stone-950 mb-1">
+                {locale === "bm" ? "Tiada destinasi yang muat dengan bajet ini" : "No destinations fit within this budget"}
+              </h3>
+              <p className="text-xs text-stone-600 mb-5 font-medium leading-relaxed">
+                {locale === "bm"
+                  ? `Jumlah bajet ${formatRM(effectiveBudget)} mungkin terlalu ketat untuk menampung tiket kapal terbang, hotel ${days} hari, dan makan minum. Sila laraskan bajet atau kurangkan hari.`
+                  : `A budget of ${formatRM(effectiveBudget)} is insufficient to cover return airfare, hotel for ${days} days, and dining. Try increasing your budget or reducing duration.`}
               </p>
               <button
                 onClick={() => {
                   setBudget(2500);
                   setBudgetMode("total");
                 }}
-                className="px-5 py-2.5 rounded-xl text-xs font-bold bg-[#022c22] hover:bg-[#064e3b] text-white cursor-pointer transition-colors"
+                className="px-5 py-2.5 rounded-xl text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white cursor-pointer transition-colors"
               >
-                Tetapkan Semula ke RM2,500 (Standard)
+                {locale === "bm" ? "Tetapkan Semula ke RM2,500" : "Reset to RM2,500"}
               </button>
             </div>
           )}
@@ -175,16 +193,16 @@ export default function CalculatorPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-emerald-900/60 bg-[#011d17] py-8 px-4 sm:px-6 text-center text-xs text-emerald-300/80 mt-16">
-        <div className="max-w-5xl mx-auto space-y-3">
-          <div className="flex items-center justify-center gap-2 font-bold text-white">
-            <Compass className="w-4 h-4 text-emerald-400" />
-            <span>Traversi (Travel Versi Anda)</span>
+      <footer className="border-t border-stone-200 bg-white py-8 px-4 sm:px-6 text-center text-xs text-stone-500 mt-16">
+        <div className="max-w-5xl mx-auto space-y-2">
+          <div className="flex items-center justify-center gap-2 font-bold text-stone-900">
+            <Compass className="w-4 h-4 text-emerald-800" />
+            <span>Traversi &bull; {locale === "bm" ? "Travel Versi Anda" : "Your Trip, Your Version"}</span>
           </div>
-          <p className="text-emerald-300 max-w-md mx-auto font-medium">
-            Dibina khas untuk Averis Hackathon 2026 (18-22 Sept).
+          <p className="text-stone-500 max-w-md mx-auto">
+            Averis Hackathon 2026
           </p>
-          <div className="pt-2 text-[11px] text-emerald-400/70 border-t border-emerald-900/40 font-medium">
+          <div className="pt-2 text-[11px] text-stone-400 border-t border-stone-100">
             Pasukan 4 Orang: <strong>Amir Hakim</strong> &bull; <strong>Moi</strong> &bull; <strong>Eqhlas</strong> &bull; <strong>Paan</strong>
           </div>
         </div>

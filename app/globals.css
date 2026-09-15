@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #022c22;
-  --foreground: #ecfdf5;
-  --card: #ecfdf5;
-  --card-foreground: #022c22;
+  --background: #fcfdfd;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
   --accent: #059669;
+  --accent-foreground: #ffffff;
 }
 
 body {
@@ -22,10 +23,10 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #011d17;
+  background: #f1f5f3;
 }
 ::-webkit-scrollbar-thumb {
-  background: #064e3b;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
