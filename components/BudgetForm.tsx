@@ -181,29 +181,6 @@ export default function BudgetForm({
             </div>
           </div>
 
-          {/* Slider input with dynamic gradient fill */}
-          <div className="relative py-2">
-            <input
-              id="budget-slider"
-              type="range"
-              min={500}
-              max={10000}
-              step={100}
-              value={budget}
-              onChange={(e) => onBudgetChange(Number(e.target.value))}
-              aria-label="Pelaras Slider Bajet"
-              style={{
-                background: `linear-gradient(to right, #065f46 0%, #065f46 ${Math.min(100, Math.max(0, ((budget - 500) / (10000 - 500)) * 100))}%, #e7e5e4 ${Math.min(100, Math.max(0, ((budget - 500) / (10000 - 500)) * 100))}%, #e7e5e4 100%)`,
-              }}
-              className="w-full h-3 rounded-full cursor-pointer shadow-inner transition-all"
-            />
-            <div className="flex justify-between text-xs font-semibold text-stone-500 pt-2">
-              <span>RM500 ({locale === "bm" ? "Domestik" : "Domestic"})</span>
-              <span className="font-bold text-emerald-800">RM2,500 ({locale === "bm" ? "Purata ASEAN" : "Avg ASEAN"})</span>
-              <span>RM10,000 ({locale === "bm" ? "Global" : "Global"})</span>
-            </div>
-          </div>
-
           {/* Quick Presets */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <span className="text-xs font-semibold text-stone-600">
@@ -214,10 +191,10 @@ export default function BudgetForm({
                 key={preset.amount}
                 type="button"
                 onClick={() => onBudgetChange(preset.amount)}
-                className={`text-xs px-3 py-1 rounded-full font-bold transition-all cursor-pointer border ${
+                className={`text-xs px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
                   budget === preset.amount
                     ? "bg-emerald-800 text-white border-emerald-800 shadow-2xs"
-                    : "bg-white text-stone-700 border-stone-200 hover:bg-stone-100"
+                    : "bg-white text-stone-700 border-stone-300 hover:bg-stone-100 hover:border-stone-400 shadow-2xs"
                 }`}
               >
                 {preset.label} ({formatRM(preset.amount)})
