@@ -53,7 +53,8 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-[#fcfdfd] text-[#0f172a] flex flex-col">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 space-y-8">
+      <div className="flex-1 md:pl-72">
+        <main className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 space-y-8">
         {/* Profile Card Header */}
         <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
@@ -220,10 +221,11 @@ export default function ProfilePage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-stone-200 bg-white py-6 text-center text-xs text-stone-500">
-        Traversi &bull; Averis Hackathon 2026
-      </footer>
+        {/* Footer */}
+        <footer className="border-t border-stone-200 bg-white py-6 text-center text-xs text-stone-500">
+          Traversi &bull; Averis Hackathon 2026
+        </footer>
+      </div>
     </div>
   );
 }

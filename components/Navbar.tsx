@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { 
   Compass, 
   Globe, 
@@ -20,8 +20,9 @@ import {
   Milestone,
   Users,
   Calculator,
-  ChevronDown,
-  Sparkles
+  ExternalLink,
+  Sparkles,
+  Server
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
@@ -34,301 +35,424 @@ function GithubIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   );
 }
 
-// Exact format matching the landing page sections
-export const PITCH_DECK_SECTIONS = [
-  {
-    id: "masalah",
-    title: "Problem (Mengapa Tersangkut)",
-    icon: BookOpen,
-  },
-  {
-    id: "tonggak",
-    title: "3 Tonggak Utama (Kiraan 4 Dimensi, Visa MY, Halal Score)",
-    icon: ShieldCheck,
-  },
-  {
-    id: "perbandingan",
-    title: "Perbandingan vs Skyscanner/Google Flights",
-    icon: Layers,
-  },
-  {
-    id: "architecture",
-    title: "Architecture Diagram (Supabase + Vercel + Gemini)",
-    icon: Layers,
-  },
-  {
-    id: "tech-stack",
-    title: "Tech Stack (Cloud + AI)",
-    icon: Cpu,
-  },
-  {
-    id: "pelaksanaan",
-    title: "Implementation Details",
-    icon: Code2,
-  },
-  {
-    id: "cabaran",
-    title: "Challenges Faced",
-    icon: AlertTriangle,
-  },
-  {
-    id: "roadmap",
-    title: "Future Roadmap",
-    icon: Milestone,
-  },
-  {
-    id: "pasukan",
-    title: "Team 4 Orang",
-    icon: Users,
-  },
-  {
-    id: "cta",
-    title: "CTA ke Kalkulator + link GitHub & Live Demo",
-    icon: Calculator,
-  },
-];
-
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { locale, toggleLocale } = useLanguage();
   const { user, isLoggedIn, logout } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuOpen]);
-
-  // Close dropdown on Escape key
+  // Close mobile drawer on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && menuOpen) {
-        setMenuOpen(false);
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [menuOpen]);
+  }, [mobileMenuOpen]);
 
   const handleLogout = () => {
     logout();
-    setMenuOpen(false);
+    setMobileMenuOpen(false);
     router.push("/");
   };
 
+  // Exact pitch deck links following user requirements
+  const navItems = [
+    {
+      num: "1",
+      label: locale === "bm" ? "Problem (Mengapa Tersangkut)" : "1. Real Problem Statement",
+      href: "/#masalah",
+      icon: BookOpen,
+    },
+    {
+      num: "2",
+      label: locale === "bm" ? "3 Tonggak Utama (4D, Visa, Halal)" : "2. Three Core Pillars",
+      href: "/#tonggak",
+      icon: ShieldCheck,
+    },
+    {
+      num: "3",
+      label: locale === "bm" ? "Perbandingan vs Skyscanner/Flights" : "3. Ecosystem Comparison",
+      href: "/#perbandingan",
+      icon: Layers,
+    },
+    {
+      num: "4",
+      label: locale === "bm" ? "Architecture Diagram (Supabase + Gemini)" : "4. Supabase & AI Architecture",
+      href: "/#architecture",
+      icon: Server,
+    },
+    {
+      num: "5",
+      label: locale === "bm" ? "Tech Stack Section (Cloud + AI)" : "5. Tech Stack (Cloud + AI)",
+      href: "/#tech-stack",
+      icon: Cpu,
+    },
+    {
+      num: "6",
+      label: locale === "bm" ? "Implementation Details (Formula 4D)" : "6. Math Formula & Logic",
+      href: "/#pelaksanaan",
+      icon: Code2,
+    },
+    {
+      num: "7",
+      label: locale === "bm" ? "Challenges Faced" : "7. Challenges & Solutions",
+      href: "/#cabaran",
+      icon: AlertTriangle,
+    },
+    {
+      num: "8",
+      label: locale === "bm" ? "Future Roadmap" : "8. Product Roadmap",
+      href: "/#roadmap",
+      icon: Milestone,
+    },
+    {
+      num: "9",
+      label: locale === "bm" ? "Team 4 orang" : "9. 4-Member Team",
+      href: "/#pasukan",
+      icon: Users,
+    },
+    {
+      num: "10",
+      label: locale === "bm" ? "CTA ke Kalkulator & Demo" : "10. Calculator CTA & Demo",
+      href: "/#cta",
+      icon: Calculator,
+    },
+  ];
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-stone-200 bg-white/95 backdrop-blur-md">
-      <div className="w-full px-4 sm:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Left: Brand Logo + Compact Floating Dropdown Navigation */}
-        <div className="flex items-center gap-3">
-          {/* Brand Logo */}
-          <Link 
-            href="/"
-            className="flex items-center gap-2.5 group focus:outline-none shrink-0"
-          >
-            <div className="w-9 h-9 rounded-xl bg-emerald-800 flex items-center justify-center text-white shadow-xs">
-              <Compass className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
+    <>
+      {/* =========================================================================
+          1. PERMANENT DESKTOP SIDEBAR (ALWAYS VISIBLE ON DESKTOP & LAPTOP md+)
+      ========================================================================= */}
+      <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-72 bg-white border-r border-stone-200 z-40 overflow-y-auto select-none shadow-xs">
+        {/* Top: Brand Header */}
+        <div className="p-5 border-b border-stone-100 space-y-3">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-800 flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:rotate-45">
+              <Compass className="w-5 h-5" />
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-black text-lg text-stone-950 tracking-tight">Traversi</span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 hidden sm:inline">
-                {locale === "bm" ? "Travel Versi Anda" : "Your Trip"}
-              </span>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-black text-xl text-stone-950 tracking-tight">Traversi</span>
+              </div>
+              <p className="text-[10px] font-bold text-emerald-800">
+                {locale === "bm" ? "Travel Versi Anda" : "Your Trip, Your Version"}
+              </p>
             </div>
           </Link>
 
-          {/* Compact Dropdown Nav Button (Not a full-screen drawer!) */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Navigasi Pitch Deck"
-              aria-expanded={menuOpen}
-              className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                menuOpen 
-                  ? "bg-emerald-800 text-white border-emerald-800 shadow-xs" 
-                  : "border-stone-200 hover:bg-stone-100 text-stone-800 bg-white"
-              }`}
-            >
-              <Menu className="w-4 h-4 text-inherit" />
-              <span className="hidden sm:inline">Seksyen Pitch Deck</span>
-              <span className="sm:hidden">Menu</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`} />
-            </button>
-
-            {/* Floating Dropdown Card (Anchored cleanly below button) */}
-            {menuOpen && (
-              <div 
-                className="absolute top-full left-0 mt-2 w-[340px] sm:w-[420px] max-h-[80vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-stone-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150 divide-y divide-stone-100"
-              >
-                <div className="pb-2 px-2 flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                    Navigasi Kandungan Pitch Deck
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setMenuOpen(false)}
-                    className="p-1 rounded-md text-stone-400 hover:text-stone-700 hover:bg-stone-100"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* The 10 Pitch Deck Sections */}
-                <div className="py-2 space-y-1">
-                  {PITCH_DECK_SECTIONS.map((item, idx) => {
-                    const Icon = item.icon;
-                    return (
-                      <a
-                        key={item.id}
-                        href={`/#${item.id}`}
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-stone-700 hover:bg-emerald-50 hover:text-emerald-950 transition-colors group"
-                      >
-                        <span className="w-5 h-5 rounded-md bg-stone-100 group-hover:bg-emerald-100 text-stone-600 group-hover:text-emerald-800 flex items-center justify-center shrink-0 text-[10px] font-mono font-bold">
-                          {idx + 1}
-                        </span>
-                        <Icon className="w-4 h-4 text-emerald-700 shrink-0" />
-                        <span className="truncate">{item.title}</span>
-                      </a>
-                    );
-                  })}
-                </div>
-
-                {/* Profile & Footer Links inside Dropdown */}
-                <div className="pt-2 px-2 space-y-2 text-xs">
-                  {isLoggedIn ? (
-                    <div className="flex items-center justify-between pt-1">
-                      <Link
-                        href="/profile"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 min-w-0 font-bold text-stone-800 hover:text-emerald-800"
-                      >
-                        <User className="w-4 h-4 text-emerald-700" />
-                        <span className="truncate">Profil &amp; Destinasi Disimpan</span>
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="text-xs font-bold text-rose-600 hover:underline cursor-pointer"
-                      >
-                        Log Keluar
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between pt-1 text-stone-500">
-                      <a
-                        href="https://github.com/cs-mirakim/traversi"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-1.5 font-bold hover:text-stone-900"
-                      >
-                        <GithubIcon className="w-3.5 h-3.5" />
-                        <span>GitHub Repository</span>
-                      </a>
-                      <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded">
-                        Hackathon 2026
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Center: Desktop Quick Navigation Links (Visible on large screens) */}
-        <nav className="hidden xl:flex items-center gap-1 text-xs font-bold text-stone-600">
-          <a href="/#masalah" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
-            Problem
-          </a>
-          <a href="/#tonggak" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
-            3 Tonggak
-          </a>
-          <a href="/#perbandingan" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
-            Perbandingan
-          </a>
-          <a href="/#architecture" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
-            Architecture
-          </a>
-          <a href="/#tech-stack" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
-            Tech Stack
-          </a>
-          <a href="/#pasukan" className="px-2.5 py-1.5 rounded-lg hover:text-emerald-900 hover:bg-stone-100 transition-colors">
-            Team
-          </a>
-        </nav>
-
-        {/* Right: Actions (Language, Auth, Calculator Shortcut) */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Quick Calculator Link */}
+          {/* Quick Primary Button to Calculator */}
           <Link
             href="/kalkulator"
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-900 text-xs font-bold transition-all shadow-2xs"
+            className={`w-full py-2.5 px-3.5 rounded-xl font-bold text-xs flex items-center justify-between transition-all shadow-xs cursor-pointer ${
+              pathname === "/kalkulator"
+                ? "bg-emerald-800 text-white shadow-emerald-900/10"
+                : "bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200"
+            }`}
           >
-            <Calculator className="w-3.5 h-3.5 text-emerald-700" />
-            <span>Kalkulator Bajet</span>
-          </Link>
-
-          {/* Language Switcher */}
-          <button
-            type="button"
-            onClick={toggleLocale}
-            title={locale === "bm" ? "Switch to English" : "Tukar ke Bahasa Melayu"}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
-          >
-            <Globe className="w-3.5 h-3.5 text-emerald-700" />
-            <span>{locale === "bm" ? "BM" : "EN"}</span>
-          </button>
-
-          {/* Auth: Not logged in */}
-          {!isLoggedIn ? (
             <div className="flex items-center gap-2">
+              <Calculator className="w-4 h-4 text-emerald-700" />
+              <span>{locale === "bm" ? "Kalkulator Bajet" : "Budget Calculator"}</span>
+            </div>
+            <span className="text-[10px] font-extrabold bg-white/80 text-emerald-900 px-1.5 py-0.5 rounded">
+              GO
+            </span>
+          </Link>
+        </div>
+
+        {/* Middle: Pitch Deck Navigation Links (Matching User Format Exact) */}
+        <div className="flex-1 p-3.5 space-y-1">
+          <div className="px-2.5 py-1 text-[10px] font-black text-stone-400 uppercase tracking-wider">
+            {locale === "bm" ? "Navigasi Pitch Deck" : "Pitch Deck Navigation"}
+          </div>
+
+          <nav className="space-y-0.5">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold text-stone-600 hover:text-stone-950 hover:bg-stone-50 transition-colors group"
+                >
+                  <Icon className="w-4 h-4 text-stone-400 group-hover:text-emerald-700 transition-colors shrink-0" />
+                  <span className="truncate leading-tight">{item.label}</span>
+                </a>
+              );
+            })}
+
+            {isLoggedIn && (
+              <Link
+                href="/profile"
+                className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs font-bold transition-colors border-t border-stone-100 mt-2 pt-2 ${
+                  pathname === "/profile"
+                    ? "bg-emerald-50 text-emerald-900 font-extrabold"
+                    : "text-stone-700 hover:bg-stone-50 hover:text-emerald-800"
+                }`}
+              >
+                <User className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>{locale === "bm" ? "Profil & Destinasi Disimpan" : "Profile & Saved Items"}</span>
+              </Link>
+            )}
+          </nav>
+        </div>
+
+        {/* Bottom: User Profile Status, Language Switcher, GitHub Repo */}
+        <div className="p-4 border-t border-stone-100 space-y-3 bg-stone-50/50">
+          {/* Language & GitHub Row */}
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={toggleLocale}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-stone-200 bg-white hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
+            >
+              <Globe className="w-3.5 h-3.5 text-emerald-700" />
+              <span>{locale === "bm" ? "BM" : "EN"}</span>
+            </button>
+
+            <a
+              href="https://github.com/cs-mirakim/traversi"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 text-xs text-stone-600 hover:text-stone-950 font-medium transition-colors"
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+              <span>GitHub</span>
+            </a>
+          </div>
+
+          {/* Auth State in Sidebar */}
+          {isLoggedIn ? (
+            <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200">
+              <Link
+                href="/profile"
+                className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity"
+              >
+                <div className="w-8 h-8 rounded-lg bg-emerald-800 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                  {user?.avatar || "U"}
+                </div>
+                <div className="truncate">
+                  <p className="text-xs font-bold text-stone-900 truncate">{user?.name}</p>
+                  <p className="text-[10px] text-stone-500 truncate">{user?.email}</p>
+                </div>
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                title="Log Keluar"
+                className="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer shrink-0"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
               <Link
                 href="/login"
-                className="text-xs font-bold px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors cursor-pointer"
+                className="py-2 text-center rounded-xl border border-stone-200 bg-white hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors"
               >
                 {locale === "bm" ? "Log Masuk" : "Login"}
               </Link>
               <Link
                 href="/register"
-                className="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white transition-all shadow-xs cursor-pointer"
+                className="py-2 text-center rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-xs transition-colors"
               >
                 {locale === "bm" ? "Daftar" : "Register"}
               </Link>
             </div>
-          ) : (
-            /* Auth: Logged in Profile Badge */
-            <Link
-              href="/profile"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-950 text-xs font-bold transition-all"
-              title={locale === "bm" ? "Lihat Profil & Destinasi Disimpan" : "View Profile & Saved Destinations"}
-            >
-              <div className="w-6 h-6 rounded-lg bg-emerald-800 text-white text-[11px] font-black flex items-center justify-center">
-                {user?.avatar || user?.name?.[0] || "U"}
-              </div>
-              <span className="font-bold hidden sm:inline">{user?.name}</span>
-              {user?.starredDestinations && user.starredDestinations.length > 0 && (
-                <span className="flex items-center gap-0.5 text-[10px] text-amber-700 bg-amber-100/80 px-1.5 py-0.2 rounded font-bold">
-                  <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
-                  <span>{user.starredDestinations.length}</span>
-                </span>
-              )}
-            </Link>
           )}
         </div>
+      </aside>
+
+      {/* =========================================================================
+          2. TOP HEADER FOR MAIN CONTENT (OFFSET BY md:pl-72 FOR DESKTOP SIDEBAR)
+      ========================================================================= */}
+      <header className="sticky top-0 z-30 w-full md:pl-72 border-b border-stone-200 bg-white/95 backdrop-blur-md">
+        <div className="w-full px-4 sm:px-8 h-16 flex items-center justify-between">
+          {/* Mobile Only: Menu Trigger + Brand */}
+          <div className="flex items-center gap-3 md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Buka Menu"
+              className="p-2 rounded-xl border border-stone-200 hover:bg-stone-100 text-stone-800 transition-colors cursor-pointer"
+            >
+              <Menu className="w-5 h-5 text-emerald-800" />
+            </button>
+
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-emerald-800 flex items-center justify-center text-white shadow-xs">
+                <Compass className="w-4 h-4" />
+              </div>
+              <span className="font-black text-lg text-stone-950">Traversi</span>
+            </Link>
+          </div>
+
+          {/* Desktop Left Breadcrumb / Context */}
+          <div className="hidden md:flex items-center gap-2 text-xs font-bold text-stone-500">
+            <span className="text-emerald-800 font-extrabold">Averis Hackathon 2026</span>
+            <span>&bull;</span>
+            <span className="text-stone-700">Cloud + AI Edition</span>
+          </div>
+
+          {/* Right Action Controls */}
+          <div className="flex items-center gap-3">
+            {/* Direct Kalkulator Shortcut on Top Header */}
+            {pathname !== "/kalkulator" && (
+              <Link
+                href="/kalkulator"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shadow-2xs cursor-pointer"
+              >
+                <Calculator className="w-3.5 h-3.5 text-emerald-800" />
+                <span>{locale === "bm" ? "Kira Bajet" : "Calculate"}</span>
+              </Link>
+            )}
+
+            {/* Language Switcher */}
+            <button
+              type="button"
+              onClick={toggleLocale}
+              title={locale === "bm" ? "Switch to English" : "Tukar ke Bahasa Melayu"}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-xs font-bold text-stone-800 transition-colors cursor-pointer"
+            >
+              <Globe className="w-3.5 h-3.5 text-emerald-700" />
+              <span>{locale === "bm" ? "BM" : "EN"}</span>
+            </button>
+
+            {/* User Profile / Auth State */}
+            {!isLoggedIn ? (
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="text-xs font-bold px-3 py-1.5 rounded-xl text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors cursor-pointer"
+                >
+                  {locale === "bm" ? "Log Masuk" : "Login"}
+                </Link>
+                <Link
+                  href="/register"
+                  className="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white transition-all shadow-xs cursor-pointer"
+                >
+                  {locale === "bm" ? "Daftar" : "Register"}
+                </Link>
+              </div>
+            ) : (
+              <Link
+                href="/profile"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-950 text-xs font-bold transition-all"
+                title={locale === "bm" ? "Lihat Profil & Destinasi Disimpan" : "View Profile & Saved Destinations"}
+              >
+                <div className="w-6 h-6 rounded-lg bg-emerald-800 text-white text-[11px] font-black flex items-center justify-center">
+                  {user?.avatar || user?.name?.[0] || "U"}
+                </div>
+                <span className="hidden sm:inline font-bold">{user?.name}</span>
+                {user?.starredDestinations && user.starredDestinations.length > 0 && (
+                  <span className="flex items-center gap-0.5 text-[10px] text-amber-700 bg-amber-100/80 px-1.5 py-0.2 rounded font-bold">
+                    <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
+                    <span>{user.starredDestinations.length}</span>
+                  </span>
+                )}
+              </Link>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* =========================================================================
+          3. MOBILE ONLY SLIDE DRAWER (< md)
+      ========================================================================= */}
+      <div 
+        className={`md:hidden fixed inset-0 z-50 transition-opacity duration-300 ease-in-out ${
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div 
+          className="absolute inset-0 bg-stone-950/40 backdrop-blur-xs transition-opacity duration-300"
+          onClick={() => setMobileMenuOpen(false)} 
+        />
+
+        <div 
+          className={`relative w-80 max-w-[85vw] bg-white h-full shadow-2xl p-6 flex flex-col justify-between border-r border-stone-200 z-10 transform transition-transform duration-300 ease-out ${
+            mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="space-y-4 overflow-y-auto pr-1">
+            <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-800 text-white flex items-center justify-center">
+                  <Compass className="w-4 h-4" />
+                </div>
+                <span className="font-black text-lg text-stone-950">Traversi</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="space-y-1 text-xs font-bold text-stone-700">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-stone-50 hover:text-emerald-800 transition-colors"
+                  >
+                    <Icon className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span>{item.label}</span>
+                  </a>
+                );
+              })}
+
+              <Link
+                href="/kalkulator"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-900 border border-emerald-200 font-extrabold mt-2"
+              >
+                <Calculator className="w-4 h-4 text-emerald-800 shrink-0" />
+                <span>{locale === "bm" ? "Buka Kalkulator Bajet" : "Budget Calculator"}</span>
+              </Link>
+            </nav>
+          </div>
+
+          <div className="pt-3 border-t border-stone-100">
+            {isLoggedIn ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-full py-2.5 text-center text-xs font-bold text-rose-600 bg-rose-50 rounded-xl"
+              >
+                {locale === "bm" ? "Log Keluar" : "Log Out"}
+              </button>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-2.5 text-center rounded-xl border border-stone-200 text-xs font-bold text-stone-800"
+                >
+                  {locale === "bm" ? "Log Masuk" : "Login"}
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-2.5 text-center rounded-xl bg-emerald-800 text-white text-xs font-bold"
+                >
+                  {locale === "bm" ? "Daftar" : "Register"}
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </header>
+    </>
   );
 }

@@ -69,7 +69,7 @@ export default function CalculatorPage() {
     <div className="min-h-screen bg-[#fcfdfd] text-[#0f172a] font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 md:pl-72">
         {/* TOP BAR / BREADCRUMB */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-7 flex items-center justify-between">
           <Link

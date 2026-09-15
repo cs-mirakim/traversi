@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Navbar, { PITCH_DECK_SECTIONS } from "@/components/Navbar";
+import Navbar from "@/components/Navbar";
 import ComparisonTable from "@/components/ComparisonTable";
 import { useLanguage } from "@/context/LanguageContext";
 import { 
@@ -43,31 +43,10 @@ export default function HomePage() {
   const { locale } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-[#fcfdfd] text-[#0f172a] font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-900 scroll-smooth">
+    <div className="min-h-screen bg-[#fcfdfd] text-[#0f172a] font-sans flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
       <Navbar />
 
-      {/* =========================================================
-          STICKY HORIZONTAL SUB-NAVIGATION BAR (ALWAYS VISIBLE - NO DRAWER TO OPEN/CLOSE!)
-      ========================================================= */}
-      <div className="sticky top-16 z-30 w-full bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-2xs">
-        <div className="w-full px-4 sm:px-8 py-2.5 overflow-x-auto no-scrollbar flex items-center gap-2 text-xs font-bold text-stone-700">
-          <span className="text-[11px] uppercase tracking-wider text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0 border border-emerald-200">
-            {locale === "bm" ? "Kandungan Pitch Deck" : "Pitch Deck Sections"}
-          </span>
-          {PITCH_DECK_SECTIONS.map((sec, idx) => (
-            <a
-              key={sec.id}
-              href={`#${sec.id}`}
-              className="shrink-0 px-3 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-emerald-50 hover:text-emerald-900 hover:border-emerald-300 transition-colors flex items-center gap-1.5 shadow-2xs"
-            >
-              <span className="text-[10px] font-mono font-bold text-stone-400">{idx + 1}.</span>
-              <span>{sec.title}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <main className="flex-1">
+      <main className="flex-1 md:pl-72">
         {/* =========================================================
             HERO SECTION: CLEAN WHITE WITH CALM EMERALD HIGHLIGHTS
         ========================================================= */}
@@ -160,15 +139,15 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            1. PROBLEM (MENGAPA TERSANGKUT)
+            1. REAL PROBLEM: KENAPA BELIA MALAYSIA SELALU OVERBUDGET
         ========================================================= */}
-        <section id="masalah" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="masalah" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Problem (Mengapa Tersangkut)
+              {locale === "bm" ? "Kajian Masalah Nyata" : "The Core Problem"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Problem: Mengapa Belia Malaysia Selalu Tersangkut & Overbudget?" : "Problem: Why Do Malaysian Youth Constantly Overspend?"}
+              {locale === "bm" ? "Mengapa Ramai Belia Malaysia Terlebih Belanja?" : "Why Do Malaysian Youth Constantly Overspend?"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm" 
@@ -224,15 +203,15 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            2. 3 TONGGAK UTAMA (KIRAAN 4 DIMENSI, VISA MY, HALAL SCORE)
+            2. THREE PILLARS (TIGA TONGGAK)
         ========================================================= */}
-        <section id="tonggak" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="tonggak" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              3 Tonggak Utama (Kiraan 4 Dimensi, Visa MY, Halal Score)
+              {locale === "bm" ? "Tiga Tonggak Traversi" : "Three Pillars"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "3 Tonggak Utama: Kiraan 4 Dimensi, Visa MY, & Halal Score" : "Three Core Pillars: 4D Costs, MY Visa, & Halal Score"}
+              {locale === "bm" ? "Dicipta Khas Untuk Pengembara Malaysia" : "Engineered Specifically for Malaysian Travelers"}
             </h2>
           </div>
 
@@ -242,7 +221,7 @@ export default function HomePage() {
                 <Calculator className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-stone-950">
-                {locale === "bm" ? "1. Kiraan Kos 4 Dimensi" : "1. Realistic 4D Cost Breakdown"}
+                {locale === "bm" ? "1. Kos Penuh 4 Dimensi" : "1. Realistic 4D Cost Breakdown"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
@@ -256,12 +235,12 @@ export default function HomePage() {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-stone-950">
-                {locale === "bm" ? "2. Semakan Visa MY (Pasport Malaysia)" : "2. Malaysian Passport Visa Engine"}
+                {locale === "bm" ? "2. Halal OSM & Pasport MY" : "2. Live Halal & Visa Checks"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Semakan masa nyata hak akses bebas visa bagi pemegang pasport Malaysia ke lebih 180 buah negara."
-                  : "Live Malaysian passport visa datasets checking visa exemption periods across 180+ global destinations."}
+                  ? "Data Overpass API OpenStreetMap untuk premis makanan halal dan semakan peraturan pasport Malaysia 180+ negara."
+                  : "Live OpenStreetMap Overpass API halal queries paired with Malaysian passport visa datasets."}
               </p>
             </div>
 
@@ -270,12 +249,12 @@ export default function HomePage() {
                 <Calendar className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-stone-950">
-                {locale === "bm" ? "3. Skor Halal & Jadual 4 Hari" : "3. Halal Score & 4-Day Plan"}
+                {locale === "bm" ? "3. Jadual 4 Hari Realistik" : "3. Realistic 4-Day Itinerary"}
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-medium">
                 {locale === "bm"
-                  ? "Kueri geospatial nod Overpass OSM diet:halal dan penjanaan jadual itinerari realistik 4 hari dengan Gemini AI."
-                  : "Geospatial OpenStreetMap halal queries matched with realistic 4-day Gemini itinerary recommendations."}
+                  ? "Itinerari harian yang praktikal bersama port makan halal berkadar tinggi yang sepadan dengan baki poket sebenar."
+                  : "Curated itineraries featuring high-rated halal spots matched against remaining pocket budget."}
               </p>
             </div>
           </div>
@@ -283,15 +262,15 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            3. PERBANDINGAN VS SKYSCANNER/GOOGLE FLIGHTS
+            3. COMPARISON TABLE
         ========================================================= */}
-        <section id="perbandingan" className="py-16 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="perbandingan" className="py-16 px-4 sm:px-6 max-w-6xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Perbandingan vs Skyscanner/Google Flights
+              {locale === "bm" ? "Penanda Aras Ekosistem" : "Market Benchmark"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Perbandingan: Traversi vs Skyscanner vs Google Flights" : "Traversi vs Skyscanner vs Google Flights"}
+              {locale === "bm" ? "Perbandingan Traversi Berbanding Sistem Komersial Global" : "Traversi vs Global Commercial Travel Platforms"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm" 
@@ -307,14 +286,14 @@ export default function HomePage() {
         {/* =========================================================
             4. ARCHITECTURE DIAGRAM (SUPABASE + VERCEL + GEMINI)
         ========================================================= */}
-        <section id="architecture" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="architecture" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">
               <Server className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Architecture Diagram (Supabase + Vercel + Gemini)</span>
+              <span>{locale === "bm" ? "Seni Bina Penuh (Averis Cloud + AI)" : "Full System Architecture"}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-1">
-              {locale === "bm" ? "Architecture Diagram: Supabase Cloud, Vercel & Gemini AI" : "Architecture Diagram: Supabase, Vercel & Gemini"}
+              {locale === "bm" ? "Rajah Aliran Seni Bina: Supabase, Vercel & Gemini" : "Architecture Diagram: Supabase, Vercel & Gemini"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
@@ -427,9 +406,9 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            5. TECH STACK (CLOUD + AI)
+            5. TECH STACK SECTION (WITH CLOUD + AI BADGES)
         ========================================================= */}
-        <section id="tech-stack" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="tech-stack" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             {/* Averis Badges */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
@@ -444,7 +423,7 @@ export default function HomePage() {
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight">
-              Tech Stack (Cloud + AI)
+              {locale === "bm" ? "Susunan Teknologi (Tech Stack) & Pengesahan Percuma" : "Tech Stack & 100% Free Tier Confirmation"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
@@ -557,15 +536,15 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            6. IMPLEMENTATION DETAILS
+            6. IMPLEMENTATION DETAILS & REVERSE-BUDGETING FORMULA
         ========================================================= */}
-        <section id="pelaksanaan" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="pelaksanaan" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Implementation Details
+              {locale === "bm" ? "Butiran Pelaksanaan Teknikal" : "Technical Implementation Details"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Implementation Details: Formula 4D & Logik Terbalik" : "Implementation Details: 4D Formula & Reverse Logic"}
+              {locale === "bm" ? "Formula Matematik & Logik Terbalik" : "Reverse Budgeting Mathematical Logic"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
@@ -623,15 +602,15 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            7. CHALLENGES FACED
+            7. CHALLENGES FACED & ENGINEERING DECISIONS
         ========================================================= */}
-        <section id="cabaran" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="cabaran" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Challenges Faced
+              {locale === "bm" ? "Cabaran & Keputusan Kejuruteraan" : "Challenges & Solutions"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Challenges Faced & Keputusan Kejuruteraan" : "Challenges Faced & Engineering Decisions"}
+              {locale === "bm" ? "Halangan Teknikal & Penyelesaian Nyata" : "Technical Challenges & Engineering Decisions"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
@@ -683,13 +662,13 @@ export default function HomePage() {
         {/* =========================================================
             8. FUTURE ROADMAP
         ========================================================= */}
-        <section id="roadmap" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="roadmap" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Future Roadmap
+              {locale === "bm" ? "Pelan Hala Tuju Produk" : "Product Roadmap"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              {locale === "bm" ? "Future Roadmap: Dari MVP Hackathon ke Ekosistem Komersial" : "Future Roadmap: From MVP to Ecosystem"}
+              {locale === "bm" ? "Dari Prototaip Hackathon Ke Ekosistem Komersial" : "From Hackathon Prototype to Commercial Ecosystem"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
@@ -743,15 +722,15 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            9. TEAM 4 ORANG
+            9. TEAM (4 ORANG)
         ========================================================= */}
-        <section id="pasukan" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-28">
+        <section id="pasukan" className="py-16 px-4 sm:px-6 max-w-5xl mx-auto border-t border-stone-200/80 scroll-mt-20">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Team 4 Orang
+              {locale === "bm" ? "Pasukan Pembangun" : "Development Team"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-stone-950 tracking-tight mt-3">
-              Team 4 Orang: Amir Hakim, Moi, Eqhlas, Paan
+              {locale === "bm" ? "Pasukan 4 Orang Traversi" : "Traversi 4-Member Team"}
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-medium">
               {locale === "bm"
@@ -821,14 +800,14 @@ export default function HomePage() {
 
 
         {/* =========================================================
-            10. CTA KE KALKULATOR + LINK GITHUB & LIVE DEMO
+            10. FINAL CTA: KALKULATOR + GITHUB + LIVE DEMO
         ========================================================= */}
-        <section id="cta" className="py-16 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200/80 scroll-mt-28">
+        <section id="cta" className="py-16 px-4 sm:px-6 max-w-4xl mx-auto text-center border-t border-stone-200/80 scroll-mt-20">
           <div className="p-8 sm:p-12 rounded-3xl bg-emerald-50/80 border border-emerald-200 shadow-sm space-y-6">
             {/* Live Demo Status Pill */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-emerald-300 text-xs font-bold text-emerald-900 shadow-2xs">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-ping" />
-              <span>CTA ke Kalkulator + link GitHub &amp; Live Demo</span>
+              <span>Live Demo Beroperasi (Averis Hackathon 2026)</span>
             </div>
 
             <h2 className="text-2xl sm:text-4xl font-black text-stone-950 tracking-tight">
@@ -878,7 +857,7 @@ export default function HomePage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-stone-200 bg-white py-10 px-4 sm:px-6 text-center text-xs text-stone-500">
+      <footer className="border-t border-stone-200 bg-white py-10 px-4 sm:px-6 text-center text-xs text-stone-500 md:pl-72">
         <div className="max-w-5xl mx-auto space-y-3">
           <div className="flex items-center justify-center gap-2 font-bold text-stone-900">
             <Compass className="w-4 h-4 text-emerald-800" />
