@@ -196,7 +196,7 @@ export default function Navbar() {
           <div className="px-2.5 py-1.5 text-[10px] font-black text-stone-400 uppercase tracking-wider flex items-center justify-between">
             <span>{locale === "bm" ? "Struktur Pitch Deck" : "Pitch Deck Structure"}</span>
             <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-800 rounded border border-emerald-200">
-              10 Seksyen
+              {locale === "bm" ? "10 Seksyen" : "10 Sections"}
             </span>
           </div>
 
