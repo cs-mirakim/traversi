@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
+import UserAvatar from "@/components/UserAvatar";
 
 function GithubIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
@@ -36,11 +37,34 @@ function GithubIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   );
 }
 
+function GoogleIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24">
+      <path
+        fill="#4285F4"
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+      />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { locale, toggleLocale } = useLanguage();
-  const { user, isLoggedIn, logout } = useAuth();
+  const { user, isLoggedIn, logout, loginWithGoogle } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("overview");
 
@@ -289,11 +313,9 @@ export default function Navbar() {
             <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-stone-200">
               <Link
                 href="/profile"
-                className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity"
+                className="flex items-center gap-2.5 min-w-0 hover:opacity-80 transition-opacity"
               >
-                <div className="w-8 h-8 rounded-lg bg-emerald-800 text-white font-bold text-xs flex items-center justify-center shrink-0">
-                  {user?.avatar || "U"}
-                </div>
+                <UserAvatar user={user} size="sm" />
                 <div className="truncate">
                   <p className="text-xs font-bold text-stone-900 truncate">{user?.name}</p>
                   <p className="text-[10px] text-stone-500 truncate">{user?.email}</p>
@@ -393,9 +415,7 @@ export default function Navbar() {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-950 text-xs font-bold transition-all"
                 title={locale === "bm" ? "Lihat Profil & Destinasi Disimpan" : "View Profile & Saved Destinations"}
               >
-                <div className="w-6 h-6 rounded-lg bg-emerald-800 text-white text-[11px] font-black flex items-center justify-center">
-                  {user?.avatar || user?.name?.[0] || "U"}
-                </div>
+                <UserAvatar user={user} size="xs" />
                 <span className="hidden sm:inline font-bold">{user?.name}</span>
                 {user?.starredDestinations && user.starredDestinations.length > 0 && (
                   <span className="flex items-center gap-0.5 text-[10px] text-amber-700 bg-amber-100/80 px-1.5 py-0.2 rounded font-bold">
@@ -476,15 +496,28 @@ export default function Navbar() {
             </nav>
           </div>
 
-          <div className="pt-3 border-t border-stone-100">
+          <div className="pt-3 border-t border-stone-100 space-y-2">
             {isLoggedIn ? (
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="w-full py-2.5 text-center text-xs font-bold text-rose-600 bg-rose-50 rounded-xl cursor-pointer"
-              >
-                {locale === "bm" ? "Log Keluar" : "Log Out"}
-              </button>
+              <>
+                <Link
+                  href="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-stone-50 border border-stone-200"
+                >
+                  <UserAvatar user={user} size="sm" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold text-stone-900 truncate">{user?.name}</p>
+                    <p className="text-[10px] text-stone-500 truncate">{user?.email}</p>
+                  </div>
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-full py-2.5 text-center text-xs font-bold text-rose-600 bg-rose-50 rounded-xl cursor-pointer"
+                >
+                  {locale === "bm" ? "Log Keluar" : "Log Out"}
+                </button>
+              </>
             ) : (
               <div className="grid grid-cols-2 gap-2">
                 <Link

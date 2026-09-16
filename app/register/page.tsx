@@ -17,10 +17,11 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { registerEmail } from "@/lib/auth-registry";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { isLoggedIn, login, loginWithGoogle } = useAuth();
+  const { isLoggedIn, register, loginWithGoogle, logout } = useAuth();
   const { locale, toggleLocale } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -76,16 +77,17 @@ export default function RegisterPage() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const handleGoogle = () => {
+  const handleGoogle = async () => {
     setIsLoading(true);
-    loginWithGoogle();
-    router.push("/profile");
+    // Explicitly pass mode="register" so Google OAuth marks user as registered
+    await loginWithGoogle("register");
   };
 
-  const handleDemoRegister = () => {
+  const handleDemoRegister = async () => {
     setIsLoading(true);
-    login("hangtuah@traversi.my", "Hang Tuah");
-    router.push("/profile");
+    registerEmail("hangtuah@traversi.my");
+    await logout();
+    router.push("/login?status=registered_success&email=" + encodeURIComponent("hangtuah@traversi.my"));
   };
 
   return (
@@ -234,7 +236,7 @@ export default function RegisterPage() {
               type="button"
               onClick={handleGoogle}
               disabled={isLoading}
-              className="w-full py-3.5 px-4 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-3 transition-all shadow-2xs hover:shadow-sm cursor-pointer active:scale-[0.99]"
+              className="w-full py-3.5 px-4 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-3 transition-all shadow-2xs hover:shadow-sm cursor-pointer active:scale-[0.99] disabled:opacity-60"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path
@@ -254,7 +256,7 @@ export default function RegisterPage() {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                 />
               </svg>
-              <span>{locale === "bm" ? "Daftar dengan Google" : "Sign Up with Google"}</span>
+              <span>{isLoading ? (locale === "bm" ? "Menghubungkan..." : "Connecting...") : (locale === "bm" ? "Daftar dengan Google" : "Sign Up with Google")}</span>
             </button>
 
             {/* 2. Instant Demo Register Button */}

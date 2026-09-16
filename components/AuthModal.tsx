@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, LogIn, UserPlus, CheckCircle2 } from "lucide-react";
+import { X, Sparkles, CheckCircle2, ShieldCheck } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -16,42 +17,38 @@ export default function AuthModal({
   onClose,
   onSuccess,
 }: AuthModalProps) {
-  const [mode, setMode] = useState<"login" | "register">(initialMode);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const { loginWithGoogle, login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
-
-    // Mock auth flow (ready for Moi's Supabase Auth integration)
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await loginWithGoogle(initialMode || "login");
       setIsDone(true);
       setTimeout(() => {
         setIsDone(false);
+        setIsLoading(false);
         onClose();
         if (onSuccess) onSuccess();
-      }, 1000);
-    }, 800);
+      }, 800);
+    } catch {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleLogin = () => {
+  const handleDemoLogin = () => {
     setIsLoading(true);
+    login("hangtuah@traversi.my", "Hang Tuah");
+    setIsDone(true);
     setTimeout(() => {
+      setIsDone(false);
       setIsLoading(false);
-      setIsDone(true);
-      setTimeout(() => {
-        setIsDone(false);
-        onClose();
-        if (onSuccess) onSuccess();
-      }, 1000);
-    }, 800);
+      onClose();
+      if (onSuccess) onSuccess();
+    }, 600);
   };
 
   return (
@@ -74,7 +71,7 @@ export default function AuthModal({
           <div className="py-10 text-center space-y-3">
             <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto animate-bounce" />
             <h3 className="text-xl font-black text-stone-900">
-              {mode === "login" ? "Berjaya Log Masuk!" : "Pendaftaran Berjaya!"}
+              Berjaya Log Masuk!
             </h3>
             <p className="text-xs text-stone-600 font-medium">
               Sesi anda kini aktif. Menghubungkan ke simpanan carian...
@@ -85,37 +82,26 @@ export default function AuthModal({
             {/* Modal Header */}
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold mb-2 border border-emerald-200">
-                {mode === "login" ? (
-                  <>
-                    <LogIn className="w-3.5 h-3.5" />
-                    <span>Akaun Traversi</span>
-                  </>
-                ) : (
-                  <>
-                    <UserPlus className="w-3.5 h-3.5" />
-                    <span>Daftar Akaun Baru</span>
-                  </>
-                )}
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Akaun Traversi (Google SSO)</span>
               </div>
               <h3 className="text-2xl font-black text-stone-950 tracking-tight">
-                {mode === "login" ? "Log Masuk ke Traversi" : "Daftar Akaun Percuma"}
+                Log Masuk ke Traversi
               </h3>
               <p className="text-xs text-stone-600 font-medium mt-1">
-                {mode === "login" 
-                  ? "Akses carian lepas dan simpan destinasi kegemaran anda."
-                  : "Mula simpan sejarah bajet dan itinerari bersama rakan."}
+                Akses carian lepas, itinerari AI, dan simpan destinasi kegemaran anda.
               </p>
             </div>
 
             {/* Google OAuth Quick Button */}
-            <div>
+            <div className="space-y-3">
               <button
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
-                className="w-full py-3 px-4 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-2.5 transition-all shadow-2xs hover:shadow-xs cursor-pointer"
+                className="w-full py-3.5 px-4 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-3 transition-all shadow-2xs hover:shadow-xs cursor-pointer active:scale-[0.99] disabled:opacity-60"
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                   <path
                     fill="#4285F4"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -133,85 +119,25 @@ export default function AuthModal({
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                   />
                 </svg>
-                <span>Teruskan dengan Google</span>
+                <span>{isLoading ? "Menghubungkan..." : "Teruskan dengan Google"}</span>
               </button>
 
-              <div className="relative my-4 text-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-stone-200" />
-                </div>
-                <span className="relative bg-white px-3 text-[11px] font-semibold text-stone-600 uppercase tracking-wider">
-                  atau emel
-                </span>
-              </div>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3.5">
-              {mode === "register" && (
-                <div>
-                  <label className="text-xs font-bold text-stone-700 block mb-1">
-                    Nama Penuh
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Contoh: Hang Tuah"
-                    className="w-full px-3.5 py-2 text-xs font-medium rounded-xl border border-stone-300 focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-stone-50/50"
-                  />
-                </div>
-              )}
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1">
-                  Alamat Emel
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="anda@contoh.com"
-                  className="w-full px-3.5 py-2 text-xs font-medium rounded-xl border border-stone-300 focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-stone-50/50"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-700 block mb-1">
-                  Kata Laluan
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-3.5 py-2 text-xs font-medium rounded-xl border border-stone-300 focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-stone-50/50"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full mt-2 py-3 px-4 rounded-xl bg-[#022c22] hover:bg-[#064e3b] text-white font-bold text-xs sm:text-sm transition-all shadow-md cursor-pointer disabled:opacity-60"
-              >
-                {isLoading ? "Memproses..." : mode === "login" ? "Log Masuk" : "Daftar Sekarang"}
-              </button>
-            </form>
-
-            {/* Toggle Mode */}
-            <div className="text-center pt-1 border-t border-stone-100">
               <button
                 type="button"
-                onClick={() => setMode(mode === "login" ? "register" : "login")}
-                className="text-xs font-bold text-emerald-800 hover:text-emerald-950 transition-colors"
+                onClick={handleDemoLogin}
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-200 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-2xs cursor-pointer active:scale-[0.99]"
               >
-                {mode === "login" 
-                  ? "Belum ada akaun? Daftar percuma di sini" 
-                  : "Sudah ada akaun? Log masuk di sini"}
+                <Sparkles className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Masuk Pantas Sebagai Hang Tuah (Demo)</span>
               </button>
+            </div>
+
+            {/* Security note */}
+            <div className="text-center pt-2 border-t border-stone-100">
+              <p className="text-[11px] text-stone-500 font-medium">
+                Dilindungi oleh Supabase Auth & Google OAuth 2.0 Security
+              </p>
             </div>
           </div>
         )}

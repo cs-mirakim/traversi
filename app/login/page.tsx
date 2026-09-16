@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Compass, 
   ArrowLeft, 
@@ -13,17 +13,25 @@ import {
   ChevronRight, 
   Globe, 
   Calculator, 
-  UtensilsCrossed 
+  UtensilsCrossed,
+  AlertTriangle,
+  ArrowRight,
+  Loader2
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isLoggedIn, login, loginWithGoogle } = useAuth();
   const { locale, toggleLocale } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
+
+  const urlError = searchParams.get("error");
+  const urlStatus = searchParams.get("status");
+  const unregEmail = searchParams.get("email");
 
   // If already logged in, redirect straight to profile
   useEffect(() => {
@@ -76,10 +84,9 @@ export default function LoginPage() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const handleGoogle = () => {
+  const handleGoogle = async () => {
     setIsLoading(true);
-    loginWithGoogle();
-    router.push("/profile");
+    await loginWithGoogle("login");
   };
 
   const handleDemoLogin = () => {
@@ -211,6 +218,57 @@ export default function LoginPage() {
             </button>
           </div>
 
+          {/* Registration Success Alert Banner */}
+          {(urlStatus === "registered_success" || urlStatus === "registered") && (
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 space-y-2 animate-in fade-in">
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-emerald-950">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{locale === "bm" ? "Pendaftaran Akaun Berjaya!" : "Sign Up Successful!"}</span>
+              </div>
+              <p className="text-xs text-emerald-800 leading-relaxed">
+                {locale === "bm" ? (
+                  <>
+                    Akaun {unregEmail ? <strong className="underline">{unregEmail}</strong> : "anda"} telah berjaya didaftarkan ke sistem Traversi. Sila tekan butang <strong>&ldquo;Log Masuk dengan Google&rdquo;</strong> di bawah untuk mengakses akaun anda.
+                  </>
+                ) : (
+                  <>
+                    Account {unregEmail ? <strong className="underline">{unregEmail}</strong> : "your account"} has been successfully registered to Traversi. Please click <strong>&ldquo;Sign In with Google&rdquo;</strong> below to access your account.
+                  </>
+                )}
+              </p>
+            </div>
+          )}
+
+          {/* Unregistered Alert Banner */}
+          {urlError === "not_registered" && (
+            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 space-y-2 animate-in fade-in">
+              <div className="flex items-center gap-2 font-bold text-xs sm:text-sm text-rose-950">
+                <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>{locale === "bm" ? "Akaun Google Belum Didaftarkan!" : "Google Account Not Registered Yet!"}</span>
+              </div>
+              <p className="text-xs text-rose-800 leading-relaxed">
+                {locale === "bm" ? (
+                  <>
+                    Akaun {unregEmail ? <strong className="underline">{unregEmail}</strong> : "Google anda"} belum didaftarkan di Traversi. Anda perlu mendaftar akaun (Sign Up) terlebih dahulu sebelum dibenarkan log masuk.
+                  </>
+                ) : (
+                  <>
+                    Account {unregEmail ? <strong className="underline">{unregEmail}</strong> : "your Google account"} has not signed up on Traversi yet. Please complete Sign Up first.
+                  </>
+                )}
+              </p>
+              <div className="pt-1">
+                <Link
+                  href="/register"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-colors"
+                >
+                  <span>{locale === "bm" ? "Daftar dengan Google Sekarang" : "Sign Up with Google Now"}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* Heading */}
           <div className="space-y-2 text-center sm:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
@@ -234,7 +292,7 @@ export default function LoginPage() {
               type="button"
               onClick={handleGoogle}
               disabled={isLoading}
-              className="w-full py-3.5 px-4 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-3 transition-all shadow-2xs hover:shadow-sm cursor-pointer active:scale-[0.99]"
+              className="w-full py-3.5 px-4 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 font-bold text-xs sm:text-sm text-stone-800 flex items-center justify-center gap-3 transition-all shadow-2xs hover:shadow-sm cursor-pointer active:scale-[0.99] disabled:opacity-60"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path
@@ -254,7 +312,7 @@ export default function LoginPage() {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                 />
               </svg>
-              <span>{locale === "bm" ? "Log Masuk dengan Google" : "Sign In with Google"}</span>
+              <span>{isLoading ? (locale === "bm" ? "Menghubungkan..." : "Connecting...") : (locale === "bm" ? "Log Masuk dengan Google" : "Sign In with Google")}</span>
             </button>
 
             {/* 2. Instant Demo Login Button */}
@@ -299,5 +357,13 @@ export default function LoginPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#fcfdfd] flex items-center justify-center p-6"><Loader2 className="w-8 h-8 text-emerald-800 animate-spin" /></div>}>
+      <LoginContent />
+    </Suspense>
   );
 }

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import UserAvatar from "@/components/UserAvatar";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { MOCK_DESTINATIONS } from "@/lib/mockDestinations";
@@ -20,23 +21,38 @@ import {
   Compass,
   Building,
   CheckCircle2,
-  Trash2
+  Trash2,
+  AlertTriangle,
+  Loader2
 } from "lucide-react";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, isLoggedIn, logout, toggleStar } = useAuth();
+  const { user, isLoggedIn, logout, deleteAccount, toggleStar } = useAuth();
   const { locale } = useLanguage();
+  const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   // If not logged in or user logs out, redirect straight to landing page (never show Sign In Required)
   React.useEffect(() => {
-    if (!isLoggedIn) {
-      router.replace("/");
+    if (!isLoggedIn && !isDeleting) {
+      window.location.href = "/";
     }
-  }, [isLoggedIn, router]);
+  }, [isLoggedIn, isDeleting]);
 
   if (!isLoggedIn || !user) {
-    return null;
+    return (
+      <div className="min-h-screen bg-[#fcfdfd] flex flex-col items-center justify-center p-4">
+        <div className="flex items-center gap-3 text-stone-600 text-sm font-medium">
+          <Loader2 className="w-5 h-5 animate-spin text-emerald-800" />
+          <span>
+            {isDeleting
+              ? (locale === "bm" ? "Akaun berjaya dipadam. Mengalihkan ke laman utama..." : "Account deleted. Redirecting to home...")
+              : (locale === "bm" ? "Mengalihkan ke laman utama..." : "Redirecting to home...")}
+          </span>
+        </div>
+      </div>
+    );
   }
 
   // Get starred destinations details
@@ -44,9 +60,21 @@ export default function ProfilePage() {
     user.starredDestinations.includes(d.id)
   );
 
-  const handleLogout = () => {
-    logout();
-    router.push("/");
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/";
+  };
+
+  const handlePermanentDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteAccount();
+    } catch (err) {
+      console.error("Gagal memadam akaun:", err);
+    } finally {
+      // Force direct browser navigation to main landing page
+      window.location.href = "/";
+    }
   };
 
   return (
@@ -58,9 +86,7 @@ export default function ProfilePage() {
         {/* Profile Card Header */}
         <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-800 text-white font-black text-2xl flex items-center justify-center shadow-md shrink-0">
-              {user.avatar || user.name.slice(0, 2).toUpperCase()}
-            </div>
+            <UserAvatar user={user} size="lg" className="shadow-md" />
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-black text-stone-950 tracking-tight">
@@ -89,7 +115,7 @@ export default function ProfilePage() {
 
             <button
               onClick={handleLogout}
-              className="px-3.5 py-2.5 rounded-xl border border-rose-200 text-rose-700 hover:bg-rose-50 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2.5 rounded-xl border border-stone-200 text-stone-700 hover:bg-stone-50 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
               <span>{locale === "bm" ? "Log Keluar" : "Sign Out"}</span>
@@ -219,7 +245,103 @@ export default function ProfilePage() {
             )}
           </div>
         </section>
+
+        {/* Section 3: Danger Zone (Padam Akaun Secara Kekal) */}
+        <section className="pt-4">
+          <div className="bg-rose-50/40 border border-rose-200/80 rounded-3xl p-6 sm:p-7 space-y-4">
+            <div className="flex items-start justify-between gap-5 flex-col sm:flex-row sm:items-center">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                    <AlertTriangle className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-bold text-rose-950">
+                    {locale === "bm" ? "Zon Sensitif: Padam Akaun Secara Kekal" : "Danger Zone: Permanent Account Deletion"}
+                  </h3>
+                </div>
+                <p className="text-xs text-rose-800/80 max-w-xl leading-relaxed">
+                  {locale === "bm"
+                    ? "Tindakan ini akan memadam rekod pengguna anda daripada sistem Supabase, mematikan pautan Google OAuth, serta memadam kesemua destinasi bertanda bintang dan sejarah carian bajet anda. Tindakan ini tidak boleh dikembalikan."
+                    : "Permanently delete your account, Supabase record, Google OAuth session, saved trips, and search history. This action cannot be undone."}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirm(true)}
+                className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center gap-2 shrink-0 cursor-pointer"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>{locale === "bm" ? "Padam Akaun Selamanya" : "Delete Account Permanently"}</span>
+              </button>
+            </div>
+          </div>
+        </section>
       </main>
+
+      {/* Modal Pengesahan Padam Akaun Kekal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/60 backdrop-blur-xs">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 border border-stone-200 shadow-2xl space-y-5 animate-in zoom-in-95 duration-150">
+            <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+
+            <div className="text-center space-y-2">
+              <h3 className="text-lg font-black text-stone-950">
+                {locale === "bm" ? "Padam Akaun Secara Kekal?" : "Permanently Delete Account?"}
+              </h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                {locale === "bm"
+                  ? `Adakah anda pasti mahu memadam akaun "${user.email}"? Kesemua destinasi simpanan, sejarah trip, dan integrasi Google anda akan dimusnahkan secara kekal.`
+                  : `Are you sure you want to permanently delete account "${user.email}"? All saved destinations and history will be permanently wiped.`}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium space-y-1">
+              <p className="font-bold flex items-center gap-1.5 text-amber-950">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-700" />
+                {locale === "bm" ? "Amaran: Tindakan Tidak Boleh Dibatalkan" : "Warning: Irreversible Action"}
+              </p>
+              <p className="text-[11px] text-amber-800">
+                {locale === "bm"
+                  ? "Sesi anda akan ditamatkan dan data akaun tidak boleh dipulihkan semula."
+                  : "Your session will be closed and data cannot be restored."}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setShowDeleteConfirm(false)}
+                className="w-full py-2.5 px-4 rounded-xl border border-stone-200 hover:bg-stone-50 text-xs font-bold text-stone-700 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {locale === "bm" ? "Batalkan" : "Cancel"}
+              </button>
+
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handlePermanentDelete}
+                className="w-full py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>{locale === "bm" ? "Memadam..." : "Deleting..."}</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4" />
+                    <span>{locale === "bm" ? "Ya, Padam" : "Yes, Delete"}</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
         {/* FOOTER (Compact & Bilingual) */}
         <footer className="border-t border-stone-200 bg-white py-4 px-4 sm:px-6 text-center text-xs text-stone-600 md:pl-72">
